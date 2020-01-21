@@ -1,0 +1,715 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Inicio');
+
+        
+    });
+
+</script>
+<style type="text/css">
+.nav-tabs {
+  border-bottom: 1px solid #ddd;
+}
+.nav-tabs > li {
+  float: left;
+  margin-bottom: -1px;
+}
+.nav-tabs > li > a {
+  margin-right: 2px;
+  line-height: 1.42857143;
+  border: 1px solid transparent;
+  border-radius: 4px 4px 0 0;
+  background-color: #40417B;
+  color: white;
+  border-bottom-color: #ddd;
+}
+.nav-tabs > li > a:hover {
+  border-color: #eee #eee #ddd;
+  background-color: #1c253b;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #555;
+  cursor: default;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+  /*background-color: #273098;*/
+  background-color: #548fc8;
+  color: white;
+}
+</style>
+<br>
+<div  style="margin-top:5%;">
+<h3 class="page-title ng-scope"> Dashboard </h3>
+
+    <!-- BEGIN DASHBOARD STATS -->
+    <div data-ng-init="initDashboard()">
+
+        <div class="row">
+
+          <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12" style="margin-bottom: 2em; color: white; font-weight: bold;" ng-if="profile==1">
+<ul class="nav nav-tabs">
+  <li ng-class="{ 'active': active == 0 }"><a ng-click="setActive(0)">Todos</a></li>
+  <li ng-class="{ 'active': active == 1 }"><a ng-click="setActive(1)">As remis</a></li>
+  <li ng-class="{ 'active': active == 2 }"><a ng-click="setActive(2)">Mobility Dispatch</a></li>
+</ul>
+          </div>
+
+<!-- AGENCIAS -->
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-building-o"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number"> {{dashboard.total_agencies}} </div>
+                        <div class="desc"> Total Agencias </div>
+                    </div>
+                    <a class="more" href="#"> N&uacute;mero de agencias registradas.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-building-o"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number"> {{dashboard.agency_active}} </div>
+                        <div class="desc"> Agencias Activas </div>
+                    </div>
+                    <a class="more" href="#"> N&uacute;mero de agencias operativas.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-building-o"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number"> {{dashboard.agency_inactive}} </div>
+                        <div class="desc"> Agencias Inactivas </div>
+                    </div>
+                    <a class="more" href="#"> N&uacute;mero de agencias suspendidas.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+<!-- AGENCIAS -->
+				</div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">{{dashboard.users}}</div>
+                        <div class="desc">Usuarios Registrados</div>
+                    </div>
+                    <a class="more" href="#"> N&uacute;mero de usuarios operadores registrados.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-automobile"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">{{dashboard.drivers}}</div>
+                        <div class="desc">Choferes Registrados</div>
+                    </div>
+                    <a class="more" href="#"> N&uacute;mero de choferes registrados.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-automobile"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">{{dashboard.drivers_online}}</div>
+                        <div class="desc">Choferes Activos Online</div>
+                    </div>
+                    <a class="more" href="#"> N&uacute;mero de choferes conectados.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-briefcase"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number"> {{dashboard.companies}} </div>
+                        <div class="desc">Usuarios de Agencia Activos</div>
+                    </div>
+                    <a class="more" href="#"> N&uacute;mero de usuarios de agencias registrados.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">{{dashboard.clients}}</div>
+                        <div class="desc">Usuarios clientes</div>
+                    </div>
+                    <a class="more" href="#"> N&uacute;mero de usuarios clientes registrados.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">{{dashboard.clionline}}</div>
+                        <div class="desc">Usuarios clientes Online</div>
+                    </div>
+                    <a class="more" href="#"> N&uacute;mero de usuarios clientes conectados.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-dollar"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">USD {{dashboard.total}} </div>
+                        <div class="desc">Total mensual de Abonos de Agencias (Activas y Suspendidas)</div>
+                    </div>
+                    <a class="more" href="#"> Monto total correspondiente al cierre del mes.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div -->
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-dollar"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">USD {{dashboard.actives}} </div>
+                        <div class="desc">Total Facturas por Cobrar</div>
+                    </div>
+                    <a class="more" href="#"> Liquidaciones de agencias activas al cierre del mes.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-dollar"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">USD {{dashboard.suspended}} </div>
+                        <div class="desc">Saldo a Cobrar Agencias Suspendidas</div>
+                    </div>
+                    <a class="more" href="#"> Monto de agencias suspendidads al cierre del mes.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div -->
+        </div>
+
+<!--div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-dollar"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">USD {{dashboard.acumulated}} </div>
+                        <div class="desc">Total general de Abonos de Agencias (Activas y Suspendidas)</div>
+                    </div>
+                    <a class="more" href="#"> Monto acumulado de liquidaciones impagas.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-dollar"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">USD {{dashboard.unpaid}} </div>
+                        <div class="desc">Saldo a Cobrar Agencias Activas</div>
+                    </div>
+                    <a class="more" href="#"> Monto por cobrar agencias activas.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="fa fa-dollar"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">USD {{dashboard.outpaid}} </div>
+                        <div class="desc">Saldo a Cobrar Agencias Suspendidas</div>
+                    </div>
+                    <a class="more" href="#"> Monto acumulado de agencias suspendidas.
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div-->
+    </div>
+    <!-- END DASHBOARD STATS -->
+
+
+    <!-- div class="row">
+		<div class="col-md-6 col-sm-6">
+            <!-- BEGIN REGIONAL STATS PORTLET-- >
+            <div class="portlet light bordered ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-share font-green"></i>
+                        <span class="caption-subject font-green bold uppercase">Recent Activities</span>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-default btn-circle" href="#" data-toggle="dropdown" dropdown-menu-hover="" data-close-others="true"> Filter By
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
+                                <label>
+                                    <input type="checkbox"> Finance</label>
+                                <label>
+                                    <input checked="" type="checkbox"> Membership</label>
+                                <label>
+                                    <input type="checkbox"> Customer Support</label>
+                                <label>
+                                    <input checked="" type="checkbox"> HR</label>
+                                <label>
+                                    <input type="checkbox"> System</label>
+                            </div>
+                        </div>
+                        <a title="" data-original-title="" class="btn btn-circle btn-icon-only btn-default fullscreen" href="#"> </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div style="position: relative; overflow: hidden; width: auto; height: 300px;" class="slimScrollDiv"><div data-initialized="1" class="scroller" style="height: 300px; overflow: hidden; width: auto;" data-always-visible="1" data-rail-visible="0">
+                        <ul class="feeds">
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-info">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> You have 4 pending tasks.
+                                                <span class="label label-sm label-warning "> Take action
+                                                    <i class="fa fa-share"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> Just now </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-success">
+                                                    <i class="fa fa-bar-chart-o"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc"> Finance Report for year 2013 has been released. </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date"> 20 mins </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-danger">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> You have 5 pending membership that requires a quick review. </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> 24 mins </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-info">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> New order received with
+                                                <span class="label label-sm label-success"> Reference Number: DR23923 </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> 30 mins </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-success">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> You have 5 pending membership that requires a quick review. </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> 24 mins </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-default">
+                                                <i class="fa fa-bell-o"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> Web server hardware needs to be upgraded.
+                                                <span class="label label-sm label-default "> Overdue </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> 2 hours </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-default">
+                                                    <i class="fa fa-briefcase"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc"> IPO Report for year 2013 has been released. </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date"> 20 mins </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-info">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> You have 4 pending tasks.
+                                                <span class="label label-sm label-warning "> Take action
+                                                    <i class="fa fa-share"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> Just now </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-danger">
+                                                    <i class="fa fa-bar-chart-o"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc"> Finance Report for year 2013 has been released. </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date"> 20 mins </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-default">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> You have 5 pending membership that requires a quick review. </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> 24 mins </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-info">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> New order received with
+                                                <span class="label label-sm label-success"> Reference Number: DR23923 </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> 30 mins </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-success">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> You have 5 pending membership that requires a quick review. </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> 24 mins </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-warning">
+                                                <i class="fa fa-bell-o"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> Web server hardware needs to be upgraded.
+                                                <span class="label label-sm label-default "> Overdue </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> 2 hours </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-info">
+                                                    <i class="fa fa-briefcase"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc"> IPO Report for year 2013 has been released. </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date"> 20 mins </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div><div style="background: rgb(187, 187, 187) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 145.867px;" class="slimScrollBar"></div><div style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;" class="slimScrollRail"></div></div>
+                    <div class="scroller-footer">
+                        <div class="btn-arrow-link pull-right">
+                            <a href="#">See All Records</a>
+                            <i class="icon-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END REGIONAL STATS PORTLET-- >
+        </div>
+   
+        <div class="col-md-6 col-sm-12">
+            <!-- BEGIN PORTLET-- >
+            <div class="portlet light bordered ">
+                <div class="portlet-title">
+                    <div class="caption caption-md">
+                        <i class="icon-bar-chart font-red"></i>
+                        <span class="caption-subject font-red bold uppercase">Member Activity</span>
+                        <span class="caption-helper hide">weekly stats...</span>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided" data-toggle="buttons">
+                            <label class="btn green btn-outline btn-circle btn-sm active">
+                                <input name="options" class="toggle" id="option1" type="radio">Today</label>
+                            <label class="btn red btn-outline btn-circle btn-sm">
+                                <input name="options" class="toggle" id="option2" type="radio">Week</label>
+                            <label class="btn blue btn-outline btn-circle btn-sm">
+                                <input name="options" class="toggle" id="option2" type="radio">Month</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row number-stats margin-bottom-30">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="stat-left">
+                                <div class="stat-chart">
+                                    <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -- >
+                                    <div id="sparkline_bar"><canvas height="55" width="113" style="display: inline-block; width: 113px; height: 55px; vertical-align: top;"></canvas></div>
+                                </div>
+                                <div class="stat-number">
+                                    <div class="title"> Total </div>
+                                    <div class="number"> 2460 </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="stat-right">
+                                <div class="stat-chart">
+                                    <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -- >
+                                    <div id="sparkline_bar2"><canvas height="55" width="107" style="display: inline-block; width: 107px; height: 55px; vertical-align: top;"></canvas></div>
+                                </div>
+                                <div class="stat-number">
+                                    <div class="title"> New </div>
+                                    <div class="number"> 719 </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-scrollable table-scrollable-borderless">
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr class="uppercase">
+                                    <th colspan="2"> MEMBER </th>
+                                    <th> Earnings </th>
+                                    <th> CASES </th>
+                                    <th> CLOSED </th>
+                                    <th> RATE </th>
+                                </tr>
+                            </thead>
+                            <tbody><tr>
+                                <td class="fit">
+                                    <img class="user-pic rounded" src="../assets/pages/media/users/avatar4.jpg"> </td>
+                                <td>
+                                    <a href="javascript:;" class="primary-link">Brain</a>
+                                </td>
+                                <td> $345 </td>
+                                <td> 45 </td>
+                                <td> 124 </td>
+                                <td>
+                                    <span class="bold font-green">80%</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fit">
+                                    <img class="user-pic rounded" src="../assets/pages/media/users/avatar5.jpg"> </td>
+                                <td>
+                                    <a href="javascript:;" class="primary-link">Nick</a>
+                                </td>
+                                <td> $560 </td>
+                                <td> 12 </td>
+                                <td> 24 </td>
+                                <td>
+                                    <span class="bold font-green">67%</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fit">
+                                    <img class="user-pic rounded" src="../assets/pages/media/users/avatar6.jpg"> </td>
+                                <td>
+                                    <a href="javascript:;" class="primary-link">Tim</a>
+                                </td>
+                                <td> $1,345 </td>
+                                <td> 450 </td>
+                                <td> 46 </td>
+                                <td>
+                                    <span class="bold font-green">98%</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fit">
+                                    <img class="user-pic rounded" src="../assets/pages/media/users/avatar7.jpg"> </td>
+                                <td>
+                                    <a href="javascript:;" class="primary-link">Tom</a>
+                                </td>
+                                <td> $645 </td>
+                                <td> 50 </td>
+                                <td> 89 </td>
+                                <td>
+                                    <span class="bold font-green">58%</span>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </div>
+                </div>
+            </div>
+            <!-- END PORTLET-- >
+        </div>
+    </div -->
+</div>  

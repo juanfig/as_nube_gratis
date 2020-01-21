@@ -1,0 +1,143 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Perfil');
+    });
+</script>
+
+<div  class="row" data-ng-init="callServiceModules()" style="background: #f2f2f2;padding: 10px; margin-top:5%;">
+
+    <form role="form" name="myform" >
+
+        <input type="hidden" name="idModuleKf" ng-model="idModuleKf" >
+        <div class="col-sm-4">
+
+            <div class="panel  ">
+                <div class="panel-heading"  style="background: #5E738B">
+                <h3 class="panel-title" style="color: #fff">Configuracion de perfil</h3>  
+                </div>
+               
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Nombre </label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+
+                        <input ng-model="profileNameAdd" id="profileNameAdd"
+                       
+                        ng-if="idProfile == null" type="text"  class="form-control" name="profileNameAdd" ng-required="idProfile == null">
+
+                        <input ng-model="profileNameEdit" id="profileNameEdit"
+                         
+                        ng-if="idProfile > 0" type="text"  class="form-control" name="profileNameEdit" ng-required="idProfile > 0">
+
+
+                    </div>
+
+
+                            <div class="col-sm-12">
+                                    <a   ng-click="addProfile()"
+                                    ng-if="idProfile == null"
+                                    style="margin-top: 27px;"  class="btn btn-block btn-circle green-jungle" >CREAR PERFIL</a>
+                            </div>
+
+                           <div class="col-sm-12">
+                                        <a ng-if="idProfile > 0"
+                                         ng-click="updateProfile()" style="margin-top: 27px;"  class="btn btn-block btn-circle green-jungle" >EDITAR PERFIL</a>
+                           </div>                     
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-sm-8" ng-if="idProfile">
+
+          <div class="row" ng-if="active_modules">
+
+            <div class="panel">
+
+              <div div class="panel-heading" style="background: #26C281">
+
+                   <a href="" data-toggle="collapse" data-target="#actives"><h3 class="panel-title" style="color: #fff">Modulos Activos</h3></a> 
+
+              </div>
+               <div id="actives" class="collapse" style="max-height:200px; overflow-y:scroll;  width:100%;">
+                <div class="panel-body">
+
+                  <table class="table table-hover table-striped table-hover">
+                      <thead style=" background: #4d5d6f; color: white;">
+                          <tr>
+                              <th style="width:50px">#</th>
+                              <th>Modulo</th>
+                              <th style="width:130px; text-align:center">Desactivar</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr data-ng-repeat="item in active_modules">
+                              <td>{{$index + 1}}</td>
+                              <td>{{item.nameItem}}</td>
+                              <td class="text-center">  
+                     
+                                        <input type="checkbox" ng-model="item.select" ng-click="deleteModule(item.idModuleProfile)" ng-checked="item.idProfileKf==idProfile" />
+                         
+
+                            </td>
+                            
+                          </tr>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row" ng-if="inactive_modules" ng-hide="!inactive_modules">
+
+            <div class="panel">
+
+              <div div class="panel-heading"  style="background: #e35b5a">
+
+                   <a href="" data-toggle="collapse" data-target="#inactives"><h3 class="panel-title" style="color: #fff">Modulos Inactivos</h3></a> 
+
+              </div>
+               <div id="inactives" class="collapse" style="max-height:200px; overflow-y:scroll;  width:100%;">
+                <div class="panel-body">
+
+                  <table class="table table-hover table-striped table-hover">
+                      <thead style=" background: #4d5d6f; color: white;">
+                          <tr>
+                              <th style="width:50px">#</th>
+                              <th>Modulo</th>
+                              <th style="width:130px; text-align:center">Activar</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr data-ng-repeat="item in inactive_modules">
+                              <td>{{$index + 1}}</td>
+                              <td>{{item.nameItem}}</td>
+                              <td class="text-center">  
+         
+                                <input type="checkbox"  ng-model="item.select" ng-change="addToModule(item.idItem)" />
+         
+                            </td>
+                            
+                          </tr>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-sm-12" style="    background-color: #d3d3d3;
+             padding: 10px;">
+            <a href="#listTypeBox" class="btn btn-circle red-intense"> Cancelar </a>
+
+
+
+        </div>
+
+    </form>
+</div>

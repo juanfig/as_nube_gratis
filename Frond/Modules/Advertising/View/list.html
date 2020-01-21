@@ -1,0 +1,114 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Advertising');
+    });
+</script>
+
+<!--SECCION CONTENEDORA HEADER-->
+<br>
+
+<div>
+    <div class="row bar-module-top" data-ng-init="getListAdvertising()">
+
+    </div>
+    
+<!--SECCION CONTENEDORA SEPARADOR-->
+<div class="row" style="background: #d5d5d5;padding: 10px;">
+
+    <div class="col-sm-10 franja-x">
+
+    </div>
+    <div class="col-sm-2">
+        <a class="btn green-jungle" href="#add">NUEVA</a>
+    </div>
+
+
+</div>
+
+    <!--SECCION CONTENEDORA BODY-->
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+
+                    <thead style=" background: #3E6579; color: white;">
+
+                        <tr>
+
+         
+                            <th>Nombre</th>
+
+                            <th>Descripción</th>
+
+                            <th>Enlace</th>
+                            <th>Status</th>
+
+                            <th style="width:130px; text-align:center">Acción</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr data-ng-repeat="item in listAdvertising| filter : paginate track by $index">
+
+                            <td>
+                                {{item.nameAdvertising}}
+                            </td>
+                            <td>
+                                {{item.descAdvertising}}
+                            </td>
+
+
+                            <td>
+                                {{item.linkAdvertising}}
+                            </td>
+
+                            <td>
+                                <label ng-if="item.status == 1">Activa</label>
+                                <label ng-if="item.status!= 1">Inactiva</label>
+                            </td>
+                            <td>
+                                <div class="btn-group" style="    margin-top: -8px;    position: relative;">
+                                    <a class="btn dark " href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="icon-settings "></i> Opciones
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#edit{{item.idAdvertising}}">
+                                                <i class="i"></i>Editar</a>
+                                        </li>
+
+
+                                        <li ng-show="item.status == 1" class="ng-scope">
+                                            <a ng-click="changeStatus(item.idAdvertising,-1)">
+                                                <i class="fa fa-exclamation"></i> InActivar 
+                                            </a>
+                                        </li>
+                                        <li ng-show="item.status == -1">
+                                            <a ng-click="changeStatus(item.idAdvertising,1)" >
+                                               <i class="fa fa-exclamation"></i>Activar
+                                           </a>
+                                       </li>
+                                    </ul>
+
+
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <CENTER>
+                    <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+                </CENTER>
+
+            </div>
+        </div>
+
+    </div>

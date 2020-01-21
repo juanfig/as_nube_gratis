@@ -1,0 +1,47 @@
+<!-- Modal -->
+<div id="myModalFinish" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header" style="background: #5E738B">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="color: #fff">Finalizar Viaje</h4>
+      </div>
+      <div class="modal-body">
+
+      <div class="form-group">
+            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Monto:</label>
+          <input id="txtmodalFinishfAmount"   ng-model="modalFinishfAmount" type="text" placeholder="Monto" class="form-control">
+      </div>
+
+      <div class="form-group">
+            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Monto por Espera:</label>
+           <input  id="txtmodalFinishfAmountSlepp" ng-model="modalFinishfAmountSlepp" type="text" placeholder="Monto" class="form-control">
+      </div>
+
+       <div class="form-group">
+            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Monto por Peaje:</label>
+           <input  id="txtmodalFinishfAmountTax" ng-model="modalFinishfAmountTax" type="text" placeholder="Monto" class="form-control">
+      </div>
+
+
+      <input type="hidden"  id="modalFinishfAmount"  value="{{modalFinishfAmount}}">
+      <input type="hidden"  id="modalFinishfAmountSlepp"  value="{{modalFinishfAmountSlepp}}">
+      <input type="hidden"  id="modalFinishfAmountTax"  value="{{modalFinishfAmountTax}}">
+
+
+          
+
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" id="closeModal" class="btn btn-circle red-intense" data-dismiss="modal">Cerrar</button>
+
+        <button  ng-click="finalizeTravelAmount()" 
+         class="btn btn-circle green-jungle" >Finalizar</button>
+      </div>
+    </div>
+
+  </div>
+</div>

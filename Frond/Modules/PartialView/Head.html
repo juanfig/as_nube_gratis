@@ -1,0 +1,279 @@
+<!-- ESTE ARCHIVO SOLO CONTIENE HEAD DE EL TEMPLATE -->
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        // RUTA
+
+        $("#username_auth").text(JSON.parse(localStorage.getItem('session')).userNameUser);
+
+        if (JSON.parse(localStorage.getItem('session')).idProfileUser == "4")
+        {
+            $("#nameCompany").text(JSON.parse(localStorage.getItem('session')).nameClientCompany);
+        }
+    });
+
+
+    
+</script>
+
+<style type="text/css">
+#reloj
+{
+    color: #66c9a0;
+    padding: 5px;
+    margin-left: 24%;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 1px;
+}
+
+.alert-success {
+    border-color: #bcbcbc;
+    box-shadow: 1px 1px 1px 1px #bcbcbc;
+    background-color: #364150;
+    width: 15%;
+    color: #66c9a0;
+}
+
+.alert-info {
+    border-color: #bcbcbc;
+    box-shadow: 1px 1px 1px 1px #bcbcbc;
+    background-color: #3c5981;
+    width: 15%;
+    color: #dae3f6;
+}
+
+.alert-error {
+ border-color: #bcbcbc;
+ box-shadow: 1px 1px 1px 1px #bcbcbc;
+ background-color: #e35b5a;
+ width: 15%;
+ color: #1a1919;
+}
+
+.close
+{
+    color: #f55 !important;
+}
+</style>
+
+
+
+<style type="text/css">
+.blink {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+ .navbar-nav > li.dropdown > .dropdown-toggle > .badge {
+    font-family: "Open Sans",sans-serif;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    font-weight: 300;
+    padding: 3px 6px;
+}
+
+ .navbar-nav > li.dropdown-dark .dropdown-menu {
+    background: #222;
+    border: 0;
+}
+ .navbar-nav > li.dropdown-extended .dropdown-menu {
+    border-color: #e7eaf0;
+}
+ .navbar-nav > li.dropdown-extended .dropdown-menu {
+    min-width: 160px;
+    max-width: 275px;
+    width: 275px;
+    z-index: 9995;
+}
+ .navbar-nav > li.dropdown .dropdown-menu {
+    margin-top: 1px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.navbar-nav > li.dropdown-extended .dropdown-menu > li.external {
+    background: #eaedf2;
+}
+.navbar-nav > li.dropdown-extended .dropdown-menu > li.external {
+    display: block;
+    overflow: hidden;
+    padding: 15px;
+    letter-spacing: .5px;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -ms-border-radius: 4px 4px 0 0;
+    -o-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+}
+
+.navbar-nav > li.dropdown-extended .dropdown-menu > li.external > h3 {
+    margin: 0;
+    padding: 0;
+    float: left;
+    font-size: 13px;
+    display: inline-block;
+}
+
+.bold {
+    font-weight: 700 !important;
+}
+
+.navbar-nav > li.dropdown-extended .dropdown-menu > li.external {
+    letter-spacing: .5px;
+}
+
+.navbar-nav > li.dropdown-extended .dropdown-menu > li.external {
+    letter-spacing: .5px;
+}
+
+.navbar-nav > li.dropdown-extended .dropdown-menu .dropdown-menu-list {
+    padding-right: 0 !important;
+    padding-left: 0;
+    list-style: none;
+}
+
+.navbar-nav > li.dropdown-extended .dropdown-menu .dropdown-menu-list {
+    list-style: none;
+}
+
+
+.navbar-nav > li.dropdown-dark .dropdown-menu .dropdown-menu-list > li a:hover, .navbar-nav > li.dropdown-dark .dropdown-menu.dropdown-menu-default > li a:hover {
+    background: #47596e;
+}
+.navbar-nav > li.dropdown-extended .dropdown-menu .dropdown-menu-list > li > a:hover {
+    background: #f8f9fa;
+}
+.navbar-nav > li.dropdown-extended .dropdown-menu .dropdown-menu-list > li:first-child a {
+    border-top: none;
+}
+.navbar-nav > li.dropdown-extended .dropdown-menu .dropdown-menu-list > li > a:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    text-decoration: none;
+}
+.navbar-nav > li.dropdown-dark .dropdown-menu .dropdown-menu-list > li a, .navbar-nav > li.dropdown-dark .dropdown-menu.dropdown-menu-default > li a {
+    color: #bcc7d4;
+    border-bottom: 1px solid #4b5e75 !important;
+}
+.navbar-nav > li.dropdown-extended .dropdown-menu .dropdown-menu-list > li > a {
+    border-bottom: 1px solid #EFF2F6 !important;
+    color: #888;
+}
+.navbar-nav > li.dropdown-extended .dropdown-menu .dropdown-menu-list > li > a {
+    display: block;
+    clear: both;
+    font-weight: 300;
+    line-height: 20px;
+    white-space: normal;
+    font-size: 13px;
+    padding: 16px 15px 18px;
+    text-shadow: none;
+}
+
+.navbar-nav > li.dropdown-notification .dropdown-menu .dropdown-menu-list > li a .details {
+    overflow: hidden;
+}
+
+.navbar-nav > li.dropdown-notification .dropdown-menu .dropdown-menu-list > li a .details .label-icon {
+    margin-right: 10px;
+    -webkit-border-radius: 0%;
+    -moz-border-radius: 0%;
+    -ms-border-radius: 0%;
+    -o-border-radius: 0%;
+    border-radius: 0%;
+}
+
+</style>
+
+<div class="navbar navbar-inverse" style="padding-top: 20px;  -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#"> <img src="../../assets/img/logo_aprecia.png" style="height: 80px; margin-top: -35px;" alt="Aprecia Soft"></a>
+    </div>
+
+    <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+         <!--li><a href="#"><i class="fa fa-inbox fa-2x" aria-hidden="true"></i></a></li>
+         <li><a href="#"><i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i></a></li-->
+         <li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="false">
+                <i class="fa fa-bell fa-2x"></i>
+                <span class="badge badge-danger  num_notificate_head">34</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="external">
+                  <h3>
+                    <span class="bold num_notificate_head">34</span> Notificaciones</h3>
+                    <!-- <span class="dropdown dropdown-quick-sidebar-toggler pull-right" style="background-color: none">
+                        <a>
+                            Ver Todas
+                        </a>
+                    </span> -->
+
+                </li>
+                <li>
+                    <div class="slimScrollDiv" style="position: relative; overflow: auto; width: auto; height: 250px;"><ul class="dropdown-menu-list scroller" style="height: 250px; overflow: auto; width: auto;" data-handle-color="#637283" data-initialized="1" id="list_notificate_head">
+                    </ul>
+                    <div class="slimScrollBar" style="background: rgb(99, 114, 131); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 121.359px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+                </li>
+                <li class="external text-center">
+
+                    <span style="background-color: none">
+                        <a href="javascript:void(0)" onclick="readAll()" class="btn btn-sm btn-circle green-jungle">
+                            Marcar Todas como Leidas
+                        </a>
+                    </span>
+
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle fa-2x" aria-hidden="true"></i><label id="username_auth"></label>
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a onclick="profile()" ><i class="icon-user"></i> Mi Perfil </a></li>
+                  <li><a onclick="exit()" ><i class="icon-user"></i> Salir </a></li>
+
+              </ul>
+          </li>
+      </ul>
+  </div><!--/.nav-collapse -->
+</div><!--/.container-fluid -->
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    function exit() {
+        // body...
+        window.location.assign(uriBase)
+    }
+    function profile() {
+        var id = JSON.parse(localStorage.getItem('session')).idUser;
+        window.location.assign("../UserSystem/#/Edit" + id);
+    }
+
+
+
+</script>

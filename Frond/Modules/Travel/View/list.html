@@ -1,0 +1,448 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Viajes', 'Monitor de Viajes');
+
+        var date = Date();
+        $('#date').val(convertDate(date));
+    });
+
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            format: 'YYYY/MM/DD'
+        });
+    });
+</script>
+
+<style type="text/css">
+
+
+    .blink {
+        animation: blink-animation 1s steps(5, start) infinite;
+        -webkit-animation: blink-animation 1s steps(5, start) infinite;
+    }
+
+ 
+    @keyframes blink-animation {
+        to {
+            visibility: hidden;
+        }
+    }
+    @-webkit-keyframes blink-animation {
+        to {
+            visibility: hidden;
+        }
+    }
+
+
+    .divider-vertical {
+    height: 100px;                   /* any height */
+    border-left: 1px solid gray;     /* right or left is the same */
+    float: left;                     /* so BS grid doesn't break */
+    opacity: 0.5;                    /* optional */
+    margin: 1px;                  /* optional */
+}
+
+</style>
+<div ng-init="serviceDataFromDashboard();" class="row bg-grey-gallery bg-font-default">
+
+    <div ng-hide="viewMap">
+
+        <div class="row" id="headerDhBoardTravel">
+
+            <div class="col-md-4 ">
+                <a ng-click="openModalAllDrivers();"  style="width: 100%; padding: 5px !important;" class="icon-btn  bg-blue-ebonyclay font-white border-blue-chambray ">
+                    <i class="fa  fa-taxi"></i>
+                    <div >
+                        <label class=" font-lg bold uppercase font-white">Choferes Disponibles</label></div>
+                </a>
+            </div>
+
+            <div class="col-md-4 ">
+                <a  style="width: 100%; padding: 5px !important;" class="icon-btn  bg-blue-ebonyclay font-white border-blue-chambray " onclick="    notificate('Operacion Exitosa','Viaje Agregado','info');">
+                    <i class="fa fa-hand-o-up"></i>
+                    <div >
+                        <label class=" font-lg bold uppercase font-white">Asignacion automatica de chofer </label></div>
+
+                </a>
+            </div>
+
+            <div class="col-md-3 ">
+                <a  ng-click="changueView();" style="width: 100%; padding: 5px !important;" class="icon-btn  bg-blue-ebonyclay font-white border-blue-chambray ">
+                    <i class="fa fa-map"></i>
+                    <div >
+                        <label class=" font-lg bold uppercase font-white">Ver Mapa </label></div>
+
+                </a>
+            </div>
+
+        </div>
+        <br>
+
+
+        <div class="col-md-2 " style="margin-top: -18px;"  >
+
+            <div ng-repeat="item in lisFilet">
+                <a ng-click="setValueStatus(item.idStatusTravel)" style="width: 100%; padding: 5px !important;" class="icon-btn bg-blue-ebonyclay font-white border-blue-chambray"  >
+                    <i class="{{item.classIcon}} font-white"></i>
+                    <div class="font-white" style="    font-weight: bold;" >{{item.nameStatusTravel}} </div>
+                    <span class="badge {{item.classColorOne}} ">{{item.total}}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+        <!--CONTENEDOR DE TABLA-->
+
+        <div class="col-md-11  bg-font-default" style="margin-top: -12px;">
+
+            <div class="row bg-blue-ebonyclay">
+
+                <div class="col-md-2">
+                    <label style="color: #fff;" class="caption-subject  bold uppercase control-label">Tipo de Viaje</label>
+
+                    <select class="form-control" ng-model="typeTravelFilter" ng-change="serviceDataFromDashboard()" ng-options="item.idTypeTravel  as item.typeTravel for item in filterForm.typetravel">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+
+                <div class="col-md-1">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Activar </label>
+                    <center>
+                        <input style="  width: 30px; height: 30px; " type="checkbox" ng-model="filterDate">
+                    </center>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Fecha</label>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input ng-disabled="!filterDate" type='text' ng-model="date" id="date" class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Filtro</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="filter" placeholder="Buscar...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" ng-click="serviceDataFromDashboard()" type="button">Buscar</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <BR>
+                <div class="col-md-2">
+                    <a ng-click="stopTimer()" style="    margin-top: 6px;" class="btn green-jungle" href="#Add">NUEVO VIAJE </a>
+                </div>
+            </div>
+
+            <div class="row portlet box bg-dark " style="    padding: 5px !important; padding-top: 25px;">
+
+
+
+            <div class="col-md-11">
+               
+
+                <div class="portlet-body" style="    min-height: 535px;">
+                  
+                  <!-- TARJETAS PARA VIAJE -->
+
+                  <div class="row" style="background-color: #2b2b2c;color: #fff;">
+
+                       <div class="col-md-1 " style=" padding: 8px;">
+                        <i class="fa fa-clock-o"></i> Hora 
+                       </div>
+
+                       <div class="col-md-2 " style="font-weight: bold;  padding: 8px;">
+                        <i class="fa fa-user"></i> Cliente 
+                       </div>
+
+                       <div class="col-md-4 " style="font-weight: bold;  padding: 8px;">
+                           <i class="fa fa-circle-o"></i> Origen -
+                           <i class="fa fa-circle"></i> Destino 
+                                    
+                       </div>
+
+                       <div class="col-md-1 " style="font-weight: bold;  padding: 8px;">
+                            <i class="fa fa-road"></i> Km          
+                       </div>
+
+                       <div class="col-md-1 " style="font-weight: bold;  padding: 8px;">
+                           Monto   
+                       </div>
+
+                       <div class="col-md-1 " style="font-weight: bold;  padding: 8px;">
+                        Chofer  
+                       </div>
+
+                       <div class="col-md-2" style="padding: 8px;">
+                       
+                       </div>
+                </div>
+
+
+                <div class="row sr" style="overflow: auto;overflow-x: hidden;max-height: 484px;
+    min-height: 484px;">
+
+
+                  <!--Body-->
+                   <div 
+                    class="col-md-12  " 
+                    style="
+                    background-color:{{item.classColorTwo}};
+                    margin: 1px;
+                    border-radius: 5px !important;
+                    box-shadow: 1px 1px 1px 1px #474343;"
+                   data-ng-repeat="item in lisTravel| filter : paginate track by $index" 
+                    ><!-- " -->
+
+                  
+                  <div class="row">
+
+
+                   <div class="col-md-1 " style=" padding: 12px;">
+                     <span ng-if="item.notifReservation == 1 " class=" blink badge {{item.classColorOne}} " title="RESERVA">R</span>
+
+                         <label style="color: #a7aaad;">
+                        {{item.date}}
+                        </label>
+                        <label style="font-weight: bold;">
+                             {{item.hour}}
+                        </label>
+                   </div>
+
+
+                   <div class="col-md-2 " style="font-weight: bold;  padding: 12px;">
+
+                        <i  ng-if="item.idTypeClient == 1" class="fa fa-circle font-blue-steel" title="Particular"></i>
+
+                        <i ng-if="item.idTypeClient == 2" title="Empresa" class="fa fa-circle font-yellow-gold"></i>
+
+                        {{item.client}}
+                     
+                   </div>
+
+                   <div class="col-md-4 " style="font-weight: bold;  padding: 12px;">
+                       <div class="row">
+                            <div class="col-md-12 ">
+                            <i class="fa fa-circle-o"></i>
+                            {{item.nameOrigin}}
+                           </div>
+
+                           <div class="col-md-12 ">
+                                <label ng-if="item.isTravelByHour == 1">
+                                <span  class=" blink badge {{item.classColorOne}} " >VIAJE POR HORA</span>
+                                </label>
+
+                                <label ng-if="item.isTravelByHour != 1">
+                                <i class="fa fa-circle"></i>
+                                {{item.nameDestination}}
+                                </label>
+
+                                <label class="font-red" ng-if="item.nameDestination == null">
+                                    Sin Destino
+                                </label>
+                           </div>
+                       </div>
+                   </div>
+
+
+
+
+                   
+
+                   <div class="col-md-1 " style="font-weight: bold;  padding: 12px;">
+                        <label style="color: #a7aaad;">
+                            {{item.distanceLabel}}
+                        </label>
+                        <br>
+                        <label 
+                            style="    color: #2f793c; font-weight: bold;">
+                            {{item.distanceGpsLabel}}
+                        </label>
+                   </div>
+
+                   <div class="col-md-1 " style="font-weight: bold;  padding: 12px;">
+                        <label style="color: #a7aaad;">
+                            USD {{item.amountCalculate}}
+                        </label>
+                        <br>
+                        <label 
+                            style="    color: #2f793c; font-weight: bold;">
+                            USD {{item.totalAmount}}
+                        </label>
+                   </div>
+
+                   <div class="col-md-1 " style="font-weight: bold;  padding: 12px;">
+                        <span title="" ng-if="item.driver == null " class=" blink badge {{item.classColorOne}} " title="Sin Chofer">A</span>
+
+
+                         <label ng-if="item.nrDriver != null"> 
+                         <span style="    font-weight: bold; font-size: 20px !important;  width: 41px;height: 39px;"  class="  badge " title="{{item.driver}}">{{item.nrDriver}}</span>
+                         </label>
+
+                         <label ng-if="item.nrDriver == null"> {{item.driver}}   </label>   
+                   </div>
+
+
+                   <div class="col-md-2" style="padding: 12px;">
+
+
+                        <span ng-if="item.isSendingCloud == 1 " class=" blink badge {{item.classColorOne}} " >  <i class="fa fa-cloud-upload "></i> VIAJE EN NUBE</span>
+
+                                       
+
+                        <div ng-if="item.isSendingCloud != 1"  class="btn-group" style="       position: absolute;">
+                            <a class="btn {{item.classColorOne}}  btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" aria-expanded="false" style="height: 23px;">
+                                <label style="color: #fff">{{item.codTravel}}</label> <i class="fa fa-angle-down" style="color: #fff"></i>
+                            </a>
+                            <ul style="left: -50px;" class="dropdown-menu pull-left">
+
+                                <li ng-show="idProfileUser != 4"
+                                    ng-if="item.idStatusTravel != 0 &&
+                                        item.idStatusTravel != 6  &&
+                                        item.idStatusTravel != 5 &&
+                                        item.idStatusTravel != 4 &&
+                                        item.idStatusTravel != 2 &&
+                                        item.idStatusTravel != 8">
+                                    <a 
+                                        
+                                        ng-click="editTravelInfo(item)" >
+                                        <i class="fa  fa-taxi"></i>Asignar Chofer</a>
+                                </li>
+
+                                 <li>
+                                    <a  
+                                    ng-click="openModalPasagerTravel(item.idTravel)">
+                                        <i class="fa fa-info-circle"></i>Ver Pasajeros </a>
+                                </li>
+
+                                  <li  ng-if="item.idStatusTravel == 6" >
+                                    <a  
+                                    ng-click="printPdfVouche(item.idTravel)">
+                                        <i class="fa fa-file-pdf-o"></i>Reporte de Viaje PDF </a>
+                                </li>
+
+                                 
+                                <li>
+                                    <a  ng-show="idProfileUser != 4"
+                                        href="#Edit{{item.idTravel}}" 
+                                        ng-if="item.idStatusTravel != 0 && item.idStatusTravel != 6" >
+                                        <i class="fa fa fa-edit"></i>Editar</a>
+                                </li>
+                                <li ng-show="idProfileUser != 4" 
+                                    ng-if="item.idStatusTravel != 0 &&
+                                            item.idStatusTravel != 6" >
+                                    <a ng-click="openModalCancelTravel(item.idTravel)">
+                                        <i class="fa fa-times"></i> Cancelar  </a>
+                                </li>
+                                <li 
+                                    ng-show="idProfileUser != 4 && item.idStatusTravel == 5" 
+                                    ng-if="item.idStatusTravel != 0 &&
+                                            item.idStatusTravel != 6 &&
+                                            item.nrDriver != null"
+                                    >
+                                    <a ng-show="param3 == 0" ng-click="finalizeTravel(item.idTravel)">
+                                        <i class="fa fa-check"></i>
+                                        Finalizar  </a>
+
+                                    <a data-toggle="modal"  ng-show="param3 == 1 && item.isTravelByHour == 1" ng-click="setIdTravelFisinh(item);openModalFinisfTravel(item)" data-target="#myModalFinish">
+                                        <i class="fa fa-exclamation"></i>
+                                        Finalizar  </a>
+
+                                    <a data-toggle="modal"  ng-show="param3 == 1 && item.isTravelByHour == null" ng-click="setIdTravelFisinh(item)" data-target="#myModalFinish">
+                                        <i class="fa fa-exclamation"></i>
+                                        Finalizar  </a>
+                                </li>
+                                
+                                <li 
+                                    ng-show="idProfileUser != 4" 
+                                    ng-if=" item.idStatusTravel != 0 &&
+                                            item.idStatusTravel != 1 &&
+                                            item.idStatusTravel != 6 &&
+                                            item.idStatusTravel != 5 &&
+                                            appModeIs == 0"
+                                    >
+                                    <a ng-click="progressTravel(item.idTravel)">
+                                       <i class="fa fa-map-signs"></i>
+                                        En Curso  </a>
+
+                                    
+                                </li>
+
+                                <li>
+                                    <a data-toggle="modal" ng-click="viewDetaill(item.idTravel)" data-target="#myModal">
+                                        <i class="fa fa-info-circle"></i>Ver Detalle </a>
+                                </li>
+
+
+                                <li class="divider"> </li>
+                                <li ng-if="idProfileUser != 4">
+                                    <a 
+
+                                       ng-if="
+                                       item.idStatusTravel == 1 || item.idStatusTravel == 3 ||
+                                       item.idStatusTravel == 7"
+
+
+                                       ng-click="openModalCloudTravel(item)" >
+                                        <i class="fa fa-cloud-upload "></i>Enviar a Nube </a>
+                                </li>
+                            </ul>
+                    </div>
+                       
+                   </div>
+                   </div>
+
+                      
+                  </div>
+                      
+                  </div>
+                   
+                        <CENTER>
+                            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+                        </CENTER>
+                   
+                </div>
+             </div>
+             </div>
+            </div>
+
+
+    </div>
+
+
+    <div class="panel " ng-show="viewMap"  ng-if="viewMap == true" ng-init="initMap2();
+        getDriverMap();">
+
+        <div class="panel-heading" style="background: #5E738B">
+            <a  class="btn blue-ebonyclay btn-block" ng-click="changueView();" >
+                <i class="fa fa-map"></i> VER MONITOR 
+            </a>
+        </div>
+        <div id="map" style="width:100%;height:550px;background:#f2f2f2"></div>
+    </div>
+
+
+
+</div>
+
+
+
+
+<!--MODALES -->
+<div ng-include="'View/modalDetail.html'"></div>
+<div ng-include="'View/modalEdit.html'"></div>
+<div ng-include="'View/modalSendCloud.html'"></div>
+<div ng-include="'View/modalDetailDriver.html'"></div>
+<div ng-include="'View/modalFinish.html'"></div>
+<div ng-include="'View/modalSmsCancel.html'"></div>
+<div ng-include="'View/modalPasager.html'"></div>
+<div ng-include="'View/modalFirma.html'"></div>

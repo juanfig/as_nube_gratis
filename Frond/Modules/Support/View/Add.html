@@ -1,0 +1,48 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+
+
+</script>
+
+<div data-ng-init="callSupportById()" class="row" style="background: #f2f2f2;padding: 50px;">
+
+    <form role="form" name="myform" >
+
+        <div class="col-sm-6">
+
+            <div class="panel  ">
+                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Razón de Finaliazación de Soporte</h3>
+                </div>
+                <div class="panel-body">  
+
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Descripción</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        
+                        <textarea style="resize: none;" rows="10" id="descriptionFinalizedSupport" name="descriptionFinalizedSupport" class="form-control" placeholder="Descripción" required="true" ng-model="descriptionFinalizedSupport"></textarea>
+                        
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-12" style="    background-color: #d3d3d3;
+        padding: 10px;">
+        <a href="#" class="btn btn-circle red-intense btnCancel"> Cancelar </a>
+
+
+        <button ng-show="idSupport == null" ng-click="myform.$valid && addSupport()" 
+        class="btn btn-circle green-jungle btnLoad" >Guardar</button>
+
+        <button ng-show="idSupport != null" ng-click="myform.$valid && updateSupport()" 
+        class="btn btn-circle green-jungle btnLoad" >Editar</button>
+    </div>
+
+</form>
+</div>

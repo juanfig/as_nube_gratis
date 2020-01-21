@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple markers</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+function initMap() {
+  var myLatLng = {lat: -25.363, lng: 131.044};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: myLatLng
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+}
+
+    </script>
+
+
+    <script src="jquery-1.8.3.min.js" type="text/javascript"></script>
+		
+   
+
+
+        <script type="text/javascript">
+  // dom ready
+    $(function () {
+        if (typeof google === "undefined") {
+            lazyLoadGoogleMaps();
+        }
+    });
+
+    function lazyLoadGoogleMaps() {
+        // Note the callback function name 
+        $.getScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyAi3ag3Cgtzioujs6KEm1nxYchk_YNMbjc&signed_in=true&libraries=places")
+        .done(function (script, textStatus) {            
+            alert("Google maps loaded successfully");
+             initMap()
+        })
+        .fail(function (jqxhr, settings, ex) {
+            alert("Could not load Google Maps: ", ex);
+        });
+    }
+
+    // This function name is passed in to the Google maps script load above
+    // and will be called once Google maps has loaded
+    function googleMapsLoaded() {           
+        alert("Done!");
+    }
+        </script>
+  </body>
+</html>
+

@@ -1,0 +1,137 @@
+<script type="text/javascript">
+  $(window).load(function (e) {
+        // RUTA
+        changueNav('Agencia'.bold(), 'Estado de Cuenta Agencia');
+      });
+
+    </script>
+
+<div data-ng-init="getCreditAgency();" style="margin-top:5%;" >
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel  ">
+            <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-2">
+                <label style="    font-size: 30px;" class="control-label caption-subject font-blue-ebonyclay bold uppercase">{{agency.nameAgency}}<i class="fa fa-car" style="margin-left:4%;"></i></label>
+
+                <br><br>
+                <span class="  badge badge-danger"style="    background-color: #999;
+                color: #fff;">Estado de Cuenta Agencias </span>
+              </div>
+              <div class="col-sm-5">
+                  <label style="    font-size: 25px; margin-top:14%;" class="control-label caption-subject font-blue-ebonyclay bold uppercase">Saldo Total Agencia: USD&nbsp;{{saldoTotal}}</label>
+              </div>
+              <div class="col-sm-5"></div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="table-scrollable">
+
+              <table class="table table-hover table-striped table-hover">
+                  <thead style=" background: #4d5d6f; color: white;">
+                         <tr>
+                          <th >Estado</th>
+                          <th>Fecha</th>
+                          <th >Periodo o mes</th>
+                          <th>CONCEPTO</th>
+                          <th>Cargo</th>
+                          <th>Causal</th>
+                          <th>Monto</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr data-ng-repeat="item in listCreditAgency| filter : paginate track by $index">
+                        <td>
+                            <!--span ng-if="item.status == 0" class="font-red-sunglo font-lg sbold" style="font-size:90%; ">
+                                Impaga
+                            </span-->
+                          <a ng-if="item.status == 0" class="btn btn-danger btn-md"  style="font-size:80%;  margin-top: -8px;" ng-click="ingresarCobro(item,agency.nameAgency);">Impaga</a>
+                           <span ng-if="item.status != 0" class="font-green-soft font-lg sbold" style="font-size:90%; ">
+                                Pagada
+                           </span>
+                        </td>
+                        <td>{{item.monthClosure}}</td>
+                        <td>{{obtenerMesPeriodo(item.monthClosure,null)}}</td>
+
+                        <td>{{item.nameCredit}}</td>
+                        <td>
+                        <span ng-if="item.liquidationPercent>0">USD {{item.liquidationPercent}}</span>
+                        <span ng-if="item.liquidationFixed>0">USD {{item.liquidationFixed}}</span>
+                        </td>
+                        <td>
+                        <span ng-if="item.liquidationPercent>0">USD {{item.amountTravels}}</span>
+                        <span ng-if="item.liquidationFixed>0">{{item.numberDrivers}} Choferes</span>
+                        </td>
+                        <td>USD &nbsp;{{item.amount}}</td>
+
+                  </tbody>
+              </table>
+              <CENTER>
+                  <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+              </CENTER>
+          </div>
+        </div>
+      </div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-info btn-md" href="#"> Volver </a>
+                      </div>
+</div>
+<!--template para las modales-->
+<script type="text/ng-template" id="myModal2.html">
+    <form role="form" name="myform1" enctype="multipart/form-data">
+        <div class="col-sm-12" data-ng-init="valoresCobro();">
+            <div class="panel"  style="margin-top:20%;">
+                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Ingresar Cobro</h3>
+                </div>
+               <div class="panel-body" >
+
+
+                  <div class="form-group">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Se realizara el siguiente cobro:</label>
+                  </div>
+
+
+                <div class="form-group">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Monto:</label>
+                     <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">USD {{monto}}</label>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Agencia:</label>
+                     <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">{{nbAgency}}</label>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Fecha:</label>
+                     <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">{{periodo}}</label>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Concepto:</label>
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">{{concepto}}</label>
+                </div>
+
+               <div class="form-group">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">¿Desea confirmar?</label>
+                  </div>
+
+                  <div class="form-group">                  
+                    <button class="btn btn-circle red-intense" ng-click="cancel()">Cancelar</button>
+                    <button class="btn btn-circle btn-info" ng-click="ingresarCobro();">Confirmar</button>
+                  </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</script>
+<!--./template para las modales-->

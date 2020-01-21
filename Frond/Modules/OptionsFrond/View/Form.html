@@ -1,0 +1,114 @@
+<div  class="row " data-ng-init="getCountryAddAgency(); getCloudAddAgency();" style="padding: 10px;">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+                        <h1>ASNUBE</h1>
+                        <p> MASTER NUBE </p>
+            </div>
+        </div>
+    </div>
+    <form role="form" name="myform" enctype="multipart/form-data">
+        <div class="col-sm-12">
+            <div class="row">
+            <br>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <div class="panel">
+                        <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                            <h3 class="panel-title" style="color: #fff">Datos de la Agencia</h3>
+                        </div>
+
+                        <div class="panel-body" style="background: #d3d3d3">
+
+                            <div class="form-group">
+                                <span ng-show="myform.nameAgency.$error.pattern"  style="color:red">Nombre de agencia incorrecto</span>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Nombre:</label>
+                                        <samp class="font-red-sunglo font-lg">*</samp>
+                                    </div>
+
+                                    <div class="col-sm-9">
+                                    <input ng-model="nameAgency" placeholder="Nombre" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="nameAgency" ng-required="true" required="required" type="text" ng-pattern="/^[0-9a-zA-Z_-]+$/">
+                                    </div>
+                                </div>
+                            </div>
+
+                          <div class="form-group">
+                            <span ng-show="myform.phoneAgnecy.$error.pattern"  style="color:red">El Campo debe ser un numero Telefonico </span>
+                           <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Telefono</label>
+                                    </div>
+
+                                    <div class="col-sm-9">                                     
+                                        <input ng-model="phoneAgnecy"  name="phoneAgnecy"  ng-pattern="/^[0-9]{9,15}$/"
+                                        type="text" placeholder="Telefono" class="form-control">
+                                    </div>
+                                </div>                                      
+                          </div>
+
+
+                          <div class="form-group">
+                            <span ng-show="myform.mailAgency.$error.pattern"  style="color:red">El Campo debe ser un E-Mail </span>
+                            <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Email</label>
+                                    </div>
+
+                                    <div class="col-sm-9">  
+                                        <input autocomplete="off" id="mailAgency" ng-model="mailAgency" name="mailAgency" type="text" ng-required="true"
+                                        ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" placeholder="@" class="form-control">
+                                    </div>
+                                </div>  
+                          </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">País:</label>
+                                    <samp class="font-red-sunglo font-lg">*</samp>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select class="form-control" ng-options="item.idCountry as item.country for item in countrys" ng-model="idCountryKf" ng-change="changeSelectCountry();" required="required" >  
+                                        <option value="">-Seleccione-</option>  
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Nube</label>
+                                    <samp class="font-red-sunglo font-lg">*</samp>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select required class="form-control" ng-model="idCloudKf">
+                                    <option value="">-Seleccione-</option>
+                                     <option ng-repeat="cloud in clouds" value="{{cloud.idCloud}}">{{cloud.nameCloud}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="form-group">
+                            <div class="row">
+
+                            </div>
+                          </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10" style=" background-color: padding: 10px;">
+                    <a class="btn btn-circle red-intense btnCancel" ng-click="cancel()"> Cancelar </a>
+                    <button class="btn btn-circle green-jungle btnLoad" ng-click="myform.$valid && addAgency()">Guardar</button>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+        </div>    
+
+    </form>
+</div>

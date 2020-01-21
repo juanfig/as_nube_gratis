@@ -1,0 +1,100 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+
+<!--SECCION CONTENEDORA HEADER-->
+<br>
+
+<div >
+    <div class="row bar-module-top" data-ng-init="getListAgencys(); getfilterList();" > 
+        <div class="col-sm-3">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Top</label>
+            <select class="form-control" ng-model="topFilter" ng-change="searchAgency()">
+                <option  value="-1" >Todos</option>
+                <option value="10" >10</option>
+                <option value="20" >20</option>
+                <option value="30" >30</option>
+                <option value="40" >40</option>
+                <option value="50" >50</option>
+
+            </select>
+        </div>
+
+        <div class="col-sm-3">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Agencia</label>
+            <select class="form-control" ng-model="idAgencyFilter" name='idAgencyFilter'  ng-change="searchAgency()">
+                    <option  value="" >Todos</option>
+                    <option value="{{item.idAgency}}" ng-repeat="item in ags" >{{item.nameAgency}}</option>
+            </select>
+        </div>
+
+
+        <div class="col-sm-4">
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Filtro</label>
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchFilter" placeholder="Buscar...">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="searchAgency()" type="button">Buscar</button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <a class="btn btn-primary  btn-block" style="margin-top: 27px;" ng-click="getListSupport()">Recargar</a>
+        </div>
+    </div>
+
+    <!--SECCION CONTENEDORA SEPARADOR-->
+    <div class="row" style="background: #d5d5d5;padding: 10px;">
+
+        <div class="col-sm-12" style="background: #e1e1e1;  height: 34px">
+
+        </div>
+
+    </div>
+
+    <!--SECCION CONTENEDORA BODY-->
+    <div class="row" style="background: #f2f2f2;">
+        <div class="col-sm-12">
+            <div class="table-scrollable">
+
+                <div data-ng-repeat="item in agencys | filter : paginate track by $index">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div ng-if="item.nTickets<=0" class="dashboard-stat red">
+                            <div class="visual">
+                                <i class="fa fa-building-o"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number"> {{item.nTickets}} </div>
+                                <div class="desc"> {{item.nameAgency}} </div>
+                            </div>
+                            <a class="more" href="#/Agency/Details{{item.idAgency}}"> Detalle
+                                <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+                        </div>
+                        <div ng-if="item.nTickets>0" class="dashboard-stat blue">
+                            <div class="visual">
+                                <i class="fa fa-building-o"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number"> {{item.nTickets}} </div>
+                                <div class="desc"> {{item.nameAgency}} </div>
+                            </div>
+                            <a class="more" href="#/Agency/Details{{item.idAgency}}"> Detalle
+                                <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <CENTER>
+            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+        </CENTER>
+    </div>
+</div>

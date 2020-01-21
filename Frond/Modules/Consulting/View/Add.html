@@ -1,0 +1,68 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+
+<div data-ng-init="getAgencies(); findConsulting($routeParams); getConsultants();" class="row" style="background: #f2f2f2;padding: 10px; margin-top:5%;">
+
+    <form role="form" name="myform" >
+
+        <div class="col-sm-6">
+
+            <div class="panel  ">
+                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Datos de Consultoria</h3>
+                </div>
+                <div class="panel-body">
+
+
+                        <!--div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Fecha</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <span id="spanDate"  style="color:red;display: none;">Debe selecionar una Fecha </span>
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' ng-model="currentConsulting.dateOpenConsulting" id="dateOpenConsulting" class="form-control" />
+                                <span class="input-group-addon " id="btn_calendar">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div-->
+
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Tipo</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <select class="form-control" ng-required="true" ng-options="item.id as item.label for item in typeConsulting" ng-model="currentConsulting.online">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Agencia</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <select class="form-control" ng-required="true" ng-options="item.idAgency as item.nameAgency for item in agencyList" ng-model="currentConsulting.idAgencyKf">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Consultor</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <select class="form-control" ng-required="true" ng-options="item.idUser as item.userNameUser for item in userList" ng-model="currentConsulting.idConsultantKf">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12" style="    background-color: #d3d3d3; padding: 10px;">
+            <a href="#" class="btn btn-circle red-intense btnCancel"> Cancelar </a>
+
+            <button ng-show="!currentConsulting.idConsulting" ng-click="myform.$valid && addConsulting()" class="btn btn-circle green-jungle btnLoad" >Guardar</button>
+            <button ng-show="!!currentConsulting.idConsulting" ng-click="myform.$valid && updateConsulting()" class="btn btn-circle green-jungle btnLoad" >Actualizar</button>
+        </div>
+
+    </form>
+</div>

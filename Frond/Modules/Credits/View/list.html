@@ -1,0 +1,111 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Credits');
+    });
+</script>
+
+<!--SECCION CONTENEDORA HEADER-->
+<br>
+
+<div>
+    <div class="row bar-module-top" data-ng-init="getListCredits()">
+
+    </div>
+    
+<!--SECCION CONTENEDORA SEPARADOR-->
+<div class="row" style="background: #d5d5d5;padding: 10px;">
+
+    <div class="col-sm-9 franja-x">
+
+    </div>
+    <div class="col-sm-1">
+        <a class="btn green-jungle" href="#add">NUEVO</a>
+    </div>
+    <div class="col-sm-2">
+        <a class="btn btn-info" ng-click="ejecutarAbonosMensuales();">Ejecutar Mensuales</a>
+    </div>
+
+</div>
+
+    <!--SECCION CONTENEDORA BODY-->
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+
+                    <thead style=" background: #3E6579; color: white;">
+
+                        <tr>
+
+         
+                            <th>nombre</th>
+
+                            <th>valor</th>
+
+                            <th>periodo</th>
+
+                           <!--  <th>agencia</th> -->
+
+                            <th>descripción</th>
+
+                            <th style="width:130px; text-align:center">Acción</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr data-ng-repeat="item in listCredits| filter : paginate track by $index">
+
+                            <td>
+                                {{item.nameCredit}}
+                            </td>
+                            <td>
+                                {{item.valueCredit}}
+                            </td>
+
+
+                            <td ng-if="item.periodCredit == 1">MENSUAL</td>
+
+                            <td ng-if="item.periodCredit == 0">ANUAL</td>
+<!--                             <td ng-if="item.idAgencyFk != null">
+                                {{item.nameAgency}}
+                            </td> 
+                            <td ng-if="item.idAgencyFk == null">
+                                    NO IDENTIFICADO
+                            </td>-->
+                            <td>
+                                {{item.descriptionCredit}}
+                            </td>
+
+
+                            <td>
+                                <div class="btn-group" style="    margin-top: -8px;    position: relative;">
+                                    <a class="btn dark " href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="icon-settings "></i> Opciones
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#edit{{item.idCredit}}">
+                                                <i class="i"></i>Editar</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <CENTER>
+                    <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+                </CENTER>
+
+            </div>
+        </div>
+
+    </div>

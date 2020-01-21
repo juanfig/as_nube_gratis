@@ -1,0 +1,111 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+
+<!--SECCION CONTENEDORA HEADER-->
+<br>
+
+<div  >
+    <div class="row bar-module-top" data-ng-init="getListCashBox();" >
+        <div class="col-sm-2">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Top</label>
+            <select class="form-control" ng-model="topFilter" ng-change="searchSupport()">
+                <option  value="-1" >Todos</option>
+                <option value="10" >10</option>
+                <option value="20" >20</option>
+                <option value="30" >30</option>
+                <option value="40" >40</option>
+                <option value="50" >50</option>
+
+            </select>
+        </div>
+
+        <!--div class="col-sm-2">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Agencia</label>
+            <select class="form-control" ng-model="idAgencyFilter" name='idAgencyFilter'  ng-change="searchCashBox('agency')" ng-options="item.idAgency as item.nameAgency for item in agencyList">
+                    <option  value="" >Todos</option>
+            </select>
+        </div-->
+
+        <div class="col-sm-8">
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Filtro</label>
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchFilter" placeholder="Buscar...">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="searchCashBox('search')" type="button">Buscar</button>
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!--SECCION CONTENEDORA SEPARADOR-->
+    <div class="row" style="background: #d5d5d5;padding: 10px;">
+        <div class="col-sm-9" style="background: #e1e1e1;  height: 34px; padding-left: 0;">
+					<div class="btn-group" role="group" aria-label="...">
+					  <a class="btn btn-default active" style="width: 10em; color: #337AB7;">CAJAS</a>
+					  <a href="#Config/TypeIncome" class="btn btn-default" style="width: 10em;">INGRESOS</a>
+					  <a href="#Config/TypeExpense" class="btn btn-default" style="width: 10em;">EGRESOS</a>
+					  <a href="#Config/PaymentForm" class="btn btn-default" style="width: 10em;">FORMA DE PAGO</a>
+					  <a href="#Config/TypeCheck" class="btn btn-default" style="width: 10em;">CHEQUES</a>
+					  <a href="#Config/Banks" class="btn btn-default" style="width: 10em;">BANCOS</a>
+					</div>
+        </div>
+        <div class="col-sm-3">
+            <a class="btn green-jungle" style="width: 100%" href="#/Config/CashBox/Add">NUEVA CAJA</a>
+        </div>
+    </div>
+
+    <!--SECCION CONTENEDORA BODY-->
+    <div class="row" style="background: #f2f2f2;">
+        <div class="col-sm-12">
+            <div class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+                    <thead style=" background: #4d5d6f; color: white;">
+                       <tr>
+                        <th>Nombre</th>
+                        <th>Agencia</th>
+                        <th style="width:171px; text-align:center">Acci&oacute;n</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="item in cashBoxList | filter : paginate track by $index">
+
+                        <td>{{item.cashBoxName}}</td>
+                        <td>{{item.nameAgency}}</td>
+                        <td>
+                            <div class="btn-group" style="    margin-top: -8px;    position: relative;" >
+                                <a class="btn dark " href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="icon-settings "></i> Opciones
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <a href="#/Config/CashBox/Edit{{item.idCashBox}}" >EDITAR <i class="fa fa-edit"></i></a>
+                                    </li>
+                                    <li>
+                                         <a ng-click="deleteCashBox(item)">ELIMINAR <i class="fa fa-times"></i></a>
+                                         <!--a ng-click="openModal('sm')">ELIMINAR <i class="fa fa-times"></i></a-->
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <CENTER>
+                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+            </CENTER>
+
+        </div>
+    </div>
+
+</div>

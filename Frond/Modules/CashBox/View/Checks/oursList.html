@@ -1,0 +1,143 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+
+<!--SECCION CONTENEDORA HEADER-->
+<br>
+
+<div  >
+    <div class="row bar-module-top" data-ng-init="getListTypeCheck(); getListBank(); getListCashBox(); getListCheck(1); getfilterList();" >
+        <div class="col-sm-2">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Top</label>
+            <select class="form-control" ng-model="topFilter" ng-change="filterChecks()">
+                <option  value="-1" >Todos</option>
+                <option value="10" >10</option>
+                <option value="20" >20</option>
+                <option value="30" >30</option>
+                <option value="40" >40</option>
+                <option value="50" >50</option>
+
+            </select>
+        </div>
+
+										<div class="col-sm-2">
+                        <label class="caption-subject font-blue-madison bold uppercase control-label" >Tipo</label>
+
+                        <select class="form-control" ng-required="true" ng-options="item.idTypeCheck as item.nameTypeCheck for item in typeCheck" ng-model="typeFilter"  ng-change="filterChecks()">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <label class="caption-subject font-blue-madison bold uppercase control-label" >Caja</label>
+
+                        <select class="form-control" ng-required="true" ng-options="item.idCashBox as item.cashBoxName for item in cashBoxList" ng-model="boxFilter" ng-change="filterChecks()">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <label class="caption-subject font-blue-madison bold uppercase control-label" >Banco</label>
+
+                        <select class="form-control" ng-required="true" ng-options="item.idBank as item.nameBank for item in banks" ng-model="bankFilter" ng-change="filterChecks()">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+
+        <div class="col-sm-4">
+            <label class="caption-subject font-blue-madison bold uppercase control-label">N&uacute;mero</label>
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchFilter" placeholder="Buscar...">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="filterChecks('search')" type="button">Buscar</button>
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!--SECCION CONTENEDORA SEPARADOR-->
+    <div class="row" style="background: #d5d5d5;padding: 10px;">
+
+        <div class="col-sm-12" style="background: #e1e1e1;  height: 34px">
+	        <div class="col-sm-9" style="background: #e1e1e1;  height: 34px; padding-left: 0;">
+						<div class="btn-group" role="group" aria-label="...">
+							<a class="btn btn-default active" style="width: 10em; color: #337AB7;">PROPIOS</a>
+						  <a href="#/Checks/Others" class="btn btn-default" style="width: 10em;">DE TERCEROS</a>
+						</div>
+            </div>
+<!--             <div class="col-sm-3">
+                <a class="btn green-jungle" style="width: 100%" href="#/Checks/Ours/Add:ours">NUEVO</a>
+            </div> -->
+        </div>
+
+    </div>
+
+    <!--SECCION CONTENEDORA BODY-->
+    <div class="row" style="background: #f2f2f2;">
+        <div class="col-sm-12">
+            <div class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+                    <thead style=" background: #4d5d6f; color: white;">
+                       <tr>
+                        <th>N&uacute;mero</th>
+                        <th>Monto</th>
+                        <th>fecha</th>
+                        <th>operaci&oacute;n</th>
+                        <th>Tipo</th>
+                        <th>Banco</th>
+                        <th>Caja</th>
+                        <!--th style="width:171px; text-align:center">Acci&oacute;n</th-->
+                    </tr>
+                </thead>
+                <tbody style="text-transform: capitalize;">
+                    <tr data-ng-repeat="item in checksList| filter : paginate track by $index">
+                     		<td>{{item.checkNumber}}</td>
+                        <td>{{item.checkAmount}}</td>
+                        <td>{{item.checkDate}}</td>
+                        <td>
+	                        <span ng-if="!!item.dateIncome">Ingreso</span>
+	                        <span ng-if="!!item.dateIncome&&!!item.dateExpense">/</span>
+	                        <span ng-if="!!item.dateExpense">Egreso</span>
+                        </td>
+                        <td>{{parseTypeCheck(item.idTypeChecKf)}}</td>
+                        <td>{{parseBank(item.idBankKf)}}</td>
+                        <td>
+                        	<span ng-if="!!item.dateIncome">{{parseCashBoxName(item.incomeBox)}}</span>
+	                        <span ng-if="!!item.dateIncome&&!!item.dateExpense">/</span>
+	                        <span ng-if="!!item.dateExpense">{{parseCashBoxName(item.expenseBox)}}</span>
+	                      </td>
+                        <!--td>
+                            <div class="btn-group" style="    margin-top: -8px;    position: relative;" >
+                                <a class="btn dark " href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="icon-settings "></i> Opciones
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <a href="#/Income/Edit{{item.idIncome}}">EDITAR <i class="fa fa-edit"></i></a>
+                                    </li>
+                                    <li>
+                                        <a ng-click="deleteIncome(item)">ELIMINAR <i class="fa fa-times"></i></a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </td-->
+                    </tr>
+                </tbody>
+            </table>
+            <CENTER>
+                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+            </CENTER>
+
+        </div>
+    </div>
+
+</div>

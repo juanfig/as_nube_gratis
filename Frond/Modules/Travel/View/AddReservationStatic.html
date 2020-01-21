@@ -1,0 +1,647 @@
+<script type="text/javascript">
+    $(function () {
+
+        $('#datetimepicker1').datetimepicker({
+            format: 'YYYY/MM/DD HH:mm'
+        });
+
+        $('#datetimepicker2').datetimepicker({
+            format: 'HH:mm'
+        });
+     });
+
+
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Viajes', 'Nuevo Viaje');
+
+    });
+
+    $(document).ready(function() {
+
+        $(".js-example-basic-multiple").select2();
+    });
+
+
+</script>
+
+
+<style type="text/css">
+
+
+    .fixedbutton {
+        position: fixed;
+        bottom: 0px;
+        right: 0px; 
+    }
+
+
+
+    .pac-container {
+        z-index: 20050 !important;
+    }
+
+    .input-important
+    {
+        background: #ffe7ef;
+    }
+
+.select2-selection
+{
+     width: 228px;
+    height: 10px;
+}
+   
+
+   .select2-dropdown
+   {
+        width: 228px !important;
+   }
+
+
+
+</style>
+
+<div data-ng-init="callServiceFilterForm();callServiceFilterFormReservation();initMap();" class="row" style="background: #f2f2f2;padding: 10px;">
+    <form role="form"  name="myform">
+    <div class="row" style="    min-height: 500px;margin-left: 1px;
+    margin-right: 1px;">
+            <ul class="nav nav-pills ">
+                <li class="active">
+                    <a href="#tab_1" data-toggle="tab"> Datos de la reserva </a>
+                </li>
+                <li>
+                    <a href="#tab_2" data-toggle="tab"> Reserva </a>
+                </li>
+                
+            </ul>
+        
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1" style="    background-color: #fff;
+    padding: 5px;">
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Descripcion</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <input ng-model="nameGroupRes" type="text" placeholder="Descripcion" class="form-control" ng-required="true"> 
+                    </div>
+                    <div class="row">
+
+                    <div class="form-group col-sm-3" >
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Hora </label>
+
+                        <div class='input-group date' id='datetimepicker2'>
+                            <input type='text' ng-model="hours" id="hours" class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    
+
+                    
+                    <div class="form-group col-sm-3" >
+                            <div class="form-group " >
+                                <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Dias</label>
+                                <samp class="font-red-sunglo font-lg">*</samp>
+                                <select  class="js-example-basic-multiple" multiple="multiple"
+                                  ng-options="item.idDay as item.nameDay for item in filterFormRes.daymount" ng-model="idDayWeek">
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-sm-3" >
+                            <div class="form-group " >
+                                <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Mes</label>
+                                <samp class="font-red-sunglo font-lg">*</samp>
+                                <select  class="js-example-basic-multiple"  multiple="multiple" ng-options="item.idMounth as item.nameMount for item in filterFormRes.mounth" ng-model="idMounth">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3" >
+                            <div class="form-group " >
+                                <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Año</label>
+                                <samp class="font-red-sunglo font-lg">*</samp>
+                                <select  class="js-example-basic-multiple"  multiple="multiple"  ng-options="item.year as item.year for item in filterFormRes.years" ng-model="idYear">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab_2">
+                <!--FROM TRAVEL-->
+                <div data-ng-init="callServiceFilterForm();initMap();" class="row" style="background: #f2f2f2;padding: 10px;    margin-left: 1px;
+    margin-right: 1px;">
+                
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6" >
+                            <div class="panel  ">
+                                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+
+                                    <h3 class="panel-title" style="color: #fff">
+                                        <span class="badge badge-danger"> 1 </span> Datos del Pesonales</h3>
+                                </div>
+                                <div class="panel-body">  
+
+                                    <div class="row">
+                                        <div class="form-group col-sm-6" >
+                                            <div class="form-group" >
+                                                <label class="control-label caption-subject font-blue-ebonyclay bold uppercase"
+                                                     style="    margin-top: 5PX; padding: 5px;" 
+                                                 >
+
+                                                    Viaje a Empresa</label>
+                                                <input type="checkbox" style="  width: 30px; height: 30px;position: absolute; " checked="" class="make-switch"  ng-model="isTravelComany" id="isTravelComany" data-size="small">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-sm-6" >
+                                            <div class="form-group" >
+                                                <label class="control-label caption-subject font-blue-ebonyclay bold uppercase"
+                                                style="    margin-top: 5PX; padding: 5px;" >
+
+                                                    Viaje por Hora</label>
+                                                <input type="checkbox" style="  width: 30px; height: 30px;position: absolute; " checked="" class="make-switch"  ng-model="isTravelByHour" id="isTravelByHour" data-size="small">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-sm-8" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Cliente</label>
+                                            <samp class="font-red-sunglo font-lg">*</samp>
+                                            <span id="spanClient"  style="display: none;color:red">Debe selecionar un Cliente </span>
+                                            <input type="text"  id="inputClient" ng-model="asyncSelected" placeholder="Buscar Clientes..."
+                                                   autocomplete="off"
+                                                   uib-typeahead="client.firtNameClient + ' ' + client.lastNameClient for client in getClient($viewValue) "
+                                                   typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control input-important" ng-show="!isTravelComany"
+                                                   typeahead-on-select="selectedClient($item)" >
+
+                                            <input type="text" id="inputClient2" ng-show="isTravelComany" ng-model="asyncSelected" placeholder="Buscar Clientes..."
+                                                   autocomplete="off"
+                                                   uib-typeahead="client.nameClientCompany for client in getClient($viewValue) "
+                                                   typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control input-important"
+                                                   typeahead-on-select="selectedClient($item)" >
+
+
+
+                                            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                            <div ng-show="noResults">
+                                                <i class="glyphicon glyphicon-remove"></i> No Hay resultados
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-4" >
+                                            <br>
+                                            <a data-toggle="modal" data-target="#myModalAddClient" class="btn green-jungle  btn-block" style="margin-top: 6px;" ng-click="newClient()" >Nuevo Cliente</a>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row">
+
+                                        <div class="form-group col-sm-8" >
+                                            <div class="form-group " >
+                                                <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Cuenta</label>
+                                                <samp class="font-red-sunglo font-lg">*</samp>
+                                                <select ng-disabled="!isTravelComany" class="form-control"  ng-options="item.idCompanyAcount as item.nrAcount for item in acountcompany" ng-model="idCompanyAcountFilter" ng-change="getCostCenterByidAcount()"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-sm-4" >
+                                            <br>
+                                            <a ng-disabled="!idClient"  data-toggle="modal" data-target="#myModalAddNrAcount" class="btn green-jungle  btn-block" style="margin-top: 6px;" >Nueva Cuenta</a>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="form-group col-sm-8" >
+                                            <div class="form-group " >
+                                                <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Centro/Costo</label>
+                                                <samp class="font-red-sunglo font-lg">*</samp>
+                                                <select ng-disabled="!isTravelComany" class="form-control"  ng-options="item.idCostCenter as item.costCenter for item in costcenter" ng-model="idCostCenter" ng-change="getPasagerByidCosCnter()"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-sm-4" >
+                                            <br>
+                                            <a ng-disabled="!idCompanyAcountFilter" ng-click="get_nrAcount()" data-toggle="modal" data-target="#myModalAddCostCenter" class="btn green-jungle  btn-block" style="margin-top: 6px;" >Nuevo C.Costo</a>
+                                        </div>
+
+                                    </div>
+
+
+                                      <div class="row">
+
+                                        <div class="form-group col-sm-8" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Nuevo Responsable</label>
+                                            <input ng-disabled="!idClient"  ng-model="nameResposable" type="text" placeholder="Nombe/Apellido" class="form-control">
+                                        </div>
+
+                                        <div class="form-group col-sm-4" >
+
+                                            <a ng-disabled="!idClient"  class="btn green-jungle  btn-block" style="margin-top: 23px;" ng-click="addRisponsable()" >Agregar</a>
+
+                                        </div>
+                                    
+
+
+                                        <div class="form-group col-sm-12" >
+                                            <div class="form-group " >
+                                                <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Responsable</label>
+                                                <samp class="font-red-sunglo font-lg">*</samp>
+                                                <select ng-disabled="!isTravelComany" class="form-control"  ng-options="item.idResposnableClient as item.nameResposable  for item in risponsable" ng-model="idUserRes"></select>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                  
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-6" >
+                            <div class="panel ">
+                                <div class="panel-heading" style="background: #5E738B">
+                                    <h3 class="panel-title" style="color: #fff"><span class="badge badge-danger"> 2 </span> Datos Chofer</h3>
+                                </div>
+                                <div class="panel-body"> 
+
+                                    <div class="form-group " >
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Tipo de Vehículo</label>
+                                        <select class="form-control"  ng-options="item.idVehicleType as item.vehiclenType +    '   (' +    item.vehiclePriceKm +    ')' for item in filterForm.typevehicle" ng-model="idTypeVehicle"  
+                                                ng-change="setTipeVehicle()" >
+                                            <option value="">Seleccione</option></select>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-sm-6" >
+
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Chofer Bilingue</label>
+                                            <input  type="checkbox" ng-disabled="!isTravelComany" ng-click="clickBilingual()"  class="make-switch" id="isBilingualDriver" ng-model="isBilingualDriver" data-size="small">
+                                        </div>
+
+                                        <div class="form-group col-sm-6" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Lenguajes </label>
+                                            </span>
+                                            <select ng-disabled="!isBilingualDriver" class="form-control"  ng-change="getDriverBilingual()" id="selectLang"  ng-options="item.idLanguaje as    item.nameLanguaje for item in filterForm.listLanguajes" ng-model="idLanguajeKf"></select>
+                                        </div>
+
+                                        <div class="form-group col-sm-6" >
+
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Chofer de Cabecera</label>
+                                            <input  type="checkbox" ng-click="getDriverHeaders()" class="make-switch" id="isDriverHeader" ng-model="isDriverHeader" data-size="small">
+                                            <hr>
+                                            <label class="control-label caption-subject font-green-jungle font-lg sbold bold uppercase" >{{emailDriver}}</label>
+
+                                        </div>
+
+                                        <div class="form-group col-sm-6" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Choferes</label>
+                                            <span id="spanDriver"  style="color:red;display: none;">Debe selecionar un Chofer </span>
+                                            <select ng-disabled="isDriverHeader" class="form-control"  ng-change="setDriver()" id="selectDriver"  ng-options="item.idDriver as item.fisrtNameDriver +         ' ' +         item.lastNameDriver for item in filterForm.drivers" ng-model="idDriverKf"></select>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row">
+
+                                        <div class="form-group col-sm-12" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Arribos</label>
+                                            <select class="form-control"  ng-options="item.idAribo as item.nameAribo for item in filterForm.aribos" ng-model="idAribos"></select>
+                                        </div>
+
+                                        <div class="form-group col-sm-6" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Vuelo / Buque</label>
+                                            <input ng-model="flight" type="text" placeholder="Vuelo / Buque" class="form-control">
+                                        </div>
+
+                                        <div class="form-group col-sm-6" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Procedencia</label>
+                                            <input ng-model="precedence" type="text" placeholder="Presecencia" class="form-control">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="form-group col-sm-12" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Empresa</label>
+                                            <input ng-model="companyLabel" type="text" placeholder="Empresa" class="form-control">
+                                        </div>
+
+                                        <div class="form-group col-sm-6" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Hora Arribo</label>
+
+                                            <div class='input-group date' id='datetimepicker2'>
+                                                <input type='text' ng-model="hoursAribo" id="hoursAribo" class="form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+
+
+                                </div>  
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-12" >
+                        <div class="panel ">
+                            <div class="panel-heading" style="background: #5E738B">
+                                <h3 class="panel-title" style="color: #fff"><span class="badge badge-danger"> 3 </span> Datos Pasajeros</h3>
+                            </div>
+                            <div class="panel-body"> 
+                                     <div class="row" style="background-color: #edfeee;">
+
+                                     <div class="form-group col-sm-12" style="text-align: center;
+                                           background-color: #72d7ad;" >
+                                      <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Info Pasajero </label>
+                                     </div>
+
+                                        <div class="form-group col-sm-2" >
+                                         <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Nombre: </label>
+                                         <label class="control-label caption-subject font-blue-dark bold uppercase" >{{namePasaguerInfo}}</label>
+                                        </div>
+                                        
+                                        <div class="form-group col-sm-2" >
+                                         <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Telefono:</label>
+                                         <label class="control-label caption-subject font-blue-dark bold uppercase" >{{phonePasaguerInfo}}</label>
+                                        </div>
+
+                                        <div class="form-group col-sm-2" >
+                                         <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >E-Mail:</label>
+                                         <label class="control-label caption-subject font-blue-dark bold uppercase" >{{emailPasaguerInfo}}</label>
+                                        </div>
+
+                                        <div class="form-group col-sm-2" >
+                                         <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Direccion:</label>
+                                         <label class="control-label caption-subject font-blue-dark bold uppercase" >{{direccionPasaguerInfo}}</label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                <div class="row">
+
+                                        <div class="form-group col-sm-3" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Nombre Pasajero 
+                                        <samp class="font-red-sunglo font-lg">*</samp></label>
+                                            <input ng-disabled="!idCostCenter"   ng-model="fullNamePanguer" type="text" placeholder="Nombe/Apellido" class="form-control">
+                                        </div>
+
+                                         <div class="form-group col-sm-2" >
+                                             <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Email 
+                                        <samp class="font-red-sunglo font-lg">*</samp></label>
+                                            
+                                            <input ng-disabled="!idCostCenter" id="emailPasaguer" ng-model="emailPasaguer"  name="emailPasaguer" type="email"  placeholder="@" class="form-control"> 
+                                        </div>
+
+                                         <div class="form-group col-sm-3" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Direccion
+                                            </label>
+                                            <input ng-disabled="!idCostCenter" type="text"  ng-keydown="setLocation(5)" id="direcctionPasaguer" google-place ng-model="venue.address_line_4" class="form-control">
+                                        </div>
+
+                                         <div class="form-group col-sm-2" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Telefono</label>
+                                            <input ng-disabled="!idCostCenter" ng-model="phonePasaguer" name="phonePasaguer"  type="text" placeholder="0570000000" class="form-control"> 
+                                        </div>
+
+                                        <div class="form-group col-sm-2" >
+
+                                            <a ng-disabled="!idCostCenter"  class="btn green-jungle  btn-block" style="margin-top: 23px;"  ng-click=" addPasager()" >Agregar</a>
+
+                                        </div> 
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="form-group col-sm-4" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Pasajero #1</label>
+                                            <select ng-disabled="!idClient" class="form-control"  ng-options="item.idPasaguer as item.fullNamePanguer +'- '+ item.phonePasaguer for item in listPasagger" 
+                                            ng-change="setPasagerInfo(1)"  ng-model="passenger1" ></select>
+                                        </div>
+                                        <div class="form-group col-sm-2" >
+                                            <br>
+                                            <a  class="btn green-jungle  btn-block" style="margin-top: 6px;" ng-click="viewInfoPasaguer(1)" >Ver Detalle</a>
+                                        </div>
+                                        <div class="form-group col-sm-4" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Pasajero #2</label>
+                                            <select ng-disabled="!idClient" class="form-control"  ng-options="item.idPasaguer as item.fullNamePanguer +'- '+ item.phonePasaguer for item in listPasagger"
+                                            ng-change="setPasagerInfo(2,item.idPasaguer)"  ng-model="passenger2" ></select>
+
+                                        </div>
+                                        <div class="form-group col-sm-2" >
+                                            <br>
+                                            <a  class="btn green-jungle  btn-block" style="margin-top: 6px;" ng-click="viewInfoPasaguer(2)" >Ver Detalle</a>
+                                        </div>
+
+                                        <div class="form-group col-sm-4" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Pasajero #3</label>
+                                            <select ng-disabled="!idClient" class="form-control"  ng-options="item.idPasaguer as item.fullNamePanguer +'- '+ item.phonePasaguer for item in listPasagger"
+                                            ng-change="setPasagerInfo(3,item.idPasaguer)"  ng-model="passenger3" ></select> 
+                                        </div>
+                                        <div class="form-group col-sm-2" >
+                                            <br>
+                                            <a  class="btn green-jungle  btn-block" style="margin-top: 6px;" ng-click="viewInfoPasaguer(3)" >Ver Detalle</a>
+                                        </div>
+
+                                        <div class="form-group col-sm-4" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Pasajero #4</label>
+                                            <select ng-disabled="!idClient" class="form-control"  ng-options="item.idPasaguer as item.fullNamePanguer +'- '+ item.phonePasaguer for item in listPasagger"
+                                            ng-change="setPasagerInfo(4,item.idPasaguer)"  ng-model="passenger4" ></select> 
+                                        </div>
+                                        <div class="form-group col-sm-2" >
+                                            <br>
+                                            <a  class="btn green-jungle  btn-block" style="margin-top: 6px;" ng-click="viewInfoPasaguer(4)" >Ver Detalle</a>
+                                        </div>
+
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="col-md-12" >
+                        <div class="panel ">
+                            <div class="panel-heading" style="background: #5E738B">
+                                <h3 class="panel-title" style="color: #fff"><span class="badge badge-danger"> 4 </span> Datos Viaje</h3>
+                            </div>
+                            <div class="panel-body"> 
+
+                               
+
+                                <div class="form-group">
+                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" ><i class="fa fa-star" style="color: #dca911;"></i> Origenes Frecuentes de Cliente </label>
+                                    <select class="form-control"   ng-options="item.idTravel as item.nameOrigin for item in originClient" ng-model="idOriginClient"  ng-change="setOriguinClient()"
+                                            >
+                                        <option value="">Seleccione</option> 
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Origen</label>
+                                    <samp class="font-red-sunglo font-lg">*</samp>
+                                    <input  type="text"  ng-keydown="setLocation(1)" id="nameOrigin" google-place ng-model="venue.address_line_1" class="form-control input-important" >
+                                </div>
+
+                                <a    onclick="divfadeIn('extraInfo')" 
+                                      class="btn btn-circle green-jungle btn-block" >
+                                    <i class="fa fa-map-signs"></i> Informacion Adicional</a>
+
+                                <div id="extraInfo" style="display: none;">
+
+                                    <div class="form-group " >
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Hotel</label>
+                                        <select  class="form-control"  ng-options="item.idHotel as item.nameHotel for item in filterForm.hoteles" ng-model="idHotel">
+                                            <option value="">Seleccione</option>
+                                        </select>
+                                    </div>
+
+
+
+                                    <div class="row">
+                                        <div class="form-group col-sm-4" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Piso</label>
+                                            <input ng-model="floor" type="text" placeholder="Piso" class="form-control"> 
+                                        </div>
+                                        <div class="form-group col-sm-4" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Departamento</label>
+                                            <input ng-model="department" type="text" placeholder="Departamento" class="form-control"> 
+                                        </div>
+                                        <div class="form-group col-sm-4" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Lote/Uf</label>
+                                            <input ng-model="lot" type="text" placeholder="Lote/Uf" class="form-control"> 
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-sm-6" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Telefono</label>
+                                            <span ng-show="myform.phoneNumber.$error.pattern"  style="color:red">El Campo debe ser un numero Telefonico </span>
+                                            <input ng-model="phoneNumber" name="phoneNumber" ng-pattern="/^[0-9]{9,15}$/" type="text" placeholder="0570000000" class="form-control"> 
+                                        </div>
+                                        <div class="form-group col-sm-6" >
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Telefono celular</label>
+                                            <span ng-show="myform.localNumber.$error.pattern"  style="color:red">El Campo debe ser un numero Telefonico </span>
+                                            <input ng-model="localNumber" name="localNumber" ng-pattern="/^[0-9]{9,15}$/" type="text" placeholder="0570000000" class="form-control"> 
+                                        </div>
+
+                                    </div>
+
+                                    
+
+                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Equipaje Extra</label>
+                                    <input type="checkbox" checked="" class="make-switch" id="isExtraLuggage" ng-model="isExtraLuggage" data-size="small">
+
+                                </div>
+                                <hr>
+
+
+
+                                <div class="form-group">
+                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Destinos Favoritos</label>
+                                    <select class="form-control"   ng-options="item.idPreDestination as item.namePreDestination for item in filterForm.preTravel" ng-model="idPreDestination"  ng-change="setDestino()"
+                                            >
+                                        <option value="">Seleccione</option> 
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" ><i class="fa fa-star" style="color: #dca911;"></i> Destinos Frecuentes de Cliente </label>
+                                    <select class="form-control"   ng-options="item.idTravel as item.nameDestination for item in desinationClient" ng-model="idDestinationClient"  ng-change="setDestinationClient()"
+                                            >
+                                        <option value="">Seleccione</option> 
+                                    </select>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Destino</label>
+                                    <samp class="font-red-sunglo font-lg">*</samp>
+                                    <input  ng-keydown="setLocation(2)"  type="text" id="nameDestination" google-place ng-model="venue.address_line_2" class="form-control input-important" >
+                                </div>
+
+                                <div style="    background: #2b3643;border: solid;border-color: #7b7575;padding: 5px;" >
+                                    <input type="hidden" id="distanceLabel" ng-model="idUserClient" >
+                                    <input type="hidden" id="distance" ng-model="idUserClient" >
+                                    <input type="hidden" id="durationLabel" ng-model="idUserClient" >
+                                    <input type="hidden" id="duration" ng-model="idUserClient" >
+
+                                    <label  id="distanceLabelText"   class="font-green-jungle font-lg bold uppercase"  >
+                                    </label>
+
+                                    <label  id="timeLabelText"   class="font-green-jungle font-lg bold uppercase"  >
+                                    </label>
+
+                                    <label  id="amountLabelText"   class="font-green-jungle font-lg bold uppercase"  >
+                                    </label>
+
+                                </div>
+
+                                <div id="map" style="width:100%;height:400px;background:#f2f2f2"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" style="    background-color: #d3d3d3;
+                         padding: 10px;">
+
+                        <div class="col-sm-6">
+                            <a href="#" class="btn  btn-circle red-intense btnCancel btn-block"> Cancelar </a>
+                        </div>
+
+
+                        <div class="col-sm-6">
+
+                            <button ng-show="idTravel == null" id="newTraveBtn"  ng-click="myform.$valid && addReservation()" class="btn btn-block btn-circle green-jungle  " >Guardar</button>
+
+                            <button ng-show="idTravel != null" id="updateTraveBtn" ng-click="myform.$valid && updateTravelFull()" 
+                                    class="btn btn-block btn-circle green-jungle  " >Editar</button>
+
+                        </div>
+
+
+                    </div>
+                </div>
+                </form>
+                </div>
+
+                <!--***********-->
+                </div>
+               
+               
+            
+        </div>
+    </div>
+
+    </form>
+</div>

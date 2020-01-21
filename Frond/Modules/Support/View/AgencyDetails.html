@@ -1,0 +1,154 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+
+<!--SECCION CONTENEDORA HEADER-->
+<br>
+
+<div>
+    <div class="row bar-module-top" data-ng-init="getListSupport(); getfilterList();" > 
+        <div class="col-sm-3">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Top</label>
+            <select class="form-control" ng-model="topFilter" ng-change="searchSupport()">
+                <option  value="-1" >Todos</option>
+                <option value="10" >10</option>
+                <option value="20" >20</option>
+                <option value="30" >30</option>
+                <option value="40" >40</option>
+                <option value="50" >50</option>
+
+            </select>
+        </div>
+
+        <div class="col-sm-3">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Status</label>
+            <select class="form-control" ng-model="statusFilter" ng-change="searchSupport()">
+                <option  value="" >Todos</option>
+                <option value="0" >PENDIENTE</option>
+                <option value="2" >EN EVALUACIÓN</option>
+                <option value="1" >EN DESARROLLO</option>||
+                <option value="-1" >FINALIZADA</option>
+
+            </select>
+        </div>
+
+
+        <div class="col-sm-4">
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Filtro</label>
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchFilter" placeholder="Buscar...">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="searchSupport()" type="button">Buscar</button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <a class="btn btn-primary  btn-block" style="margin-top: 27px;" ng-click="getListSupport()">Recargar</a>
+        </div>
+    </div>
+
+    <!--SECCION CONTENEDORA SEPARADOR-->
+    <div class="row" style="background: #d5d5d5;padding: 10px;">
+
+        <div class="col-sm-12" style="background: #e1e1e1;  height: 34px">
+
+        </div>
+
+    </div>
+
+    <!--SECCION CONTENEDORA BODY-->
+    <div class="row" style="background: #f2f2f2;">
+        <div class="col-sm-12">
+            <div class="table-scrollable">
+
+                <table class="table table-responsive table-striped table-hover table-as-nube-tp-1">
+                    <thead style=" background: #4d5d6f; color: white;">
+                        <tr>
+                            <th><small>Codigo de Soporte</small></th>
+                            <th><small>Motivo</small></th>
+                            <th><small>Detalles</small></th>
+                            <th><small>Fecha</small></th>
+                            <th><small>Reportado desde</small></th>
+                            <th><small>Status</small></th>
+                            <th><small>Opciones</small></th>
+                            <th class="text-center"><small>Accion</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="item in supports| filter : paginate track by $index">
+                            <td>{{item.codeSupport}}</td>
+                            <td>{{item.reasonSupport}}</td>
+                            <td ng-bind-html="item.detailSupport"></td>
+                            <td>{{item.dateCreatedSupport}}</td>
+                            <td ng-if="item.isTravelSendMovil == 1">
+                                APP
+                            </td>
+                            <td ng-if="item.isTravelSendMovil == 0">
+                                WEB 
+                            </td>
+
+                            <td ng-if="item.statusSupport == -1" class="font-green-soft sbold">
+                                FINALIZADA
+                            </td>
+                            <td ng-if="item.statusSupport == 0" class="font-red-sunglo sbold">
+                                PENDIENTE 
+                            </td>
+                            <td ng-if="item.statusSupport == 1" class="text-success sbold">
+                                EN DESARROLLO 
+                            </td>
+                            <td ng-if="item.statusSupport == 2" class="text-info sbold">
+                                EN EVALUACIÓN
+                            </td>
+                            <td><a href="#/Details{{item.idSupport}}" class="btn red btn-xs">Detalles</a></td>
+                            <td>
+                                <div class="btn-group" >
+                                    <a class="btn btn-xs dark " href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="icon-settings "></i> Cambia Status
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+
+                                        <li ng-if="item.statusSupport == 0">
+                                            <a ng-click="changeStatus(item, 2)">
+                                                A Evaluación 
+                                            </a>
+                                        </li>
+
+                                        <li ng-if="item.statusSupport == 2 || item.statusSupport == 0">
+                                            <a ng-click="changeStatus(item, 1)">
+                                                En Desarrollo 
+                                            </a>
+                                        </li>
+
+                                        <li ng-if="item.statusSupport == 1">
+                                            <a ng-href="#Edit{{item.idSupport}}">
+                                                Finalizado  
+                                            </a>
+                                        </li>
+
+                                        <li ng-if="item.statusSupport == -1">
+                                            <a ng-href="#Edit{{item.idSupport}}">
+                                                Detalles de Fin.
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <CENTER>
+                    <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+                </CENTER>
+
+            </div>
+        </div>
+    </div>
+</div>

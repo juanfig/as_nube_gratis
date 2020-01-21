@@ -1,0 +1,33 @@
+
+<!-- Modal -->
+<div id="myModalDrivers" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header" style="background: #5E738B">
+        <button type="button" style="    float: right;" class=" btn btn-circle red-intense" data-dismiss="modal">Cerrar</button>
+        <h4 class="modal-title" style="color: #fff">Choferes Disponibles</h4>
+      </div>
+      <div class="modal-body">
+
+      <div ng-repeat="item in driversfree">
+       <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">{{item.driver}} -</label>
+
+        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase"> {{item.phoneNumberDriver}} </label>
+
+       <span ng-if="item.idResourceSocket > 0 " class="bg-green-jungle  badge  " title="RESERVA">On-line</span>
+
+       <span ng-if="item.idResourceSocket < 1 " class=" blink badge  bg-red-mint" title="RESERVA">Off-line</span>
+
+         <br>
+      </div>
+
+     
+    </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

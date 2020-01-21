@@ -1,0 +1,12 @@
+var session;
+var protocolo ="http://";
+var server =  protocolo+"localhost/";
+var uriBase = server+"as/as_nube/";
+var uri = uriBase+"Api/index.php/";
+var uriClient = uriBase+"Frond/Modules/";
+var uriImages = uriBase+"Frond/images/"
+console.log('nube',uriClient)
+
+function changueUri (service) {
+	window.location.assign(uriClient+service)
+}

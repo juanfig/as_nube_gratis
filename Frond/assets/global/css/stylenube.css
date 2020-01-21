@@ -1,0 +1,374 @@
+     html {
+    font-size: 10px;
+    -webkit-tap-highlight-color: transparent;
+    background: #000 !important;
+}
+
+body{background-color:#000 !important;}
+
+.dashboard-stat.red {
+    background-color: rgba(255,255,255,.05) !important;
+    border: 1px solid rgba(255,255,255,.2) !important;
+    font-size:.1em !important;
+    transition:.5s ease-in-out;
+
+}
+
+  .dashboard-stat.red:hover {
+    background-color: rgba(0,0,0,.7) !important;
+    border: 1px solid rgba(255,255,255,.2) !important;
+    font-size:.1em !important;
+    cursor:pointer;
+}
+
+.dashboard-stat.red .more {
+    color: #FFF;
+    background-color: #40417b !important;
+    opacity:1 !important;
+    transition:.3s ease-in-out;
+}
+
+.dashboard-stat.red:hover .more {
+    color: #FFF;
+    background-color: #000 !important;
+}
+
+
+    .dashboard-stat.blue {
+    background-color: rgba(255,255,255,.05) !important;
+    border: 1px solid rgba(255,255,255,.2) !important;
+    font-size:.1em !important;
+    transition:.5s ease-in-out;
+}
+
+  .dashboard-stat.blue:hover {
+    background-color: rgba(0,0,0,.7) !important;
+    border: 1px solid rgba(255,255,255,.2) !important;
+    font-size:.1em !important;
+    cursor:pointer;
+}
+
+.dashboard-stat.blue .more {
+    color: #FFF;
+    background-color: #273098 !important;
+    opacity:1 !important;
+    transition:.5s ease-in-out;
+}
+
+.dashboard-stat.blue:hover .more {
+    color: #FFF;
+    background-color: #273098 !important;
+}
+
+
+.page-footer {
+    background: #000000 !important;
+}
+
+.dashboard-stat.blue .details .desc {
+
+    font-size: 14px !important;
+    line-height: 12pt !important;
+}
+
+.page-sidebar .page-sidebar-menu>li.sidebar-search-wrapper{
+    margin-top: 39px !important;
+}
+
+.page-content{
+       background: linear-gradient(90deg, #4182C2, #5b5abf) !important;}
+
+.page-container {
+       background: linear-gradient(90deg, #4182C2, #5b5abf) !important;
+}
+
+.badge-danger {
+    background: #59D8DE !important;
+}
+
+.page-content-wrapper {
+    float: left;
+    width: 100%;
+    background:#000 !important;
+    margin-top:30px;
+}
+
+.page-sidebar-menu {
+    background: #000 !important;
+    transition:.5s ease-in-out;
+}
+
+.page-header.navbar {
+    background-color: #000 !important;
+}
+
+.navbar-inverse {
+    background-color: #000;
+    border-color: #000;
+}
+
+.page-sidebar-menu>li:hover>a{
+    background: #40417b !important;
+
+}
+.page-sidebar .page-sidebar-menu>li.open>a, .page-sidebar .page-sidebar-menu>li:hover>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li.open>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li:hover>a {
+    background: #40417b !important;
+    color: #000 !important;
+}
+
+ .telefonos h1{
+     color:#fff !important;
+     line-height:15pt;
+     font-size:2em !important;
+     vertical-align: middle
+ }
+
+  .comunicate h1{
+     color:#fff !important;
+     line-height:15pt;
+     font-size:3em !important;
+     vertical-align: middle;
+ }
+
+.page-sidebar{
+    background:#000 !important;
+    color:#fff !important
+} 
+
+.page-sidebar .page-sidebar-menu>li>a{
+    border-top: 1px solid #3d4957;
+    color: #fff;
+}
+
+.page-sidebar .page-sidebar-menu>li>a:hover{
+    color: #fff !important;
+}
+
+.page-content-white .page-title {
+   color:#fff !important;
+   display:block;
+   border-bottom:.1px solid #fff;
+   padding-bottom:10px;
+   margin-left:15px !important;
+}
+
+
+.page-sidebar .page-sidebar-menu>li>a{
+    border-top: 1px solid #3d4957;
+    color: #fff !important;
+}
+
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 15px;
+    line-height: 1.42857;
+    vertical-align: top;
+    border-top: 1px solid #e7ecf1;
+    background: rgba(255,255,255,0) !important;
+    color: #000;
+    font-weight: 600;
+}
+
+
+table{
+    background:rgba(0,0,0,0) !important;
+}
+
+table:hover{
+    background:rgba(255,255,255,0) !important;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background: rgba(255,255,255,.1) ;
+}
+
+.table>thead>tr>th{
+    background:#000 !important;
+    font-weight:ligther !important;
+    color:#fff !important;
+
+}
+
+ .col-md-12{
+    background:transparent !important;
+}
+
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
+    background: rgba(255,255,255,.1) !important;
+}
+
+.btn-info {
+    border: 2px solid #b4d4f5 !important;
+    background-color: #40417b !important;
+    border-radius:20pt  !important;
+    transition:.3s ease-in-out;
+
+}
+    
+
+.btn-info:hover {
+    border: 2px solid #40417b !important;
+    background-color: #40417b !important;
+}
+
+.btn.green-jungle {
+    border: 2px solid #b4d4f5 !important;
+    background-color: #40417b !important;
+    border-radius:20pt  !important;
+    transition:.3s ease-in-out;
+
+}
+    
+
+.btn.green-jungle:hover {
+    border: 2px solid #40417b !important;
+    background-color: #40417b !important;
+}
+
+.btn-block {
+    border: 2px solid #b4d4f5 !important;
+    background-color: #595AC0 !important;
+    transition:.3s ease-in-out;
+    border-radius:15pt !important;
+}
+
+.btn-block:hover {
+    border: 2px solid #40417b !important;
+    background-color: #40417b !important;
+}
+
+.btn.red-intense:not(.btn-outline) {
+    color: #fff !important;
+    background-color: #595AC0 !important;
+    transition:.3s ease-in-out;
+    border-radius:15pt !important;
+   border: 2px solid #b4d4f5 !important;
+   font-size:.8em !important;
+}
+
+.btn.red-intense:not(.btn-outline):hover {
+    color: #fff !important;
+    border: 2px solid #40417b !important;
+    background-color: #40417b !important;
+}
+
+
+.btn.blue-steel:not(.btn-outline) {
+    color: #fff !important;
+    background-color: #595AC0 !important;
+    transition:.3s ease-in-out;
+    border-radius:15pt !important;
+   border: 2px solid #b4d4f5 !important;
+   font-size:.8em !important;
+}
+
+.btn.blue-steel:not(.btn-outline):hover {
+    color: #fff !important;
+    border: 2px solid #40417b !important;
+    background-color: #40417b !important;
+}
+
+.btn.yellow-gold:not(.btn-outline) {
+    color: #fff !important;
+    background-color: #595AC0 !important;
+    transition:.3s ease-in-out;
+    border-radius:15pt !important;
+   border: 2px solid #b4d4f5 !important;
+   font-size:.8em !important;
+}
+
+.btn.yellow-gold:not(.btn-outline):hover {
+    color: #fff !important;
+    border: 2px solid #40417b !important;
+    background-color: #40417b !important;
+}
+
+.ng-scope p{
+    background:#fff !important;
+    display:inline;
+    padding:10px;
+    border-radius:20pt; 
+font-weight:bold;
+}
+
+.btn-primary{
+        background-color: #40417b !important;
+        border:0px;
+}
+
+.font-green-soft {
+    color: #59D8DE !important;
+}
+
+.font-red-sunglo {
+    color: #CC213E !important;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    z-index: 3;
+    color: #fff;
+    background-color: #5a59c0;
+    border-color: #5a59c0;
+    cursor: default;
+    margin: 0 5px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,.7);
+}
+
+.pagination-sm>li>a, .pagination-sm>li>span {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0 5px;
+    border-radius: 20pt !important;
+    width: 30px;
+}
+
+.bar-module-top{
+    margin-top:50px !important;
+}
+
+.dropdown-menu {
+    left: -50px;
+}
+
+.btn.dark:not(.btn-outline) {
+    font-size: 12px !important;
+    margin-left: -10px !important;
+}
+
+ .font-blue-madison {
+    color: #fff !important;
+}
+
+
+/*franaja amarilla superior eliminada*/
+.page-bar {
+    display: none;
+}
+
+
+/*estatus franja roja*/
+.satuspayment{
+   background: #D62C4A !important;
+   color:#fff !important;
+}
+
+.satuspayment .font-red-sunglo {
+    color: #77060e !important;
+}
+
+ .franja-x{
+   background:rgba(0,0,0,.0) !important;
+   height: 34px;
+}
+
+.dropdown open:hover{
+    background:#000000 !important;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+    background-color: #000;
+    color: #fff;
+}

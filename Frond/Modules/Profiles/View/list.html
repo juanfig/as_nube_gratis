@@ -1,0 +1,134 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Perfiles', 'Listado');
+    });
+</script>
+
+<style type="text/css">
+    .col-md-4 {
+        padding:10px;
+    }
+
+    .inner {
+        background-color: #ffffff;
+        border-radius:10px;
+        padding:10px;
+        margin: 1px;
+    }
+
+    .widget-thumb-heading
+    {
+        font-weight: bold
+    }
+
+
+
+
+</style>
+
+<br>
+<div  style="margin-top:5%">
+<div class="row" data-ng-init="getList()" style="background: #f2f2f2;padding: 10px;">
+    <div class="col-sm-2">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Top</label>
+            <select class="form-control" ng-model="topFilter" ng-options="item.id as item.name for item in filter">
+                <option value="" >Todos</option>
+            </select>
+        </div>
+
+
+    <div class="col-sm-8">
+        <label class="caption-subject font-blue-madison bold uppercase control-label">Filtro</label>
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="searchFilter" placeholder="Buscar...">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" ng-click="callSearchService()" type="button">Buscar</button>
+            </span>
+        </div>
+    </div>
+    <div class="col-sm-2">
+
+    </div>
+</div>
+    <!--SECCION CONTENEDORA SEPARADOR-->
+    <div class="row" style="background: #d5d5d5;padding: 10px;">
+
+        <div class="col-sm-10 franja-x">
+
+        </div>
+        <div class="col-sm-2">
+            <a class="btn green-jungle" href="#Add">NUEVO PERFIL</a>
+        </div>
+
+    </div>
+
+
+<!--SECCION CONTENEDORA BODY-->
+<div class="row" style="background: #f2f2f2;">
+    <div class="col-sm-12">
+        <div class="table-scrollable">
+
+            <table class="table table-hover table-striped table-hover">
+                <thead style=" background: #4d5d6f; color: white;">
+                       <tr>
+                        <th style="width:50px">#</th>
+                        <th>Perfil </th>
+                        <th>Status</th>
+                        <th style="width:130px; text-align:center">Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="item in listProfile| filter : paginate track by $index">
+                        <td>{{$index + 1}}</td>
+
+
+                        <td>{{item.profileName}}</td>
+                        <td><label ng-if="item.idStatusProfile == 1">Activo</label>
+                            <label ng-if="item.idStatusProfile!= 1">Inactivo</label>
+                        </td>
+
+                        <td>
+                                <div class="btn-group" style="    margin-top: -8px;    position: relative;">
+                                    <a class="btn dark " href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="icon-settings "></i> Opciones
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+
+                                        <li>
+                                            <a ng-href="#Edit{{item.idProfile}}">
+                                                <i class="fa fa fa-edit"></i> Editar </a>
+                                        </li>
+                                        <li>
+                                            <a ng-if="item.idProfile > 7"
+                                             ng-click="deleteProfile(item.idProfile)" >
+                                                <i class="fa fa-times font-red-sunglo"></i> Eliminar </a>
+                                        </li>
+
+                                       <li ng-show="item.idStatusProfile == 1" class="ng-scope">
+                                        <a ng-click="inactiveProfile(item.idProfile)">
+                                            <i class="fa fa-exclamation"></i> InActivar 
+                                        </a>
+                                    </li>
+                                    <li ng-show="item.idStatusProfile != 1">
+                                        <a ng-click="activeProfile(item.idProfile)" >
+                                           <i class="fa fa-exclamation"></i>Activar
+                                       </a>
+                                   </li>
+
+                                    </ul>
+                                </div>
+                            </td>
+                    </tr>
+                </tbody>
+            </table>
+            <CENTER>
+                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+            </CENTER>
+
+        </div>
+    </div>
+
+</div>

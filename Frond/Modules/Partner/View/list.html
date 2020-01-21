@@ -1,0 +1,169 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Partner');
+    });
+</script>
+
+<!--SECCION CONTENEDORA HEADER-->
+<br>
+
+<div>
+    <div class="row bar-module-top" data-ng-init="getList()">
+
+        <div class="col-sm-2">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Top</label>
+
+            <select class="form-control" ng-model="topFilter" ng-options="item.id as item.name for item in filter">
+
+                <option value="" >Todos</option>
+
+            </select>
+
+        </div>
+
+        <div class="col-sm-8">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Filtro</label>
+
+            <div class="input-group">
+
+                <input type="text" class="form-control" ng-model="searchFilter" placeholder="Buscar...">
+
+                <span class="input-group-btn">
+
+                    <button class="btn btn-primary" ng-click="searchPartner()" type="button">Buscar</button>
+
+                </span>
+
+            </div>
+
+        </div>
+
+       <div class="col-sm-2">
+        <br>
+        <a class="btn btn-primary btn-block" style=" margin-top: 6px;" ng-click="getList()">Recargar</a>
+    </div>
+
+    </div>
+    
+<!--SECCION CONTENEDORA SEPARADOR-->
+<div class="row" style="background: #d5d5d5;padding: 10px;">
+
+    <div class="col-sm-10 franja-x">
+
+    </div>
+    <div class="col-sm-2">
+        <a class="btn green-jungle" href="#Add">NUEVO</a>
+    </div>
+
+</div>
+
+    <!--SECCION CONTENEDORA BODY-->
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+
+                    <thead style=" background: #3E6579; color: white;">
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>nombre y apellido</th>
+
+                            <th>dni</th>
+
+                            <th>telefono</th>
+
+                            <th>email</th>
+
+                            <th>Nube</th>
+
+                            <th>Status</th>
+
+                            <th style="width:130px; text-align:center">Accion</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr data-ng-repeat="item in listPartners| filter : paginate track by $index">
+                            <td>
+                                <a class="btn yellow-gold  btn-block" href="#Edit{{item.idPartner}}" >
+                                  Gestionar - {{item.idPartner}}
+                                  </a>
+                            </td>
+                            <td>
+                                {{item.namePartner}}  {{item.lastnamePartner}}
+                            </td>
+                            <td>
+                                {{item.dniPartner}}
+                            </td>
+
+
+                            <td >
+                              {{item.phonePartner}}
+                            </td>
+
+
+                            <td>
+                                {{item.emailPartner}}
+                            </td>
+
+                            <td>
+                                {{item.nameCloud}}
+                            </td>
+
+                            <td ng-if="item.statusPartner != 1" class="font-red-sunglo font-lg sbold">
+                                inActivo 
+                            </td>
+
+                            <td ng-if="item.statusPartner == 1" class="font-green-soft font-lg sbold">
+                                Activo 
+                            </td>
+
+                            <td>
+                                <div class="btn-group" style="    margin-top: -8px;    position: relative;">
+                                    <a class="btn dark " href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="icon-settings "></i> Opciones
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <!-- <li>
+                                            <a href="#Account{{item.idPartner}}">
+                                                <i class="i"></i>Estado de Cuenta </a>
+                                        </li> -->
+                                         <li>
+                                            <a ng-show="item.statusPartner==0" ng-click="changeStatusPartner(item.idPartner,1)">
+                                                <i class="i"></i>Activar</a>
+                                        </li>
+                                        <li>
+                                            <a ng-show="item.statusPartner==1"  ng-click="changeStatusPartner(item.idPartner,0)">
+                                                <i class="i"></i>Desactivar</a>
+                                        </li>
+                                        <!-- <li>
+                                            <a ng-click="deletePartner(item.idPartner)">
+                                                <i class="i"></i>Eliminar</a>
+                                        </li> -->
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <CENTER>
+                    <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+                </CENTER>
+
+            </div>
+        </div>
+
+    </div>

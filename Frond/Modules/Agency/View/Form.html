@@ -1,0 +1,101 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Servicio');
+    });
+
+</script>
+
+<div  class="row" data-ng-init="getCountryAddAgency(); getCloudAddAgency(); getCredit();" style="background: #f2f2f2;padding: 10px; margin-top:5%;">
+
+    <form role="form" name="myform" enctype="multipart/form-data">
+
+        <br>
+
+        <div class="col-sm-7">
+            <div class="panel">
+                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Datos de la Agencia</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Nombre:</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <span ng-show="myform.nameAgency.$error.pattern"  style="color:red">Nombre de agencia incorrecto</span>
+                        <input ng-model="agency.nameAgency" placeholder="Nombre" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="nameAgency" ng-required="true" required="required" type="text" ng-pattern="/^[0-9a-zA-Z_-]+$/">
+                    </div>
+
+                  <div class="form-group">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Telefono</label>
+                    <span ng-show="myform.phoneAgnecy.$error.pattern"  style="color:red">El Campo debe ser un numero Telefonico </span>
+                    <input ng-model="agency.phoneAgnecy"  name="phoneAgnecy"  ng-pattern="/^[0-9]{9,15}$/"
+                    type="text" placeholder="Telefono" class="form-control">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Email</label>
+                    <span ng-show="myform.mailAgency.$error.pattern"  style="color:red">El Campo debe ser un E-Mail </span>
+                    <input autocomplete="off" id="mailAgency" ng-model="agency.mailAgency" name="mailAgency" type="text" ng-required="true"
+                    ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" placeholder="@" class="form-control">
+                  </div>
+
+
+                  <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">País:</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+
+                        <select class="form-control" ng-options="item.idCountry as item.country for item in countrys" ng-model="agency.idCountryKf" ng-change="changeSelectCountry();" required="required" >  
+                            <option value="">-Seleccione-</option>  
+                        </select>
+                  </div>
+
+                 <div class="form-group">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Nube</label>
+                    <samp class="font-red-sunglo font-lg">*</samp>
+                    <select required class="form-control" ng-model="agency.idCloudKf">
+                    <option value="">-Seleccione-</option>
+                     <option ng-repeat="cloud in clouds" value="{{cloud.idCloud}}">{{cloud.nameCloud}}</option>
+                    </select>
+                  </div>
+
+                 <div class="form-group">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Abono</label>
+                    <samp class="font-red-sunglo font-lg">*</samp>
+                    <select class="form-control" ng-model="agency.idCreditFk">
+                    <option value="">-Seleccione-</option>
+                     <option ng-repeat="credit in credits" value="{{credit.idCredit}}">{{credit.nameCredit}}</option>
+                    </select>
+                  </div>
+
+
+                        <div class="form-group" ng-if="agency.idCreditFk==2">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Importe Fijo</label>
+                        <span ng-show="myform.liquidationFixed.$error.pattern"  style="color:red">Error</span>
+                        <input ng-model="agency.liquidationFixed"  name="liquidationFixed"  allow-pattern="[\d\.]"  ng-pattern="/^[0-9]([0-9]*(\.[0-9][0-9]?)?)?$/" 
+                        type="text" placeholder="0.00" class="form-control">
+                        </div>
+
+                        <div class="form-group" ng-if="agency.idCreditFk==1">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Porcentaje</label>
+                        <span ng-show="myform.liquidationPercent.$error.pattern"  style="color:red">Error</span>
+                        <input ng-model="agency.liquidationPercent"  name="liquidationPercent"  allow-pattern="[\d\.]"  ng-pattern="/^[0-9]([0-9]*(\.[0-9][0-9]?)?)?$/" 
+                        type="text" placeholder="0.00" class="form-control">
+                        </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="col-sm-12" style=" background-color: #d3d3d3; padding: 10px;">
+            <a class="btn btn-circle red-intense btnCancel" href="#"> Cancelar </a>
+            <button class="btn btn-circle green-jungle btnLoad" ng-click="myform.$valid && addAgency()">Guardar</button>
+        </div>
+
+    </form>
+</div>

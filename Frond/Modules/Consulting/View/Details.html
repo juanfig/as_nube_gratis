@@ -1,0 +1,213 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+<style>
+    .chat
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        height: 400px;
+
+    }
+
+    .chat li
+    {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px dotted #B3A9A9;
+    }
+
+    .chat li.left .chat-body
+    {
+        margin-left: 60px;
+    }
+
+    .chat li.right .chat-body
+    {
+        margin-right: 60px;
+    }
+
+
+    .chat li .chat-body p
+    {
+        margin: 0;
+        color: #777777;
+    }
+
+    .panel .slidedown .glyphicon, .chat .glyphicon
+    {
+        margin-right: 5px;
+    }
+
+    .panel-body
+    {
+        overflow-y: scroll;
+        height: 250px;
+    }
+
+    ::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #F5F5F5;
+    }
+
+    ::-webkit-scrollbar
+    {
+        width: 12px;
+        background-color: #F5F5F5;
+    }
+
+    ::-webkit-scrollbar-thumb
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    }
+
+
+    </style>
+    <div data-ng-init="callconsultingById();" class="row" style="padding: 10px;">
+    <div class="row" style="padding-top: 50px;">
+     <div class="col-sm-12">
+            <a href="#/" class="btn btn-circle red-intense"> Atras </a>
+        </div>
+      <div class="col-sm-12">
+      <div class="panel">
+
+          <div class="panel-heading" style="background: #5E738B; color: white; font-weight: bold;">
+              DETALLES DE LA CONSULTORIA
+          </div>
+          <div class="panel-body"  style="overflow:hidden; height:1%;">
+            <div class="col-sm-3">
+                <strong>CODIGO: </strong>
+                {{currentConsulting.code}}
+            </div>
+            <div class="col-sm-3">
+                <strong>Tipo: </strong>
+                {{parseInt(currentConsulting.online) ? 'Presencial' : 'Online'}}
+            </div>
+            <div class="col-sm-3">
+                <strong>Estado: </strong>
+                {{currentConsulting.statusConsulting<0 ? 'Finalizda' : currentConsulting.statusConsulting>0 ? 'En Evaluaci&oacute;n' : 'Abierta' }}
+            </div>
+            <div class="col-sm-3">
+                <strong>Agencia: </strong>
+                {{currentConsulting.nameAgency}}
+            </div>
+
+              <div class="col-sm-3">
+                <strong>Fecha: </strong>
+                {{currentConsulting.dateOpenConsulting}}
+            </div>
+            <div class="col-sm-6">
+                <strong>consultor: </strong>
+                {{currentConsulting.userNameUser}}
+            </div>
+              <div class="col-sm-3">
+                     <strong ng-if="currentConsulting.statusConsulting==0" ><a style="display: block;" href="#/Edit{{currentConsulting.idConsulting}}">ACTUALIZAR</a></strong>
+            </div>
+
+            <div ng-if="currentConsulting.statusConsulting==0" class="col-sm-12" style="border-top: solid 1px #ccc;margin-top: .5em;padding-top: .5em;">
+							<h3 class="text-center">AGREGAR TICKET</h3>
+
+<form role="form" name="myform" >
+			<div class="row">
+<div class="col-sm-8 col-sm-offset-2">
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Motivo</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <input ng-model="newSupport.support.reasonSupport" autocomplete="off" type="text" class="form-control" name="motivo" ng-required="true">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Detalles</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <textarea rows="5" style="resize: none;" class="form-control" name="detalle" ng-model="newSupport.support.detailSupport"></textarea>
+                    </div>
+
+
+
+
+        </div>
+
+
+				<div class="col-sm-8 col-sm-offset-2">
+						<button ng-click="initSupport()" class="btn btn-circle red-intense" >Cancelar</button>
+            <button ng-show="!!currentConsulting.idConsulting" ng-click="myform.$valid && addSupport()" class="btn btn-circle green-jungle" >Agregar Ticket</button>
+
+        </div>
+        </div>
+
+    </form>
+            </div>
+
+          </div>
+      </div>
+
+        </div>
+       <div class="col-sm-12">
+             <div class="panel" ng-if="!tickets.length">
+          <div class="panel-heading" style="background: #5E738B; color: white; font-weight: bold;">
+              TICKETS DE LA CONSULTOR&Iacute;A
+          </div>
+          <div class="panel-body" style="    overflow-y: overlay;">
+            <div class="text-center">NO HAY TICKETS</div>
+
+			    </div>
+			    </div>
+					<div ng-if="tickets.length" class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+                    <thead style=" background: #4d5d6f; color: white;">
+                       <tr>
+                        <th style="width:50px">Codigo de Soporte</th>
+                        <th>Motivo</th>
+                        <th>Agencia</th>
+                        <th>Fecha</th>
+                        <th>Origen</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="item in tickets| filter : paginate track by $index">
+                     		<td>{{item.codeSupport}}</td>
+                        <td>{{item.reasonSupport}}</td>
+                        <td>{{currentConsulting.nameAgency}}</td>
+                        <td>{{item.dateCreatedSupport}}</td>
+                        <td ng-if="item.isTravelSendMovil == 1">
+                            APP
+                        </td>
+                        <td ng-if="item.isTravelSendMovil == 0">
+                            WEB
+                        </td>
+
+                        <td ng-if="item.statusSupport == -1" class="font-green-soft font-lg sbold">
+                            FINALIZADA
+                        </td>
+                        <td ng-if="item.statusSupport == 0" class="font-red-sunglo font-lg sbold">
+                            PENDIENTE
+                        </td>
+                        <td ng-if="item.statusSupport == 1" class="text-success sbold">
+                            EN DESARROLLO
+                        </td>
+                        <td ng-if="item.statusSupport == 2" class="text-info sbold">
+                            EN EVALUACIÓN
+                        </td>
+
+
+
+                    </tr>
+                </tbody>
+            </table>
+            <CENTER>
+                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+            </CENTER>
+
+        </div>
+	    </div>
+    </div>
+    </div>
+   

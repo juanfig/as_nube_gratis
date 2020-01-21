@@ -1,0 +1,182 @@
+<!-- Modal -->
+<div id="myModalAddClient" class="modal fade" role="dialog" >
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content"  >
+            <div class="modal-header" style="background: #5E738B">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color: #fff">Agregar Nuevo Cliente</h4>
+            </div>
+            <div class="modal-body">
+
+                <div data-ng-init="callServiceFilterForm()" class="row" style="background: #f2f2f2;padding: 10px;">
+
+                    <form role="form" name="myform" >
+
+                        <input type="hidden" name="idUserClient" ng-model="idUserClient" >
+
+                        <div class="col-sm-6">
+
+                            <div class="panel  ">
+                                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                                    <h3 class="panel-title" style="color: #fff">Datos de Cliente</h3>
+                                </div>
+                                <div class="panel-body">  
+
+                                    <div class="form-group">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Nombre</label>
+                                        <samp class="font-red-sunglo font-lg">*</samp>
+                                        <input ng-model="firtNameClient" type="text" placeholder="Nombre" class="form-control" name="firtNameClient" ng-required="true"> 
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Apellido</label>
+                                        <samp class="font-red-sunglo font-lg">*</samp>
+                                        <input ng-model="lastNameClient" name="lastNameClient" ng-required="true" type="text" placeholder="Apellido" class="form-control"> 
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >DNI</label>
+                                        <samp class="font-red-sunglo font-lg">*</samp>
+                                        <span id="spanDniClient"  style="color:red;display: none;">Este DNI ya se encuentra registrado en el sistema!</span>
+                                        <input id="dniClient" ng-model="dniClient" name="dniClient" ng-required="true" type="text" placeholder="DNI" class="form-control"> 
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Telefono</label>
+                                        <span ng-show="myform.phoneClient.$error.pattern"  style="color:red">El Campo debe ser un numero Telefonico </span>
+                                        <input ng-model="phoneClient"  name="phoneClient"  ng-pattern="/^[0-9]{9,15}$/" type="text" placeholder="0570000000" class="form-control"> 
+
+
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Ubicacion</label>
+                                        <samp class="font-red-sunglo font-lg">*</samp>
+                                        <input type="text" id="addresClient" name="address_line_1" google-place ng-model="venue.address_line_1" class="form-control" ng-required="true" >
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="comment" class="control-label caption-subject font-blue-ebonyclay bold uppercase">Detalles de Direcion:</label>
+                                        <textarea style="    resize: none;"  ng-model="aditionalInfoAddres" class="form-control" rows="8" id="comment"></textarea>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="panel ">
+                                <div class="panel-heading" style="background: #5E738B">
+                                    <h3 class="panel-title" style="color: #fff">Datos Usuario</h3>
+                                </div>
+                                <div class="panel-body"> 
+
+
+
+                                    <div class="form-group">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Email</label>
+                                        <samp class="font-red-sunglo font-lg">*</samp>
+                                        <span id="spanEmail"  style="color:red;display: none;">Este Email ya se encuentra registrado en el sistema!</span>
+                                        <span ng-show="myform.mailClient.$error.pattern"  style="color:red">El Campo debe ser un E-Mail </span>
+                                        <input id="mailClient" ng-model="mailClient" name="mailClient" type="text" ng-required="true" ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" placeholder="@" class="form-control"> 
+                                    </div>
+
+                                    <div class="form-group" ng-show="idClient != null">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Cambiar Clave</label>
+
+                                        <input type="checkbox"  checked="" class="make-switch"  ng-model="isEditUser" ng-click="editUser()" id="isEditUser" data-size="small">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Clave</label>
+                                        <samp class="font-red-sunglo font-lg">*</samp>
+                                        <span id="spanPass"  style="color:red;display: none;">Debe ingresar una clave </span>
+                                        <input  ng-hide="idClient != null"  id="passClientNew"  ng-model="passClient" type="password" placeholder="" class="form-control"> 
+                                        <input ng-show="idClient != null" ng-disabled="!isEditUser" ng-model="passClient" type="password" placeholder="" class="form-control"> 
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-sm-6">
+                            <div class="panel ">
+                                <div class="panel-heading" style="background: #5E738B">
+                                    <h3 class="panel-title" style="color: #fff">Datos Gnerales</h3>
+                                </div>
+                                <div class="panel-body"> 
+
+                                    <div class="form-group">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Condicion de Iva</label>
+                                        <samp class="font-red-sunglo font-lg">*</samp>
+                                        <select class="form-control" ng-required="true"   ng-options="item.idCondicionType as item.condicionType for item in filterForm.taxtcondition" ng-model="idCondicionTypeClient" 
+                                                >
+                                            <option value="">Seleccione</option> 
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Asociar Tarjeta de Credito</label>
+                                        <samp class="font-red-sunglo font-lg">*</samp>
+                                        <select class="form-control"  ng-options="item.idTypeCar as item.typeCar for item in filterForm.typecar" ng-model="idTypeCarClient" ng-required="true">
+                                            <option value="">Seleccione</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Chofer Preferencial</label>
+
+                                        <select class="form-control"  ng-options="item.idDriver as item.fisrtNameDriver +  ' ' +  item.lastNameDriver for item in filterForm.preferentdriver" ng-model="idFavoriteDrive">
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Envair Notificaciones Mensuales</label>
+                                        <input type="checkbox" checked="" class="make-switch" ng-model="isSendNotificMonth" id="isSendNotificMonth" data-size="small">
+                                        <br>
+
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Puede Pagar En Efectivo</label>
+                                        <input type="checkbox" checked="" class="make-switch"  ng-model="isPaymentCash" id="isPaymentCash" data-size="small">
+                                        <br>
+
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Activar Cuenta Corriente</label>
+                                        <input type="checkbox" checked="" class="make-switch" id="isActiveCurrentAcount" ng-model="isActiveCurrentAcount" data-size="small">
+                                        <br>
+
+                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Enviar Mail con APP</label>
+                                        <input type="checkbox" ng-model="isSendMailFronAppClient" checked="" id="isSendMailFronAppClient" class="make-switch" id="test" data-size="small">
+
+
+                                    </div>
+                                </div>	
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="    background-color: #d3d3d3;
+                             padding: 10px;">
+                            <a href="#" class="btn btn-circle red-intense btnCancel"> Cancelar </a>
+
+
+                            <button ng-show="idClient == null" ng-click="myform.$valid && addClient()" 
+                                    class="btn btn-circle green-jungle btnLoad" >Guardar</button>
+                        </div>
+
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-circle red-intense btnCancel" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

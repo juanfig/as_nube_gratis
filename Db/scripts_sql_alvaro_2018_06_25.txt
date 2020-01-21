@@ -1,0 +1,33 @@
+// ================================================================
+
+DROP TABLE IF EXISTS `tb_product_online`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_product_online` (
+  `idProductOnline` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `price` decimal(18,2) DEFAULT NULL,
+  `principalPicture` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `detailPicture` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`idProductOnline`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_product_online`
+--
+
+LOCK TABLES `tb_product_online` WRITE;
+/*!40000 ALTER TABLE `tb_product_online` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_product_online` ENABLE KEYS */;
+UNLOCK TABLES;
+
+// ================================================================
+
+
+INSERT INTO `tb_sys_modules` VALUES (32,'Productos Online',0,'fa fa-desktop',0,3,'ProductOnline',11,0);
+
+
+// ================================================================
+
+INSERT INTO `tb_sys_module_profile` VALUES (32,32,1)

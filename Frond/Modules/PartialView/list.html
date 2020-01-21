@@ -1,0 +1,95 @@
+<!-- Modal -->
+<div id="myModalClient" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background: #5E738B">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color: #fff">Detalles de el Cliente</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row" style="background: #f2f2f2;">
+                    <div class="col-sm-12">
+                        <div class="table-scrollable">
+
+                            <table class="table table-hover table-striped table-hover">
+                                <thead style=" background: #4d5d6f; color: white;">
+                                    <tr>
+                                        <th style="width:50px">#</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Tipo</th>
+                                        <th>Identificacion</th>
+                                        <th>Nombre/Empresa</th>
+                                        <th>Telefono</th>
+                                        <th>Correo</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="item in listClient| filter : paginate track by $index">
+                                        <td>{{$index + 1}}</td>
+                                        <td >
+                                            <a ng-if="item.idTypeClient == 2" class="btn red  btn-block" ng-href="#CostCenter{{item.idClient}}"  >Gestionar</a>
+                                            <a ng-if="item.idTypeClient == 1" class="btn btn-default  btn-block" disabled href="#">Gestionar</a>
+                                        </td>
+
+                                        <td>
+                                            <i  ng-if="item.idTypeClient == 1" class="fa fa-circle font-blue-steel"></i>
+                                            <i ng-if="item.idTypeClient == 2" class="fa fa-circle font-yellow-gold"></i>
+                                        </td>
+
+                                        <td>{{item.typeClient}}</td>
+
+                                        <td ng-if="item.idTypeClient == 1"
+                                            style="font-weight: bold;">
+                                            {{item.dniClient}}
+                                        </td>
+
+
+
+                                        <td ng-if="item.idTypeClient == 2"
+                                            style="font-weight: bold;">
+                                            {{item.cuit}}
+                                        </td>
+
+
+                                        <td ng-if="item.idTypeClient == 1">{{
+                                                item.firtNameClient + " " + item.lastNameClient
+                                            }}</td>
+
+                                        <td ng-if="item.idTypeClient == 2" >{{item.nameClientCompany}}</td>
+                                        <td>{{item.phoneClient}}</td>
+                                        <td>{{item.mailClient}}</td>
+
+
+                                        <td ng-if="item.idStatusClient == 0" class="font-red-sunglo font-lg sbold">
+                                            {{item.nameStatusClient}} 
+                                        </td>
+
+                                        <td ng-if="item.idStatusClient == 1" class="font-green-soft font-lg sbold">
+                                            {{item.nameStatusClient}} 
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <CENTER>
+                                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+                            </CENTER>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-circle red-intense" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

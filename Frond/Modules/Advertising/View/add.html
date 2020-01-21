@@ -1,0 +1,170 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Publicidad'.bold(), 'Gestion de Publicidades');
+    });
+
+
+    $(document).ready(function (e) {
+        $("#btn_uploadimage").click(function(e) {
+            e.preventDefault();
+            $("#message").empty();
+            $('#loading').show();
+            var datos = new FormData();
+            datos.append('idAdvertising', $('#idAdvertising').val());
+            datos.append('file_image_advertising', $('#file_image_advertising')[0].files[0]); 
+
+        $.ajax({
+            url: uriBase+"Frond/Modules/uploadFromAngular.php", // Url to which the request is send
+            type: "POST",             // Type of request to be send, called as method
+            data: datos, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+            contentType: false,       // The content type used when sending data to the server.
+            cache: false,             // To unable request pages to be cached
+            processData:false,   
+            dataType: 'json',     // To send DOMDocument or non processed data file it is set to false
+            success: function(data)   // A function to be called if request succeeds
+            {
+               if (data.response == "success") {
+                    notificate("Operacion Exitosa", "Imagen Actualizada", "success");
+                } else {
+                    notificate("Ocurrio un error", "Imagen no actualizada", "error");
+                }
+                $('#loading').hide();
+                $("#message").html(data);
+            }
+        });
+     });
+
+        // Function to preview image after validation
+        $(function() {
+            $("#file_image_advertising").change(function() {
+            $("#message").empty(); // To remove the previous error message
+            var file = this.files[0];
+            var imagefile = file.type;
+            var match= ["image/jpeg","image/png","image/jpg"];
+            if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2])))
+            {
+                $('#previewing').attr('src','noimage.png');
+
+                notificate("Error !"," Formato invalido, solo se admiten png,jpg,jpeg","error");
+
+                return false;
+            }
+            else
+            {
+
+                var sizeByte = this.files[0].size;
+                var sizekiloBytes = sizeByte / 1024 / 1024;
+               // alert(sizekiloBytes);
+                if(sizekiloBytes > 1){
+                    notificate("El peso de la imagen debe ser menor a 1 mb","","info");
+                    $("#file_image_advertising").replaceWith($("#file_image_advertising").val('').clone(true));
+                    return false;
+
+                }else{
+                    var reader = new FileReader();
+                    reader.onload = imageIsLoaded;
+                    reader.readAsDataURL(this.files[0]);
+                    $('#btn_uploadimage').prop('disabled', false);                    
+                }
+
+            }
+        });
+        });
+        function imageIsLoaded(e) {
+            $("#file_image_advertising").css("color","green");
+            $('#image_preview').css("display", "block");
+            $('#previewing').attr('src', e.target.result);
+        };
+    });
+
+
+</script>
+
+<div data-ng-init="getListAdvertising();" class="row" style="background: #f2f2f2;padding: 50px;">
+
+    <form role="form" name="myform" >
+        <input type="hidden" name="idAdvertising" id="idAdvertising" ng-model="idAdvertising" value="{{idAdvertising}}">
+
+        <div class="col-sm-6">
+
+            <div class="panel  ">
+                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Registrar Publicidad</h3>
+                </div>
+                <div class="panel-body">  
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">NOMBRE</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <input class="form-control" type="text" name="nameAdvertising" placeholder="Nombre" required="true" ng-model="nameAdvertising" ng-required="true"></input>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">DESCRIPCIÓN</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                       <textarea style="resize: none;" rows="3" id="descAdvertising" name="descAdvertising" class="form-control" placeholder="Descripción" ng-model="descAdvertising"></textarea>
+                        
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">ENLACE ASOCIADO</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                       <textarea style="resize: none;" rows="2" id="linkAdvertising" name="linkAdvertising" class="form-control" placeholder="Enlace" ng-model="linkAdvertising"></textarea>
+                        
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+               <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                <h3 class="panel-title" style="color: #fff">Imagen de Publicidad</h3>
+            </div>
+            <div class="panel-body">
+                <form id="uploadimage" action="" method="post" enctype="multipart/form-data">
+                  <div id="image_preview">
+
+                      <a  class="thumbnail">
+                          <img id="previewing" src="../../images/Advertising/{{idAdvertising}}.png" alt="Imagen de Publicidad" />
+                      </a>
+
+                  </div>
+                  <hr id="line">
+                  <div id="selectImage">
+                      <label>Busca una Imagen</label><br/>
+                      <input type="file" class="form-control" name="file_image_advertising" id="file_image_advertising" required />
+                      <br>
+                      <input  ng-show="idAdvertising != null"   class="btn btn-block btn-circle green-jungle" type="button" value="Cambiar Imagen" class="submit" id="btn_uploadimage" disabled="" />
+                      <bR>
+                        <label style="color:#26C281;">Se recomienda que la resoluci&oacute;n de la imagen sea de 235px * 400px aproximadamente.</label><br/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+
+        <div class="col-sm-12" style="    background-color: #d3d3d3;
+        padding: 10px;">
+        <a href="#" class="btn btn-circle red-intense btnCancel"> Cancelar </a>
+
+
+        <button ng-show="idAdvertising == null" ng-click="myform.$valid && addAdvertising()" 
+        class="btn btn-circle green-jungle btnLoad" type="submit" >Guardar</button>
+
+        <button ng-show="idAdvertising != null" ng-click="myform.$valid && updateAdvertising()" 
+        class="btn btn-circle green-jungle btnLoad" >Editar</button>
+    </div>
+
+</form>
+</div>

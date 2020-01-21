@@ -1,0 +1,174 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Servicio');
+    });
+
+    $(document).ready(function (e) {
+        // Function to preview image after validation
+        $(function() {
+            $("#file_img").change(function(e) {
+            $("#message").empty(); // To remove the previous error message
+            var file = this.files[0];
+            var imagefile = file.type;
+            var match= ["image/jpeg","image/png","image/jpg"];
+            if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2])))
+            {
+                $('#previewing').attr('src','noimage.png');
+
+                notificate("Error !"," Formato invalido, solo se admiten png,jpg,jpeg","error");
+
+                return false;
+            }
+            else
+            {
+                var reader = new FileReader();
+                reader.onload = imageIsLoaded;
+                reader.readAsDataURL(this.files[0]);
+                $('#btn_uploadimage').prop('disabled', false);
+            }
+          });
+          $("#file_img1").change(function(e) {
+            $("#message1").empty(); // To remove the previous error message
+            var file = this.files[0];
+            var imagefile = file.type;
+            var match= ["image/jpeg","image/png","image/jpg"];
+            if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2])))
+            {
+                $('#previewing1').attr('src','noimage.png');
+
+                notificate("Error !"," Formato invalido, solo se admiten png,jpg,jpeg","error");
+
+                return false;
+            }
+            else
+            {
+                var reader = new FileReader();
+                reader.onload = imageIsLoaded1;
+                reader.readAsDataURL(this.files[0]);
+                $('#btn_uploadimage1').prop('disabled', false);
+            }
+          });
+        });
+        
+        function imageIsLoaded(e) {
+            $("#file_img").css("color","green");
+            $('#image_preview').css("display", "block");
+            $('#previewing').attr('src', e.target.result);
+        };
+
+        function imageIsLoaded1(e) {
+            $("#file_img1").css("color","green");
+            $('#image_preview1').css("display", "block");
+            $('#previewing1').attr('src', e.target.result);
+        };
+    });
+
+</script>
+
+<style type="text/css">
+    ul.list-horizontal{
+        padding: 0;
+    }
+    .list-horizontal>li{
+        list-style: none;
+        display: inline-block;
+        padding: 3px 8px;
+    }
+
+    textarea{
+        min-height: 100px;
+        max-height: 100px;
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+</style>
+
+<div  class="row" data-ng-init="editProduct()" style="background: #f2f2f2;padding: 30px;">
+
+    <form role="form" name="myform" enctype="multipart/form-data">
+        
+        <input type="hidden" name="product.idProductOnline" ng-model="product.idProductOnline" >
+        <br>
+        
+        <div class="row">
+          <div class="col-sm-7">
+            <div class="panel">
+              <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                  <h3 class="panel-title" style="color: #fff">Datos del Producto</h3>
+              </div>
+              <div class="panel-body">
+                <div class="row">                
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Nombre</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <input ng-model="product.nameProduct" placeholder="Nombre" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="nameProduct" ng-required="true" required="required" type="text">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="row">
+                      <div class="col-sm-6">
+                         <div class="form-group">
+                          <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Precio de Venta: </label>
+                          <samp class="font-red-sunglo font-lg">*</samp>
+                          <input ng-model="product.price" name="price" id="price" placeholder="0.00" class="form-control ng-pristine ng-untouched ng-empty ng-valid-min ng-invalid ng-invalid-required" required="required" min="0" type="number" allow-pattern="[0-9]">
+                          <span ng-show="myform.salePriceProduct.$error.number" style="color:red" class="ng-hide">El Campo debe ser Numerico </span>
+                          <span ng-show="myform.salePriceProduct.$error.min" style="color:red" class="ng-hide"> El valor no puede ser menor a 0</span> 
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>  
+          </div>
+      </div>
+    <div class="row">
+      <div class="col-sm-6">
+          <div class="panel panel-default">
+              <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                  <h3 class="panel-title" style="color: #fff">Foto Principal del Producto</h3>
+              </div>
+              <div class="panel-body">
+                  <div id="image_preview" class="image_preview">
+                      <a  class="thumbnail">
+                          <img id="previewing" src="../../../images/ProductOnline/noimage.png" alt="Foto del Producto" width="50%"/>
+                      </a>
+                  </div>
+                  <hr id="line">
+                  <div id="selectImage">
+                      <label>Busca una Imagen</label><br/>
+                      <input type="file" class="form-control" name="file_img" id="file_img" />
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-6">
+          <div class="panel panel-default">
+              <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                  <h3 class="panel-title" style="color: #fff">Foto detalle del Producto</h3>
+              </div>
+              <div class="panel-body">
+                  <div id="image_preview1" class="image_preview">
+                      <a  class="thumbnail">
+                          <img id="previewing1" src="../../../images/ProductOnline/noimage.png" alt="Foto del Producto" width="50%" />
+                      </a>
+                  </div>
+                  <hr id="line">
+                  <div id="selectImage">
+                      <label>Busca una Imagen</label><br/>
+                      <input type="file" class="form-control" name="file_img1" id="file_img1" />
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="col-sm-12" style=" background-color: #d3d3d3; padding: 10px;">
+        <a class="btn btn-circle red-intense btnCancel" href="#"> Cancelar </a>
+        <button class="btn btn-circle green-jungle btnLoad" ng-show="!product.idProductOnline" ng-click="myform.$valid && addProduct()">Guardar</button>
+        <button class="btn btn-circle green-jungle ng-hide" ng-show="product.idProductOnline" ng-click="myform.$valid && updateProduct()">Editar</button>
+    </div>
+
+</form>
+</div>

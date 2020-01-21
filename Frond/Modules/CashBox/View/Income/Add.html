@@ -1,0 +1,281 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+<style>
+    .list_checks-footer-resume {
+        border-radius: 0 0 5px 5px;
+        margin-top: -5px;
+        padding: 10px 15px;
+        background-color: #f5f5f5;
+        border-top: 1px solid #dddddd;
+    }
+    .table-as-nube-tp-1 caption{
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center
+    }
+
+</style>
+<div data-ng-init="getListPaymentForm(); getListTypeIncome(); getListCashBox(); findIncome($routeParams); getListTypeCheck(); getListBank();"
+    class="row" style="background: #f2f2f2;padding: 10px; margin-top:5%;">
+
+    <form role="form" name="myform">
+
+        <div class="col-sm-12">
+
+            <div class="panel  ">
+                <div class="panel-heading" style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Datos del Ingreso</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group col-sm-4">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Tipo</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <select class="form-control" ng-required="true" ng-options="item.idTypeIncome as item.nameIncome for item in typeIncome"
+                            ng-model="currentIncome.idTypeIncomeKf">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Caja</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <select class="form-control" ng-required="true" ng-options="item.idCashBox as item.cashBoxName for item in cashBoxList" ng-model="currentIncome.idCashBoxKf">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Monto</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <input type='text' ng-required="true" ng-model="currentIncome.amountIncome" min="0" class="form-control" allow-pattern='[\d\.]' placeholder="00.00" />
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Forma de Pago</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <select class="form-control" ng-required="true" ng-change="changeTypeForm()" ng-disabled="!currentIncome.amountIncome" ng-options="item.idPaymentForm as item.namePaymentForm for item in paymentForms"
+                            ng-model="currentIncome.idPaymentFormKf">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Informaci&oacute;n Adicional</label>
+                        <samp class="font-red-sunglo font-lg">&nbsp;</samp>
+                        <textarea ng-model="currentIncome.aditionalInfo" name="" id="" class="form-control" cols="30" rows="3" ng-required="false"></textarea>
+                    </div>
+                    <div class="form-group col-sm-4">&nbsp;
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12" ng-show="currentIncome.idPaymentFormKf==2 && currentIncome.amountIncome" data-ng-init="initCheck()">
+
+            <div class="panel">
+                <div class="panel-heading" style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Datos de Cheques</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="col-sm-12" ng-if="checksInIncome.length">
+                        <div class="table-scrollable">
+                            <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+                                <caption>Cheques pertenecientes a la operación </caption>
+                                <thead style=" background: #26c281; color: white;">
+                                    <tr>
+                                        <th>N&uacute;mero</th>
+                                        <th>Monto</th>
+                                        <th>fecha</th>
+                                        <th>Tipo</th>
+                                        <th>Banco</th>
+                                        <th style="width:171px; text-align:center">Acci&oacute;n</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="item in checksInIncome | filter : paginate track by $index">
+                                        <td>{{item.checkNumber}}</td>
+                                        <td>{{item.checkAmount}}</td>
+                                        <td>{{item.checkDate}}</td>
+                                        <td>{{parseTypeCheck(item.idTypeChecKf)}}</td>
+                                        <td>{{parseBank(item.idBankKf)}}</td>
+                                        <td class="text-center">
+                                            <button type="button" ng-click="updateCheck(item)" class="btn btn-circle green-jungle btnLoad">
+                                                <i class="fa fa-edit" title="Modificar cheque"></i>
+                                            </button>
+                                            <button type="button" ng-click="deleteCheck(item)" class="btn btn-circle  red-intense btnCancel">
+                                                <i class="fa fa-times" title="Eliminar cheque"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" ng-click="addNewCheck()" class="btn btn-circle green-jungle btnLoad">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+
+
+                    <div class="col-sm-12 list_checks" ng-if="listChecks.length">
+                        <div class="table-scrollable list_checks-table">
+
+                            <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+                                <thead style=" background: #4d5d6f; color: white;">
+                                    <tr>
+                                        <th>N&uacute;mero</th>
+                                        <th>Monto</th>
+                                        <th>fecha</th>
+                                        <th>Tipo</th>
+                                        <th>Banco</th>
+                                        <th style="width:171px; text-align:center">Acci&oacute;n</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="item in listChecks | filter : paginate track by $index" ng-class="{active: !!item.idCheck}">
+                                        <td>{{item.checkNumber}}</td>
+                                        <td>{{item.checkAmount}}</td>
+                                        <td>{{item.checkDate}}</td>
+                                        <td>{{parseTypeCheck(item.idTypeChecKf)}}</td>
+                                        <td>{{parseBank(item.idBankKf)}}</td>
+                                        <td class="text-center">
+                                            <button type="button" ng-click="removeCheck(item)" class="btn btn-circle red-intense btnCancel">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="list_checks-footer-resume">
+                            <h4 id="totalCheckAmounts">Total en cheques: {{totalCheckAmounts}}</h4>
+                        </div>
+                        <button type="button" ng-click="addNewCheck()" class="btn btn-circle green-jungle btnLoad">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <div id="checkForm"  ng-show="checkManagement">
+                        <h3>Gestionar cheque</h3>
+                        <div class="form-group col-sm-2">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Tipo</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <select class="form-control" ng-required="false" ng-options="item.idTypeCheck as item.nameTypeCheck for item in typesCheck"
+                                ng-model="currentCheck.idTypeChecKf">
+                                <option value="">Seleccione</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-sm-2">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Monto</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <input type='number' max="{{currentIncome.amountIncome}}" min="0" step="0.01"  placeholder="00.00" ng-required="false" ng-model="currentCheck.checkAmount"
+                                class="form-control" allow-pattern='[\d\.]' />
+                        </div>
+
+                        <div class="form-group col-sm-2">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">N&uacute;mero</label>
+                            <samp class="font-red-sunglo font-lg">&nbsp;</samp>
+                            <input type='text' ng-required="false" ng-model="currentCheck.checkNumber" class="form-control" allow-pattern='[\d]' />
+                        </div>
+
+                        <div class="form-group col-sm-2">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Banco</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <select class="form-control" ng-required="false" ng-options="item.idBank as item.nameBank for item in banks" ng-model="currentCheck.idBankKf">
+                                <option value="">Seleccione</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Fecha</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <span id="spanDate" style="color:red;display: none;">Debe selecionar una Fecha </span>
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' ng-required="false" ng-model="currentCheck.checkDate" id="checkDate" class="form-control" />
+                                <span class="input-group-addon " id="btn_calendar">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2 text-right" ng-if="!currentCheck.idCheck">
+                            <br>
+                            <input type="hidden" ng-model="currentCheck.idCheck">
+                            <button type="button" ng-click="addCheck()" class="btn btn-circle green-jungle btnLoad">
+                                <i class="fa fa-check"></i>
+                            </button>
+                            <button type="button" ng-click="initCheck()" class="btn btn-circle red-intense btnCancel">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+
+                        <div class="col-sm-4">&nbsp;</div>
+                        <div class="form-group col-sm-4 text-center">
+                            <div class="btn-group pull-left" role="group" aria-label="...">
+                                <button type="button" class="btn btn-default" ng-class="{active: currentCheck.own == 1}" style="width: 10em;" ng-click="toggleCheck()">Propios</button>
+                                <button type="button" class="btn btn-default" ng-class="{active: currentCheck.own == 0}" style="width: 10em;" ng-click="toggleCheck()">De Terceros</button>
+                            </div>
+                        </div>
+                        <div class="btn-group pull-right" role="group" aria-label="..." ng-if="currentCheck.idCheck">
+                            <button type="button" class="btn green-jungle" style="width: 10em;" ng-click="updateCheckConfirmation()">Guardar</button>
+                            <button type="button" class="btn red-intense btnCancel" style="width: 10em;" ng-click="initCheck()">Cancelar</button>
+                        </div>
+                        <div class="col-sm-4">&nbsp;</div>
+
+                    </div>
+
+
+                    <div class="col-sm-12" ng-if="checksAvailables.length">
+                        <div class="table-scrollable">
+                            <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+                                <caption>Cheques a añadir a la operación</caption>
+                                <thead style=" background: #26c281; color: white;">
+                                    <tr>
+                                        <th>N&uacute;mero</th>
+                                        <th>Monto</th>
+                                        <th>fecha</th>
+                                        <th>Tipo</th>
+                                        <th>Banco</th>
+                                        <th style="width:171px; text-align:center">Acci&oacute;n</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="item in checksAvailables | filter : paginate track by $index">
+                                        <td>{{item.checkNumber}}</td>
+                                        <td>{{item.checkAmount}}</td>
+                                        <td>{{item.checkDate}}</td>
+                                        <td>{{parseTypeCheck(item.idTypeChecKf)}}</td>
+                                        <td>{{parseBank(item.idBankKf)}}</td>
+                                        <td class="text-center">
+                                            <button type="button" ng-click="addThisCheck(item)" class="btn btn-circle green-jungle btnLoad">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12" style="    background-color: #d3d3d3; padding: 10px;">
+            <a href="#/Income" class="btn btn-circle red-intense btnCancel"> Cancelar </a>
+
+            <button ng-show="!currentIncome.idIncome" ng-click="myform.$valid && addIncome()" class="btn btn-circle green-jungle btnLoad">Guardar</button>
+            <button ng-show="!!currentIncome.idIncome" ng-click="myform.$valid && updateIncome()" class="btn btn-circle green-jungle btnLoad">Actualizar</button>
+
+            <!--button class="btn btn-primary" type="button" ng-click="openModal()">Open modal</button-->
+        </div>
+
+    </form>
+</div>

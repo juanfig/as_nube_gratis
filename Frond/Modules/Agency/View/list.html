@@ -1,0 +1,309 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Agency');
+    });
+</script>
+
+<!--SECCION CONTENEDORA HEADER-->
+<br>
+
+
+<div  style="margin-top:5%;">
+    <div>
+    <p style="color:red;">* Si la agencia esta en rojo esta pendiente por pagar el servicio</p>
+</div>
+    <div class="row" data-ng-init="getList()" style="background: #f2f2f2;padding: 10px;">
+
+        <div class="col-sm-2">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Top</label>
+            <select class="form-control" ng-model="topFilter" ng-options="item.id as item.name for item in filter">
+                <option value="" >Todos</option>
+            </select>
+
+        </div>
+
+
+        <div class="col-sm-8">
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Filtro</label>
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchFilter" placeholder="Buscar...">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="searchAgency()" type="button">Buscar</button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <br>
+            <a class="btn btn-primary  btn-block" style="    margin-top: 6px;" ng-click="getList()" >Recargar</a>
+        </div>
+
+    </div>
+
+
+
+
+    <!--SECCION CONTENEDORA SEPARADOR-->
+    <div class="row" style="background: #d5d5d5;padding: 10px;">
+
+        <div class="col-sm-{{(profile==1?10:12)}} franja-x">&nbsp;</div>
+
+        <div class="col-sm-2" ng-if="profile==1">
+            <a class="btn green-jungle" href="#Add">NUEVA AGENCIA</a>
+        </div>
+
+    </div>
+
+
+
+
+    <!--SECCION CONTENEDORA BODY-->
+    <div class="row" style="background: #f2f2f2;">
+        <div class="col-sm-12">
+            <div class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover">
+                    <thead style=" background: #4d5d6f; color: white;">
+                        <tr>
+
+                            <th style="width:1%; font-size:75%;">ID</th>
+                            <th style="font-size:75%">Nombre/Agencia</th>
+                            <th style="font-size:75%">Nube</th>
+                            <th style="font-size:75%">Choferes Reg</th>
+                            <th style="font-size:75%">Choferes Onl</th>
+                            <th style="font-size:75%">Clientes Reg</th>
+                            <th style="font-size:75%">Clientes Onl</th>
+                            <th style="font-size:75%"><i class="fa fa-android"></i> V.Android</th>
+                            <th style="font-size:75%"><i class="fa fa-apple"></i> V.IOS</th>  
+                            <th style="font-size:75%">Puerto Socket</th>
+                            <th style="font-size:75%">Saldo</th>
+                            <th style="width:130px; font-size:90%;" ng-if="profile==1||profile==3">Accion</th>
+                        </tr>
+                    </thead>
+
+
+
+                    <tbody>
+                        <tr data-ng-repeat="item in listAgnecys| filter : paginate track by $index" ng-if="item.statusPayment == 0" class="satuspayment">
+
+
+                            <td >
+                                <a
+                                 class="btn yellow-gold  btn-xs"
+                                  href="#State{{item.idAgency}}" style="font-size:75%">
+                                  Gestionar - {{item.idAgency}}</a>
+                            </td>
+
+                            <td
+                                style="font-weight: bold; font-size:85%">
+                                {{item.nameAgency}}
+                            </td>
+
+                            <td style="font-size:85%">
+                              {{item.nameCloud}} 
+                            </td>
+
+                            <td class="text-center">{{item.totaldrivers}}</td>
+                            <td class="text-center">{{item.activeDriver}}</td>
+
+                            <td class="text-center">{{item.totalclients}}</td>
+                            <td class="text-center">{{item.activeclients}}</td>
+
+                            <td >
+                                <a class="btn btn-info btn-sm" ng-click="getParam(item.nameAgency,52)" style="font-size:65%; text-align: center; margin-top: -8px;">Ver</a>
+                            </td>
+
+                            <td >
+                                <a class="btn btn-info btn-sm" ng-click="getParam(item.nameAgency,72)" style="font-size:65%; margin-top: -8px;">Ver</a>
+                            </td>
+                            <td >
+                                <a class="btn btn-info btn-sm center" ng-click="getParam(item.nameAgency,71)" style="font-size:65%; margin-top: -8px;">Ver</a>
+                            </td>
+
+                            <td style="font-size:85%" ng-if="item.saldoTotal <= 0"  class="font-green-soft font-lg sbold">
+                              USD&nbsp;{{item.saldoTotal}} 
+                            </td>
+                               <td style="font-size:85%" ng-if="item.saldoTotal >0" class="font-red-sunglo font-lg sbold">
+                              USD&nbsp;{{item.saldoTotal}} 
+                            </td>
+
+                            <td  ng-if="profile==1||profile==3">
+                                <div class="btn-group" style="    margin-top: -8px;    position: relative; align-content:center">
+                                    <a class="btn dark btn-xs " href="javascript:;" data-toggle="dropdown" aria-expanded="false" style="font-size:65%; ">
+                                        <i class="icon-settings "></i> Opciones
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+
+                                         <li ng-if="item.idStatusClient == 1 && profile==1" >
+                                            <a ng-click="inactiveCliet(item.idClient)">
+                                                <i class="fa fa-exclamation"></i> InActivar </a>
+                                        </li>
+                                        <li>
+                                            <a ng-if="item.idStatusClient == 0 && profile==1" ng-click="activeClient(item.idClient)">
+                                                <i class="fa fa-check"></i> Activar </a>
+                                        </li>
+
+                                        <li ng-if="profile==1">
+                                            <a data-toggle="modal" ng-click="viewDetaill(item.idClient)" data-target="#myModal">
+                                                <i class="i"></i>Ver Detalle </a>
+                                        </li>
+                                        <li ng-if="item.statusPayment == 1 && profile==1">
+                                            <a ng-click="suspenderServicio(item.idAgency, item.nameAgency)">
+                                                <i class="i"></i>Suspender Servicio </a>
+                                        </li>
+                                        <li ng-if="item.statusPayment == 0 && profile==1">
+                                            <a ng-click="activarServicio(item.idAgency, item.nameAgency)">
+                                                <i class="i"></i>Activar Servicio </a>
+                                        </li>
+
+                                        <!--li class="divider"> </li-->
+                                        <li>
+                                            <a ng-click="editAgency(item.idAgency)">
+                                                <i class="fa fa fa-edit"></i> Editar </a>
+                                        </li>
+                                        <li ng-if="profile==1">
+                                            <a ng-click="deleteAgency(item.idAgency)">
+                                                <i class="fa fa fa-times"></i> Eliminar </a>
+                                        </li>
+                                        <li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr data-ng-repeat="item in listAgnecys| filter : paginate track by $index" ng-if="item.statusPayment == 1">
+
+
+                            <td >
+                                <a
+                                 class="btn yellow-gold  btn-xs"
+                                  href="#State{{item.idAgency}}" style="font-size:75%">
+                                  Gestionar - {{item.idAgency}}</a>
+                            </td>
+
+                            <td
+                                style="font-weight: bold; font-size:85%">
+                                {{item.nameAgency}}
+                            </td>
+
+                            <td style="font-size:85%">
+                              {{item.nameCloud}} 
+                            </td>
+
+                            <td class="text-center">{{item.totaldrivers}}</td>
+                            <td class="text-center">{{item.activeDriver}}</td>
+
+                            <td class="text-center">{{item.totalclients}}</td>
+                            <td class="text-center">{{item.activeclients}}</td>
+
+                            <td >
+                                <a class="btn btn-info btn-sm" ng-click="getParam(item.nameAgency,52)" style="font-size:65%; text-align: center; margin-top: -8px;">Ver</a>
+                            </td>
+
+                            <td >
+                                <a class="btn btn-info btn-sm" ng-click="getParam(item.nameAgency,72)" style="font-size:65%; margin-top: -8px;">Ver</a>
+                            </td>
+                            <td >
+                                <a class="btn btn-info btn-sm center" ng-click="getParam(item.nameAgency,71)" style="font-size:65%; margin-top: -8px;">Ver</a>
+                            </td>
+
+                            <td style="font-size:85%" ng-if="item.saldoTotal <= 0"  class="font-green-soft font-lg sbold">
+                              USD&nbsp;{{item.saldoTotal}} 
+                            </td>
+                               <td style="font-size:85%" ng-if="item.saldoTotal >0" class="font-red-sunglo font-lg sbold">
+                              USD&nbsp;{{item.saldoTotal}} 
+                            </td>
+
+                            <td ng-if="profile==1||profile==3">
+                                <div class="btn-group" style="    margin-top: -8px;    position: relative; align-content:center">
+                                    <a class="btn dark btn-xs " href="javascript:;" data-toggle="dropdown" aria-expanded="false" style="font-size:65%; ">
+                                        <i class="icon-settings "></i> Opciones
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+
+
+
+                                        <li ng-if="item.idStatusClient == 1 && profile==1" >
+                                            <a ng-click="inactiveCliet(item.idClient)">
+                                                <i class="fa fa-exclamation"></i> InActivar </a>
+                                        </li>
+                                        <li>
+                                            <a ng-if="item.idStatusClient == 0 && profile==1" ng-click="activeClient(item.idClient)">
+                                                <i class="fa fa-check"></i> Activar </a>
+                                        </li>
+
+                                        <li ng-if="profile==1">
+                                            <a data-toggle="modal" ng-click="viewDetaill(item.idClient)" data-target="#myModal">
+                                                <i class="i"></i>Ver Detalle </a>
+                                        </li>
+                                        <li ng-if="item.statusPayment == 1 && profile==1">
+                                            <a ng-click="suspenderServicio(item.idAgency, item.nameAgency)">
+                                                <i class="i"></i>Suspender Servicio </a>
+                                        </li>
+                                        <li ng-if="item.statusPayment == 0 && profile==1">
+                                            <a ng-click="activarServicio(item.idAgency, item.nameAgency)">
+                                                <i class="i"></i>Activar Servicio </a>
+                                        </li>
+
+                                        <!-- li class="divider"> </li -->
+                                        <li>
+                                            <a ng-click="editAgency(item.idAgency)">
+                                                <i class="fa fa fa-edit"></i> Editar </a>
+                                        </li>
+                                        <li ng-if="profile==1">
+                                            <a ng-click="deleteAgency(item.idAgency)">
+                                                <i class="fa fa fa-times"></i> Eliminar </a>
+                                        </li>
+                                        <li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <CENTER>
+                    <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+                </CENTER>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--template para las modales-->
+<script type="text/ng-template" id="myModal.html">
+    <form role="form" name="myform1" enctype="multipart/form-data">
+        <div class="col-sm-12">
+            <div class="panel"  style="margin-top:20%;">
+                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">{{items[2]}}</h3>
+                </div>
+
+                <div class="panel-body" >
+
+                  <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Valor:</label>
+                        <input ng-model="updateParam"  class="form-control" name="value" type="text" ng-required="true" required="required">
+                  </div>
+
+
+                  <div class="form-group">                  
+                    <button class="btn btn-circle red-intense" ng-click="cancel()">Cancelar</button>
+                    <button class="btn btn-circle green-jungle" ng-click="myform1.$valid &&save();">Actualizar</button>
+                  </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</script>
+<!--./template para las modales-->
+
+
+
+
+

@@ -1,0 +1,181 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+<style>
+    .chat
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        height: 400px;
+
+    }
+
+    .chat li
+    {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px dotted #B3A9A9;
+    }
+
+    .chat li.left .chat-body
+    {
+        margin-left: 60px;
+    }
+
+    .chat li.right .chat-body
+    {
+        margin-right: 60px;
+    }
+
+
+    .chat li .chat-body p
+    {
+        margin: 0;
+        color: #777777;
+    }
+
+    .panel .slidedown .glyphicon, .chat .glyphicon
+    {
+        margin-right: 5px;
+    }
+
+    .panel-body
+    {
+        overflow-y: scroll;
+        height: 250px;
+    }
+
+    ::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #F5F5F5;
+    }
+
+    ::-webkit-scrollbar
+    {
+        width: 12px;
+        background-color: #F5F5F5;
+    }
+
+    ::-webkit-scrollbar-thumb
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    }
+
+
+    </style>
+    <div data-ng-init=" initbalance(); findCashBox();" class="row" style="padding: 10px;">
+    <div class="row" style="padding-top: 50px;">
+     <div class="col-sm-12">
+            <a href="#/" class="btn btn-circle red-intense"> Atras </a>
+        </div>
+      <div class="col-sm-12">
+      <div class="panel">
+
+          <div class="panel-heading" style="background: #5E738B; color: white; font-weight: bold;">
+              DETALLES DE LA CAJA
+          </div>
+          <div class="panel-body"  style="overflow:hidden; height:1%;">
+            <div class="col-sm-3">
+                <strong>CAJA: </strong>
+                {{currentCashBox.cashBoxName}}
+            </div>
+            <!--div class="col-sm-8">
+                <strong>AGENCIA: </strong>
+                {{currentCashBox.nameAgency}}
+            </div-->
+            <div class="col-sm-3">
+                <strong>INGRESOS: </strong>
+                {{parseFloat(currentCashBox.income)}} : {{currentCashBox.income}}
+            </div>
+            <div class="col-sm-3">
+                <strong>EGRESOS: </strong>
+                {{parseFloat(currentCashBox.expense)}} : {{currentCashBox.expense}}
+            </div>
+
+              <div class="col-sm-3">
+                <strong>BALANCE: </strong>
+                {{balance(currentCashBox)}}
+            </div>
+
+              <div class="col-sm-3">
+                     <strong ng-if="currentCashBox.statusConsulting==0" ><a style="display: block;" href="#/Edit{{currentCashBox.idConsulting}}">ACTUALIZAR</a></strong>
+            </div>
+
+          </div>
+      </div>
+
+        </div>
+       <div class="col-sm-12">
+          <div class="panel" ng-if="!currentCashBox.incomePayForm.length">
+	          <div class="panel-heading" style="background: #5E738B; color: white; font-weight: bold;">
+	              FORMAS DE PAGO DE INGRESO
+	          </div>
+	          <div class="panel-body" style=" overflow:hidden;height: 1%;">
+	            <div class="text-center">NO HAY INGRESOS</div>
+
+				    </div>
+			    </div>
+					<div ng-if="currentCashBox.incomePayForm.length" class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+                    <thead style=" background: #4d5d6f; color: white;">
+                       <tr>
+                        <th>Forma de pago de Ingreso</th>
+                        <th>Monto Total de Ingreso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="item in currentCashBox.incomePayForm| filter : paginate track by $index">
+                     		<td>{{item.namePaymentForm}}</td>
+                        <td>{{item.paid}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <CENTER>
+                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+            </CENTER>
+
+        </div>
+	    </div>
+
+<div class="col-sm-12">
+          <div class="panel" ng-if="!currentCashBox.expensePayForm.length">
+	          <div class="panel-heading" style="background: #5E738B; color: white; font-weight: bold;">
+	              FORMAS DE PAGO DE EGRESO
+	          </div>
+	          <div class="panel-body" style=" overflow-y: overlay;">
+	            <div class="text-center">NO HAY EGRESOS</div>
+
+				    </div>
+			    </div>
+					<div ng-if="currentCashBox.expensePayForm.length" class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+                    <thead style=" background: #4d5d6f; color: white;">
+                       <tr>
+                        <th>Forma de pago de Egreso</th>
+                        <th>Monto Total de Egreso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="item in currentCashBox.expensePayForm| filter : paginate track by $index">
+                     		<td>{{item.namePaymentForm}}</td>
+                        <td>{{item.paid}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <CENTER>
+                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+            </CENTER>
+
+        </div>
+	    </div>
+    </div>
+    </div>
+   

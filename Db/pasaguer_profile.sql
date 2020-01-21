@@ -1,0 +1,1 @@
+INSERT INTO tb_profile (profileName,idStatusProfile) values ('Pasajero',1)

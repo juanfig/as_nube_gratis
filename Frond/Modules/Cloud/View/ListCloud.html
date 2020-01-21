@@ -1,0 +1,133 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Cloudo', 'Listado');
+    });
+</script>
+
+<style type="text/css">
+    .col-md-4 {
+        padding:10px;
+    }
+
+    .inner {
+        background-color: #ffffff;
+        border-radius:10px;
+        padding:10px;
+        margin: 1px;
+    }
+
+    .widget-thumb-heading
+    {
+        font-weight: bold
+    }
+
+</style>
+
+<br>
+<div class="row" data-ng-init="getListCloud()" style="background: #f2f2f2;padding: 10px;">
+    <div class="col-sm-2">
+
+        <label class="caption-subject font-blue-madison bold uppercase control-label">Top</label>
+        <select class="form-control" ng-change="searchCloud()" ng-model="topFilter" ng-options="item.id as item.name for item in filter">
+            <option value="" >Todos</option>
+        </select>
+    </div>
+
+
+    <div class="col-sm-8">
+        <label class="caption-subject font-blue-madison bold uppercase control-label">Filtro</label>
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="searchFilter" placeholder="Buscar...">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" ng-click="searchCloud()" type="button">Buscar</button>
+            </span>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <br>
+        <a class="btn btn-primary btn-block" style=" margin-top: 6px;" ng-click="getListCloud()">Recargar</a>
+    </div>
+</div>
+<!--SECCION CONTENEDORA SEPARADOR-->
+<div class="row" style="background: #d5d5d5; padding: 10px;">
+
+    <div class="col-sm-{{(profile==1?10:12)}}">&nbsp;</div>
+    <div class="col-sm-2" ng-if="profile==1">
+        <a class="btn green-jungle" href="#Add">NUEVO</a>
+    </div>
+
+</div>
+
+
+<!--SECCION CONTENEDORA BODY-->
+<div class="row" style="background: #f2f2f2;">
+    <div class="col-sm-12">
+        <div class="table-scrollable">
+
+            <table class="table table-hover table-striped table-hover">
+                <thead style=" background: #4d5d6f; color: white;">
+                    <tr>
+                        <th style="width:50px">#</th>
+                        <th>Nombre</th>
+                        <th>Pais</th>
+                        <th>Idioma</th>
+                        <th>Uri</th>
+                        <th>Registro Movil</th>
+                        <th>Status</th>
+                        <th style="width:130px; text-align:center">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="item in clouds| filter : paginate track by $index">
+                        <td>{{$index + 1}}</td>
+                        <td>{{item.nameCloud}}</td>
+                        <td>{{item.country}}</td>
+                        <td>{{item.language}}</td>
+                        <td>{{item.uri}}</td>
+                        <td ng-if="item.activateReport == 1">Activo</td>
+                        <td ng-if="item.activateReport != 1">Inactivo</td>
+                        <td ng-if="item.idStatuCloud == 1">Activo</td>
+                        <td ng-if="item.idStatuCloud == -1">Inactivo</td>
+                        <td>
+                            <div class="btn-group" style="    margin-top: -8px;    position: relative;">
+                                <a class="btn dark " href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="icon-settings "></i> Opciones
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <a ng-href="#Edit{{item.idCloud}}">
+                                            <i class="fa fa fa-edit"></i> Editar 
+                                        </a>
+                                    </li>
+                                    <li  ng-show="profile==1">
+                                        <a ng-click="deleteCloud(item.idCloud)" >
+                                            <i class="fa fa-times font-red-sunglo"></i> Eliminar 
+                                        </a>
+                                    </li>
+                                    <li ng-show="profile==1 && item.idStatuCloud == 1" class="ng-scope">
+                                        <a ng-click="changueStatus(item.idCloud, -1)">
+                                            <i class="fa fa-exclamation"></i> InActivar 
+                                        </a>
+                                    </li>
+                                    <li ng-show="profile==1 && item.idStatuCloud == -1">
+                                        <a ng-click="changueStatus(item.idCloud, 1)" >
+                                           <i class="fa fa-exclamation"></i>Activar
+                                       </a>
+                                   </li>
+                               </ul>
+                           </div>
+                       </td>
+                   </tr>
+               </tbody>
+           </table>
+           <CENTER>
+            <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+        </CENTER>
+
+    </div>
+</div>
+
+</div>

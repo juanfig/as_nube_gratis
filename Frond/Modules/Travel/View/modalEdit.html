@@ -1,0 +1,111 @@
+<script type="text/javascript">
+
+
+$(function (){
+
+  $('#datetimepicker3').datetimepicker({
+                  format: 'YYYY/MM/DD hh:mm' 
+                  });
+
+ 
+ });
+</script>
+<style type="text/css">
+  .pac-container {
+    z-index: 20050 !important;
+}
+
+.bootstrap-datetimepicker-widget{z-index:20051 !important;}
+</style>
+<!-- Modal -->
+<div id="myEdit" data-ng-init="callServiceFilterForm();" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header" style="background: #5E738B">
+        
+        <a type="button" style="  float: right;" ng-click="updateTravel()" class="btn btn-circle green-jungle btnLoad" >Guardar</a>
+         <button type="button" class="btn btn-circle red-intense btnCancel" id="closeModal" style="  float: right;" data-dismiss="modal">Cerrar</button>
+        <h4 class="modal-title" style="color: #fff">Asignar Chofer</h4>
+      </div>
+      <div class="modal-body">
+
+      <div class="row">
+
+          <label style="margin-left: 15px;" class="control-label caption-subject font-red bold uppercase" > Choferes Mas Cercano  </label>
+           <div class="form-group col-md-12" >
+
+            <div class="col-md-2 "  ng-repeat="item in filterFronEdit.driversfree | limitTo: 6" >
+                <a ng-click="setDriverTop(item.idDriver)" id="dr_row{{item.idDriver}}" style="width: 100%; padding: 5px !important;" class="icon-btn diver_row  "  >
+
+                    <div  style="    font-weight: bold;margin-top: 15px" >{{item.driver}} </div>
+                    <span  ng-if="item.distance == null " class="badge  ">0 Km</span>
+                    <span  ng-if="item.distance != null " class="badge  ">{{item.distance}}</span>
+                
+                </a>
+            </div>
+           </div>
+            <hr>
+
+           <div class="form-group col-md-6" >
+              <label class="control-label caption-subject font-red bold uppercase" >Todos Choferes Disponibles </label>
+             <samp class="font-red-sunglo font-lg">*</samp>
+              <select id="idDriverFree" ng-model="idDriverFree" class="form-control"
+              ng-change="setDriverFree()"  
+              ng-options="driver.idDriver as (driver.driver + ' ' + driver.distance) for driver in filterFronEdit.driversfree" >
+                <option value="">Seleccione</option> 
+              </select>
+           </div>
+
+           <div class="form-group col-md-6" >
+              <label class="control-label caption-subject font-red bold uppercase" >Choferes Proximos a liberar </label>
+             <samp class="font-red-sunglo font-lg">*</samp>
+              <select id="idDriverPreFree" ng-model="idDriverPreFree" class="form-control" 
+              ng-change="setDriverPreFree()"
+               ng-options="driver.idDriver as (driver.driver + ' ' + driver.distance) for driver in filterFronEdit.driverspnextfree" >
+                <option value="">Seleccione</option> 
+              </select>
+            </div>
+
+            <div class="form-group col-md-6" >
+              <label class="control-label caption-subject font-red bold uppercase" >Choferes Bilingues </label>
+             <samp class="font-red-sunglo font-lg">*</samp>
+              <select id="idDriverBilingual" ng-model="idDriverBilingual" class="form-control" 
+              ng-change="setDriverBilingual()"
+               ng-options="driver.idDriver as (driver.driver + ' ' + driver.distance) for driver in filterFronEdit.driversbilingual" >
+                <option value="">Seleccione</option> 
+              </select>
+            </div>
+
+            <div class="form-group col-md-6" >
+              <label class="control-label caption-subject font-red bold uppercase" >Choferes Categoria Solicitada </label>
+             <samp class="font-red-sunglo font-lg">*</samp>
+              <select id="idDriverByCategory" ng-model="idDriverByCategory" class="form-control" 
+              ng-change="setDriverByCategory()"
+               ng-options="driver.idDriver as (driver.driver + ' ' + driver.distance) for driver in filterFronEdit.driversbycategory" >
+                <option value="">Seleccione</option> 
+              </select>
+              <input type="hidden"  id="idDriverFreeTxt"  value="{{idDriverFree}}">
+              <input type="hidden"  id="idDriverPreFreeTxt"  value="{{idDriverPreFree}}">
+              <input type="hidden"  id="idDriverTopTxt"  value="{{idDriverTopTxt}}">
+              <input type="hidden"  id="idDriverBilingualTxt"  value="{{idDriverBilingual}}">
+              <input type="hidden"  id="idDriverByCategoryTxt"  value="{{idDriverByCategory}}">
+            </div>
+
+        
+      </div>
+
+
+
+     
+  </div>
+
+
+   
+      
+    
+    </div>
+
+  </div>
+</div>

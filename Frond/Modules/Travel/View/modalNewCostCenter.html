@@ -1,0 +1,66 @@
+<!-- Modal -->
+<div id="myModalAddCostCenter" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content"  >
+            <div class="modal-header" style="background: #5E738B">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color: #fff">Agregar Cento de Costo</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row" style="background: #f2f2f2;padding: 10px;">
+
+                    <form role="form" name="myformCost" >
+
+                        <input type="hidden" name="idUserClient" ng-model="idUserClient" >
+
+                        <div class="col-sm-6">
+
+                            <div class="panel  ">
+                                <div class="panel-heading"  style="background: #5E738B">
+                                    <h3 class="panel-title" style="color: #fff">Datos Generales</h3>
+                                </div>
+                                <div class="panel-body">  
+
+                                    <div class="panel-body">  
+
+                                        <div class="form-group">
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Nombre</label>
+                                            <samp class="font-red-sunglo font-lg">*</samp>
+                                            <input ng-model="costCenter" type="text" placeholder="Nombre" class="form-control" name="costCenter" ng-required="true"> 
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Codigo</label>
+                                            <samp class="font-red-sunglo font-lg">*</samp>
+                                            <input ng-model="codCostCenter" name="codCostCenter" ng-required="true" type="text" placeholder="Codigo" class="form-control"> 
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12" style="    background-color: #d3d3d3; padding: 10px;">
+                            
+                            <button ng-show="idClient != null" ng-click="myformCost.$valid && addCostCenter()" class="btn btn-circle green-jungle btnLoad" >
+                                Guardar
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-circle red-intense btnCancel" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,119 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+
+<!--SECCION CONTENEDORA HEADER-->
+<br>
+
+<div  >
+    <div class="row bar-module-top" data-ng-init="getListIncome(); getListPaymentForm(); getListCashBox(); getListTypeIncome(); getfilterList();" >
+        <div class="col-sm-2">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Top</label>
+            <select class="form-control" ng-model="topFilter" ng-change="searchIncome()">
+                <option  value="-1" >Todos</option>
+                <option value="10" >10</option>
+                <option value="20" >20</option>
+                <option value="30" >30</option>
+                <option value="40" >40</option>
+                <option value="50" >50</option>
+
+            </select>
+        </div>
+
+										<div class="col-sm-2">
+                        <label class="caption-subject font-blue-madison bold uppercase control-label" >Tipo</label>
+
+                        <select class="form-control" ng-required="true" ng-options="item.idTypeIncome as item.nameIncome for item in typeIncome" ng-model="typeFilter"  ng-change="searchIncome()">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4">
+<h2 style="font-weight: bold; color: red; text-align: center;" >EN CONSTRUCCIÓN</h2>
+                    </div>
+
+        <div class="col-sm-4">
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Informaci&oacute;n Adicional</label>
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchFilter" placeholder="Buscar...">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="searchIncome('search')" type="button">Buscar</button>
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!--SECCION CONTENEDORA SEPARADOR-->
+    <div class="row" style="background: #d5d5d5;padding: 10px;">
+
+        <div class="col-sm-10" style="background: #e1e1e1;  height: 34px">
+
+        </div>
+
+        <div class="col-sm-2">
+            <a class="btn green-jungle" href="#/Income/Add">NUEVO INGRESO</a>
+        </div>
+
+    </div>
+
+    <!--SECCION CONTENEDORA BODY-->
+    <div class="row" style="background: #f2f2f2;">
+        <div class="col-sm-12">
+            <div class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+                    <thead style=" background: #4d5d6f; color: white;">
+                       <tr>
+                        <th>Tipo</th>
+                        <th>Forma de Pago</th>
+                        <th>Caja</th>
+                        <th>Monto</th>
+                        <th>Informaci&oacute;n</th>
+                        <th>Fecha</th>
+                        <th style="width:171px; text-align:center">Accion</th>
+                    </tr>
+                </thead>
+                <tbody style="text-transform: capitalize;">
+                    <tr data-ng-repeat="item in incomeList| filter : paginate track by $index">
+                     		<td>{{item.nameIncome}}</td>
+                        <td>{{item.namePaymentForm}}</td>
+                        <td>{{item.cashBoxName}}</td>
+                        <td>{{item.amountIncome}}</td>
+                        <td>{{item.aditionalInfo}}</td>
+                        <td>{{item.dateIncome}}</td>
+                        <td>
+                            <div class="btn-group" style="    margin-top: -8px;    position: relative;" >
+                                <a class="btn dark " href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="icon-settings "></i> Opciones
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <a href="#/Income/Edit{{item.idIncome}}">EDITAR <i class="fa fa-edit"></i></a>
+                                    </li>
+                                    <li>
+                                        <a ng-click="deleteIncome(item)">ELIMINAR <i class="fa fa-times"></i></a>
+                                    </li>
+
+                                    <!-- <li class="divider"> </li> -->
+
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <CENTER>
+                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+            </CENTER>
+
+        </div>
+    </div>
+
+</div>

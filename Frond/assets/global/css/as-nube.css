@@ -1,0 +1,38 @@
+.el-list-home{
+	background-color: #406578;
+	border-radius: 15px 50px 30px;
+}
+.el-list-home:hover{
+
+	border-radius: 15px 50px 30px;
+}.el-list-home{
+	background-color: #406578;
+	border-radius: 15px 50px 30px;
+}
+.el-list-home:hover{
+
+	border-radius: 15px 50px 30px;
+}
+.el-list-home{
+	color: white;
+}
+.el-list-home .fa{
+	padding-top: 60px;
+	color: white;
+}
+.el-list-home .fa:hover{
+
+	color: #EDA743;
+}
+
+.el-list-home h3{
+	text-transform: uppercase;
+}
+.page-header{
+	-webkit-box-shadow: 20px 30px 34px -6px rgba(0,0,0,0.31);
+	-moz-box-shadow: 20px 30px 34px -6px rgba(0,0,0,0.31);
+	box-shadow: 20px 30px 34px -6px rgba(0,0,0,0.31);
+}
+.page-sidebar-menu > .fa{
+	color:red;
+}

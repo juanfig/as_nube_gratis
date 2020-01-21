@@ -1,0 +1,190 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Servicio');
+    });
+
+    $(document).ready(function (e) {
+        // Function to preview image after validation
+        $(function() {
+            $("#file_img").change(function() {
+            $("#message").empty(); // To remove the previous error message
+            var file = this.files[0];
+            var imagefile = file.type;
+            var match= ["image/jpeg","image/png","image/jpg"];
+            if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2])))
+            {
+                $('#previewing').attr('src','noimage.png');
+
+                notificate("Error !"," Formato invalido, solo se admiten png,jpg,jpeg","error");
+
+                return false;
+            }
+            else
+            {
+                var reader = new FileReader();
+                reader.onload = imageIsLoaded;
+                reader.readAsDataURL(this.files[0]);
+                $('#btn_uploadimage').prop('disabled', false);
+            }
+        });
+        });
+        function imageIsLoaded(e) {
+            $("#file_img").css("color","green");
+            $('#image_preview').css("display", "block");
+            $('#previewing').attr('src', e.target.result);
+        };
+    });
+
+</script>
+
+<style type="text/css">
+    ul.list-horizontal{
+        padding: 0;
+    }
+    .list-horizontal>li{
+        list-style: none;
+        display: inline-block;
+        padding: 3px 8px;
+    }
+
+    textarea{
+        min-height: 100px;
+        max-height: 100px;
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+</style>
+
+<div  class="row" data-ng-init="callSellerById();" style="background: #f2f2f2;padding: 50px;">
+
+    <form role="form" name="myform" autocomplete="off" enctype="multipart/form-data">
+
+        <input type="hidden" name="idSeller" ng-model="idSeller" >
+        <br>
+
+        <div class="col-sm-7">
+            <div class="panel">
+                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Datos del Vendedor</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Nombre</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <input ng-model="nameSeller" placeholder="Nombre" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="nameSeller" ng-required="true" required="required" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Apellido</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <input ng-model="lastnameSeller" placeholder="Apellido" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="lastnameSeller" ng-required="true" required="required" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">DNI</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <input ng-model="dniSeller" placeholder="DNI" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="dniSeller" ng-required="true" required="required" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Teléfono</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <input ng-model="phoneSeller" placeholder="Teléfono" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="phoneSeller" ng-required="true" required="required" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Email</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <input ng-model="emailSeller" placeholder="Email" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="emailSeller" ng-required="true" required="required" autocomplete="off"  type="email">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Password</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <input ng-model="passwordSeller" placeholder="password" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="passwordSeller" autocomplete="off" ng-required="true" required="required" type="password">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Estatus</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <div class="checkbox-inline">
+                                <label><input type="radio" ng-model="statusSeller" value="1" name="statusSeller" required="required" ng-checked="statusSeller==1"> Activo</label>
+                            </div>
+                            <div class="checkbox-inline">
+                                <label><input type="radio" ng-model="statusSeller" value="0" name="statusSeller" required="required" ng-checked="statusSeller==0"> Inactivo</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">% Comisión por Ventas</label>
+                                    <samp class="font-red-sunglo font-lg">*</samp>
+                                    <input ng-model="csalesSeller" placeholder="%"  class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="csalesSeller" ng-required="true" required="required" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">% de Comisión por Abonos</label>
+                                    <samp class="font-red-sunglo font-lg">*</samp>
+                                    <input ng-model="creditsSeller" placeholder="%"  class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" name="creditsSeller" ng-required="true" required="required" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-sm-5">
+            <div class="panel panel-default">
+                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Foto del Vendedor</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="image_preview">
+                        <a  class="thumbnail">
+                            <img id="previewing" src="../../images/Cloud/noimage.png" alt="Foto dl Cloudo" />
+                        </a>
+                    </div>
+                    <hr id="line">
+                    <div id="selectImage">
+                        <label>Busca una Imagen</label><br/>
+                        <input type="file" class="form-control" name="file_img" id="file_img" />
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+
+        <div class="col-sm-12" style=" background-color: #d3d3d3; padding: 10px;">
+            <a class="btn btn-circle red-intense btnCancel" href="#"> Cancelar </a>
+            <button class="btn btn-circle green-jungle btnLoad" ng-show="idSeller == null" ng-click="myform.$valid && addSeller()">Guardar</button>
+            <button class="btn btn-circle green-jungle ng-hide" ng-show="idSeller != null" ng-click="myform.$valid && updateSeller()">Editar</button>
+              <a class="btn btn-circle green-haze ng-hide" ng-show="idSeller != null" href="#Account{{idSeller}}"> <i class="fa fa-usd" aria-hidden="true"></i> Estado de Cuenta</a>
+              <button class="btn btn-circle red-intense btnCancel ng-hide" ng-show="idSeller != null" ng-click="deleteSeller(idSeller)">Eliminar</button>
+        </div>
+
+    </form>
+</div>

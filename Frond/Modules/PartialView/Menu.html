@@ -1,0 +1,815 @@
+<!-- ARCHIVO QUE TIENE SOLO EL MENU DE EL TEMPLATE -->
+<style type="text/css">
+    .modalLargu
+    {
+        width: 90%  !important;
+    }
+
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+    //$(window).load(function (e) {
+        // RUTA      
+       // alert("En el load del menu.hmtl");
+        var profile = JSON.parse(localStorage.getItem('session')).idProfileUser;
+
+        switch (profile) {
+            case '4' :
+            $(".m_company").show();
+            break;
+            case '6' :
+            $(".m_system").show();
+            break;
+            case '7' :
+            $(".m_provider").show();
+            break;
+            default:
+            $(".m_admin").show();
+        }
+
+        console.log(JSON.stringify(localStorage.getItem('modulesNube')));
+
+        var menu =  JSON.parse(localStorage.getItem('modulesNube'));
+        var txt ='';
+        jQuery.each(menu, function() {
+
+
+          txt +='<li  class="nav-item start m_company m_admin">';
+          txt +='<a href="javascript:;" class="nav-link nav-toggle">';
+          txt +='<i class="'+this.icon+'" style="font-size: 20px; !important" aria-hidden="true"></i>';
+
+          if(this.isNew == 1)
+          {
+              txt +='<span class="title" style="font-size:85%;">'+this.nameItem+' <span class="badge badge-danger"> Nuevo </span></span>';
+
+          }else {
+              txt +='<span class="title" style="font-size:85%;">'+this.nameItem+'</span>';
+
+          }
+
+
+
+          txt +='<span class="selected"></span>';
+          //txt +='<span class="arrow "></span>';
+          txt +='</a>';
+          txt +='<ul class="sub-menu">';
+          txt += getSubModules(this.submodules);
+          txt +='</ul>';
+          txt +='</li>';
+        });
+
+        $(".sidebar-search-wrapper").after(txt);
+
+        //alert(txt);
+
+    });
+
+    function getSubModules(subMod){
+        var txt = '';
+        jQuery.each(subMod, function() {
+            txt +='<li class="nav-item   ">';
+
+            /*console.log(this.nameItem);*/
+            // txt +='  <i class="'+this.icon+'" style="font-size: 20px; !important" aria-hidden="true"></i>';
+            txt +='<a onclick="changueUri(\''+String(this.uri)+'\')"   class="nav-link " >';
+            txt +='<span class="title">'+this.nameItem+'</span>';
+            txt +='<span class="selected"></span>';
+            txt +='</a>';
+            txt +='</li>';
+        });
+
+        return txt;
+    }
+
+
+    function sendMailHelp()
+    {
+        var mesage = $("#messageHelp").val();
+        if (mesage != "")
+        {
+
+            var mail =
+            {
+                mail:
+                {
+                    userId: JSON.parse(localStorage.getItem('session')).idUser,
+                    fullName: JSON.parse(localStorage.getItem('session')).userNameUser,
+                    correo:$("#emailSendResposnse").val(),
+                    company: uriBase,
+                    message: mesage
+                }
+
+            };
+            $.post(uri + 'Mail/sendMail', mail, function (data, status) {
+
+
+               notificate("Operacion Exitosa",data,"success");
+               $('#myModalEmail').modal('toggle');
+               $("#messageHelp").val("");
+           });
+        }
+    }
+
+
+
+
+    function sendMailTienda($info,$correo)
+    {
+
+
+        var mail =
+        {
+            mail:
+            {
+                userId: JSON.parse(localStorage.getItem('session')).idUser,
+                fullName: JSON.parse(localStorage.getItem('session')).userNameUser,
+                correo:$correo,
+                company: uriBase,
+                info:$info
+            }
+
+        };
+        $.post(uri + 'Mail/sendMailTienda', mail, function (data, status) {
+
+
+           notificate("Operacion Exitosa",data,"success");
+           $('#myModalLargueTienda').modal('toggle');
+           $("#mailTienda").val("");
+       });
+
+    }
+
+
+    function changueMicompany()
+    {
+     window.location.assign("../Manage/#/CostCenter" +JSON.parse(localStorage.getItem('session')).idClient );
+ }
+
+ function changeUri(pop) {
+    if (pop == 1) {
+
+        var id = $("#idClient").val();
+        if (id != '') {
+            window.location.assign("../Manage/#/CostCenter" + id);
+        } else {
+            alert("Debe Seleccionar una Empresa");
+            $("#client").focus();
+        }
+    }
+
+    if (pop == 2) {
+
+        var id = $("#idDriver").val();
+        if (id != '') {
+            window.location.assign("../ManageDriver/#/Deshboard" + id);
+        } else {
+            alert("Debe Seleccionar un Chofer");
+            $("#driver").focus();
+        }
+    }
+
+}
+
+
+function changueUriForce(ur)
+{
+
+    console.log(uri);
+    window.location.href = uriClient+ur;
+    window.location.reload();
+}
+</script>
+<script>
+    $(document).ready(function () {
+
+        $("#client").autocomplete({
+            source: uri + 'client/search_client',
+            minLength: 1,
+            select: function (event, ui) {
+
+                $.get(uri + 'client', function (data) {
+
+                    var length = data.length;
+                    for (var i = 0; i < length; i++) {
+                        if (data[i].idTypeClient == 2) {
+                            if (data[i].nameClientCompany == ui.item.label) {
+                                $("#idClient").val(data[i].idClient);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        $("#client").focusout(function () {
+
+            $.get(uri + 'client', function (data) {
+
+                var length = data.length;
+                for (var i = 0; i < length; i++) {
+                    if (data[i].idTypeClient == 2) {
+                        if (data[i].nameClientCompany == $('#client').val()) {
+                            $("#idClient").val(data[i].idClient);
+                        }
+                    }
+                }
+            });
+        });
+        $("#driver").autocomplete({
+            source: uri + 'driver/search_driver',
+            minLength: 1,
+            select: function (event, ui) {
+
+                $.get(uri + 'driver', function (data) {
+
+                    var length = data.length;
+                    for (var i = 0; i < length; i++) {
+                        var driver = data[i].fisrtNameDriver + " " + data[i].lastNameDriver;
+                        console.log(driver);
+                        if (driver == ui.item.label) {
+                            $("#idDriver").val(data[i].idDriver);
+                        }
+
+                    }
+                });
+            }
+        });
+        $("#driver").focusout(function () {
+
+            $.get(uri + 'driver', function (data) {
+
+                var length = data.length;
+                for (var i = 0; i < length; i++) {
+
+                    if (data[i].fisrtNameDriver == $('#driver').val()) {
+                        $("#idDriver").val(data[i].idDriver);
+                    }
+
+                }
+            });
+        });
+    });
+
+    function divfadeIn(id)
+    {
+        $("#"+id).slideToggle();
+
+    }
+
+
+</script>
+
+
+
+
+<li class="sidebar-toggler-wrapper hide">
+    <div class="sidebar-toggler">
+        <span></span>
+        <script src="../../assets/js/index.js" type="text/javascript"></script>
+    </div>
+</li>
+<!-- END SIDEBAR TOGGLER BUTTON -->
+<!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+<li class="sidebar-search-wrapper " >
+
+
+</li>
+
+
+<div id="myModalClient" class="modal fade" role="dialog" >
+    <div class="modal-dialog ">
+
+        <!-- Modal content-->
+        <div class="modal-content"  >
+            <div class="modal-header" style="background: #5E738B">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color: #fff">Gestión Empresa</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row" style="background: #f2f2f2;">
+                    <div class="col-sm-12">
+
+                        <input type="text" name="client" id="client" />
+                        <input type="hidden" name="idClient" id="idClient" />
+
+                        <input type="button" value="ACCEDER" class="btn btn-success" onclick="changeUri(1)">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-circle red-intense" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="myModalEmail" class="modal fade" role="dialog" >
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content"  >
+            <div class="modal-header" style="background: #5E738B">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color: #fff">Enviar Falla</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row" style="background: #f2f2f2;">
+
+                   <div class="form-group col-sm-12">
+                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Correo a donde podemos Responderle:</label>
+                    <input   id="emailSendResposnse" type="text" placeholder="Correo de Concatco @" class="form-control">
+                </div>
+
+                <div class="col-sm-12">
+
+                    <textarea style="resize: none;" rows="10" cols="70" id="messageHelp"></textarea>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <input type="button" value="Enviar" class="btn btn-circle btn-success"
+            onclick="sendMailHelp()"  >
+            <button type="button" class="btn btn-circle red-intense" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+
+<div id="myModalDriver" class="modal fade" role="dialog" >
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content"  >
+            <div class="modal-header" style="background: #5E738B">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color: #fff">Dashboard de Chofer</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row" style="background: #f2f2f2;">
+                    <div class="col-sm-12">
+                        <input type="text" name="driver" id="driver" />
+                        <input type="hidden" name="idDriver" id="idDriver" />
+
+                        <input type="button" value="ACCEDER" class="btn btn-success" onclick="changeUri(2)">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-circle red-intense" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--AYUDAA -->
+<div id="myModalLargue" class="modal fade" role="dialog" style=" width: 50% !important; margin-left: 25% !important; " >
+    <div class="modal-dialog " >
+
+        <!-- Modal content-->
+        <div class="modal-content ">
+            <div class="modal-header" style="background: #5E738B">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color: #fff">Videos De Ayuda</h4>
+            </div>
+            <div class="modal-body" style="    overflow: auto;
+            max-height: 500px;">
+
+
+            <div class="row">
+                <div class="col-sm-12">
+                   <a onclick="divfadeIn('v01')">
+                       <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >
+                         <i class="fa fa-film"></i> Administracion y Seguimiento de Choferes</label></a>
+                         <div id="v01" style="display: none;">
+                            <video width="100%" controls>
+                                <source src="../../../../videos/Administracion y Seguimiento de Choferes.mp4" type="video/mp4">
+                                    Your browser does not support HTML5 video.
+                                </video>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-12">
+                            <a onclick="divfadeIn('v02')">
+                                <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >
+                                    <i class="fa fa-film"></i>Como generar una Reserva</label>
+                                    <div id="v02" style="display: none;">
+                                        <video width="100%" controls>
+                                            <source src="../../../../videos/Como generar una Reserva.mp4" type="video/mp4">
+                                                Your browser does not support HTML5 video.
+                                            </video>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                    <div class="col-sm-12">
+                                        <a onclick="divfadeIn('v03')">
+                                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >
+                                                <i class="fa fa-film"></i>Como Crear un Chofer</label>
+                                                <div id="v04" style="display: none;">
+                                                    <video width="100%" controls>
+                                                        <source src="../../../../videos/Como Crear un Chofer.mp4" type="video/mp4">
+                                                            Your browser does not support HTML5 video.
+                                                        </video>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <a onclick="divfadeIn('v04')">
+                                                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >
+                                                            <i class="fa fa-film"></i>Como Crear un Cliente (EMPRESA)</label>
+                                                            <div id="v04" style="display: none;">
+                                                                <video width="100%" controls>
+                                                                    <source src="../../../../videos/Como Crear un Cliente (EMPRESA).mp4" type="video/mp4">
+                                                                        Your browser does not support HTML5 video.
+                                                                    </video>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="col-sm-12">
+                                                                <a onclick="divfadeIn('v05')">
+                                                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >
+                                                                        <i class="fa fa-film"></i>Como Generar una Reserva</label>
+                                                                        <div id="v04" style="display: none;">
+                                                                            <video width="100%" controls>
+                                                                                <source src="../../../../videos/Como generar una Reserva.mp4" type="video/mp4">
+                                                                                    Your browser does not support HTML5 video.
+                                                                                </video>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-sm-12">
+                                                                            <a onclick="divfadeIn('v06')">
+                                                                                <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >
+                                                                                    <i class="fa fa-film"></i>Introduccion Monitor de Viajes</label>
+                                                                                    <div id="v04" style="display: none;">
+                                                                                        <video width="100%" controls>
+                                                                                            <source src="../../../../videos/INTRODUCCION Monitor de Viajes.mp4" type="video/mp4">
+                                                                                                Your browser does not support HTML5 video.
+                                                                                            </video>
+                                                                                        </div>
+                                                                                    </div>
+
+
+
+
+
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-circle red-intense" data-dismiss="modal">Cerrar</button>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- TIENDA -->
+                                                                <div id="myModalLargueTienda" class="modal fade" role="dialog" style=" width: 90% !important; margin-left: 5% !important; " >
+                                                                    <div class="modal-dialog " style="    width: 100%;">
+
+                                                                        <!-- Modal content-->
+                                                                        <div class="modal-content ">
+                                                                            <div class="modal-header" style="background: #5E738B">
+                                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                                <h4 class="modal-title" style="color: #fff">Tienda</h4>
+                                                                            </div>
+                                                                            <div class="modal-body" style="    overflow: auto;
+                                                                            max-height: 800px;background-color: #f1f2ff">
+
+
+                                                                            <div class="row" style="padding: 12px;">
+
+                                                                                <div class="col-sm-12"  style="background-color: #fff;">
+                                                                                    <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >
+
+                                                                                        <div class="row" >
+
+                                                                                           <div class="col-sm-4">
+                                                                                               <div class="form-group col-sm-8">
+                                                                                                 <br>
+                                                                                                 <input   id="mailTienda1" type="text" placeholder="Correo de Concatco @" class="form-control">
+                                                                                             </div>
+
+                                                                                             <div class="form-group col-sm-3">
+                                                                                                <br>
+                                                                                                <input type="button" value="Solicitar" class="btn btn-circle btn-success"
+                                                                                                onclick="sendMailTienda('Promo de Movistar',$('#mailTienda1').val())"  >
+                                                                                            </div>
+
+                                                                                            <a href="../../assets/img/movistar.jpg" target="_blank">
+                                                                                               <img src="../../assets/img/movistar.jpg"  class="img-responsive" alt="Cinque Terre">
+                                                                                           </a>
+                                                                                       </div>
+
+                                                                                       <div class="col-sm-4">
+                                                                                           <div class="form-group col-sm-8">
+                                                                                             <br>
+                                                                                             <input   id="mailTienda2" type="text" placeholder="Correo de Concatco @" class="form-control">
+                                                                                         </div>
+
+                                                                                         <div class="form-group col-sm-3">
+                                                                                            <br>
+
+                                                                                            <input type="button" value="Solicitar" class="btn btn-circle btn-success"
+                                                                                            onclick="sendMailTienda('Modulo de Factura',$('#mailTienda2').val())"  >
+                                                                                        </div>
+
+                                                                                        <a href="../../assets/img/mfactura.png" target="_blank">
+                                                                                           <img src="../../assets/img/mfactura.png"  class="img-responsive" alt="Cinque Terre">
+                                                                                       </a>
+                                                                                   </div>
+
+                                                                                   <div class="col-sm-4">
+                                                                                       <div class="form-group col-sm-8">
+                                                                                         <br>
+                                                                                         <input   id="mailTienda3" type="text" placeholder="Correo de Concatco @" class="form-control">
+                                                                                     </div>
+
+                                                                                     <div class="form-group col-sm-3">
+                                                                                        <br>
+                                                                                        <input type="button" value="Solicitar" class="btn btn-circle btn-success"
+                                                                                        onclick="sendMailTienda('Promo Central de Operaciones',$('#mailTienda3').val())"  >
+
+                                                                                    </div>
+
+                                                                                    <a href="../../assets/img/centralo.png" target="_blank">
+                                                                                       <img src="../../assets/img/centralo.png"  class="img-responsive" alt="Cinque Terre">
+                                                                                   </a>
+                                                                               </div>
+
+
+
+
+
+                                                                           </div>
+
+                                                                           <div class="row" >
+                                                                              <div class="col-sm-4">
+                                                                               <div class="form-group col-sm-8">
+                                                                                 <br>
+                                                                                 <input   id="mailTienda3" type="text" placeholder="Correo de Concatco @" class="form-control">
+                                                                             </div>
+
+                                                                             <div class="form-group col-sm-3">
+                                                                                <br>
+                                                                                <input type="button" value="Solicitar" class="btn btn-circle btn-success"
+                                                                                onclick="sendMailTienda('Promo Nube de Vaijes',$('#mailTienda3').val())"  >
+
+                                                                            </div>
+
+                                                                            <a href="../../assets/img/nube.png" target="_blank">
+                                                                               <img src="../../assets/img/nube.png"  class="img-responsive" alt="Cinque Terre">
+                                                                           </a>
+                                                                       </div>
+                                                                   </div>
+
+
+                                                                   <div   >
+                        <!--<img src="../../assets/img/movistar.jpg" width="70%" height="70%">
+                    -->
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-circle red-intense" data-dismiss="modal">Cerrar</button>
+    </div>
+</div>
+
+</div>
+</div>
+
+<!-- Modal NUBE -->
+<div id="myModalNube" style=" width: 90% !important; margin-left: 5% !important; " class="modal fade" role="dialog">
+  <div class="modal-dialog" style=" width: 100% !important;">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header" style="background: #5E738B">
+        <button type="button" style="    float: right;" class=" btn btn-circle red-intense" data-dismiss="modal">Cerrar</button>
+        <h4 class="modal-title" style="color: #fff">Nube de Viajes</h4>
+    </div>
+    <div class="modal-body">
+
+      <div class="row">
+          <div class="col-sm-12">
+              <div class="col-sm-12">
+                  <div class="row" style="background-color: #2b2b2c;color: #fff;">
+
+                     <div class="col-md-1 " style=" padding: 8px;">
+                        <i class="fa fa-clock-o"></i> Hora
+                    </div>
+
+                    <div class="col-md-2 " style="font-weight: bold;  padding: 8px;">
+                        <i class="fa fa-user"></i> Cliente
+                    </div>
+
+                    <div class="col-md-4 " style="font-weight: bold;  padding: 8px;">
+                     <i class="fa fa-circle-o"></i> Origen -
+                     <i class="fa fa-circle"></i> Destino
+
+                 </div>
+
+                 <div class="col-md-1 " style="font-weight: bold;  padding: 8px;">
+                    <i class="fa fa-road"></i> Km
+                </div>
+
+
+
+            </div>
+
+            <div class="row sr" >
+
+
+              <!--Body-->
+              <div
+              style="margin: 1px;
+              border-radius: 5px !important;
+              box-shadow: 1px 1px 1px 1px #474343;"
+              >
+
+
+              <div class="row">
+
+
+                 <div class="col-md-2 " style=" padding: 12px;">
+                   <span ng-if="item.notifReservation == 1 " class=" blink badge {{item.classColorOne}} " title="RESERVA">R</span>
+
+                   <label style="color: #a7aaad;">
+                    2017-09-23 09:23
+                </label>
+            </div>
+
+
+            <div class="col-md-2 " style="font-weight: bold;  padding: 12px;">
+
+                <i ng-if="item.idTypeClient == 2" title="Empresa" class="fa fa-circle font-yellow-gold"></i>
+
+                Jose Fraga
+
+            </div>
+
+            <div class="col-md-5 " style="font-weight: bold;  padding: 12px;">
+             <div class="row">
+                <div class="col-md-12 ">
+                    <i class="fa fa-circle-o"></i>
+                    Obelisco
+                </div>
+
+                <div class="col-md-12 ">
+
+
+                    <label >
+                        <i class="fa fa-circle"></i>
+                        El Tigre
+                    </label>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1 " style="font-weight: bold;  padding: 12px;">
+            <label style="color: #a7aaad;">
+                100 km
+            </label>
+
+        </div>
+
+        <div class="col-md-2 " style="font-weight: bold;  padding: 12px;">
+            <a  class="btn red  btn-block" >
+                TOMAR VIAJE
+            </a>
+
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="col-sm-12">
+  <div id="containermap" style="width: 100%" ></div>
+</div>
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+
+<div id="modal-notificate-read" class="modal fade" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content"  >
+            <div class="modal-header" style="background: #5E738B">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color: #fff">Notificación</h4>
+            </div>
+            <div class="modal-body" id="content-notification">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-circle red-intense" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</div>
+
+<script type="text/javascript">
+
+   $(function () {
+    Highcharts.chart('containermap', {
+        chart: {
+            type: 'areaspline'
+        },
+        title: {
+            text: 'Usuarios Activos 1800'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 150,
+            y: 100,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        },
+        xAxis: {
+            categories: [
+            'Enero',
+            'Febrero',
+            'Marzo',
+            'Abril',
+            'Mayo',
+            'Junio',
+            'Julio'
+            ]
+
+        },
+        yAxis: {
+            title: {
+                text: 'Usuarios Activs por mes'
+            }
+        },
+        tooltip: {
+            shared: true,
+            valueSuffix: ' US'
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            areaspline: {
+                fillOpacity: 0.5
+            }
+        },
+        series: [{
+            name: 'Usuarios',
+            data: [100, 212, 300, 500, 400, 100, 1000]
+        }]
+    });
+
+});
+</script>

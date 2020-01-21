@@ -1,0 +1,87 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+
+
+</script>
+
+<div data-ng-init="callCreditById(); getFilter();" class="row" style="background: #f2f2f2;padding: 50px;">
+
+    <form role="form" name="myform" >
+        <input type="hidden" name="idCredit" ng-model="idCredit" >
+
+        <div class="col-sm-6">
+
+            <div class="panel  ">
+                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Registrar Abono</h3>
+                </div>
+                <div class="panel-body">  
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">NOMBRE</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <input class="form-control" type="text" name="nameCredit" placeholder="Nombre" required="true" ng-model="nameCredit"></input>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">VALOR</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <input class="form-control" type="text" numbers-only min="1" name="valueCredit" placeholder="Valor" required="true" ng-model="valueCredit"></input>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Período</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                            <div class="checkbox-inline">
+                                <label><input type="radio" ng-model="periodCredit" value="1" name="periodCredit" required="required" ng-checked="periodCredit==1"> Mensual</label>
+                            </div>
+                            <div class="checkbox-inline">
+                                <label><input type="radio" ng-model="periodCredit" value="0" name="periodCredit" required="required" ng-checked="periodCredit==2"> Anual</label>
+                            </div>
+                        </div>
+                    </div>
+<!--                     <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Agencia:</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+            
+                            <select class="form-control" ng-options="item.idAgency as item.nameAgency for item in agencys" ng-model="idAgencyFk" required="required">  
+                                <option value="">-Seleccione-</option>  
+                            </select>
+            
+                        </div>
+                    </div> -->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">DESCRIPCIÓN</label>
+                            <samp class="font-red-sunglo font-lg">*</samp>
+                       <textarea style="resize: none;" rows="10" id="descriptionCredit" name="descriptionCredit" class="form-control" placeholder="Descripción" required="true" ng-model="descriptionCredit"></textarea>
+                        
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-12" style="    background-color: #d3d3d3;
+        padding: 10px;">
+        <a href="#" class="btn btn-circle red-intense btnCancel"> Cancelar </a>
+
+
+        <button ng-show="idCredit == null" ng-click="myform.$valid && addCredit()" 
+        class="btn btn-circle green-jungle btnLoad" >Guardar</button>
+
+        <button ng-show="idCredit != null" ng-click="myform.$valid && updateCredit()" 
+        class="btn btn-circle green-jungle btnLoad" >Editar</button>
+    </div>
+
+</form>
+</div>

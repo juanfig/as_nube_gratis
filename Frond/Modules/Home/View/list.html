@@ -1,0 +1,97 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Inicio');
+
+        
+    });
+
+</script>
+
+<style type="text/css">
+
+
+    .blink {
+        animation: blink-animation 1s steps(5, start) infinite;
+        -webkit-animation: blink-animation 1s steps(5, start) infinite;
+    }
+
+ 
+    @keyframes blink-animation {
+        to {
+            visibility: hidden;
+        }
+    }
+    @-webkit-keyframes blink-animation {
+        to {
+            visibility: hidden;
+        }
+    }
+
+
+    .divider-vertical {
+    height: 100px;                   /* any height */
+    border-left: 1px solid gray;     /* right or left is the same */
+    float: left;                     /* so BS grid doesn't break */
+    opacity: 0.5;                    /* optional */
+    margin: 1px;                  /* optional */
+}
+
+</style>
+
+<section class="post">
+        <article class="elementos col-xs-12 col-sm-6 col-md-3 col-lg-3 el-list-home" style=" ">
+            <div class="titulo">
+                
+                <h3>
+                    Agencias ONLINE
+                </h3>
+            </div>
+            <figure class="imagen">
+     <a onclick="changueUri('Travel')" ><i class="fa fa-crosshairs fa-5x" aria-hidden="true"></i></a>
+
+            </figure>
+        </article>
+        <article class="elementos col-xs-12 col-sm-6 col-md-3 col-lg-3 el-list-home">
+            <div class="titulo">
+                <h3>
+                    Vehiculos ONLINE
+                </h3>
+            </div>
+            <figure class="imagen"> 
+               <a href=""><i class="fa fa-car fa-5x" aria-hidden="true"></i></a>
+            </figure>
+        </article>
+        <article class="elementos col-xs-12 col-sm-6 col-md-3 col-lg-3 el-list-home">
+            <div class="titulo">
+                <h3>
+                    Usuarios
+                </h3>
+            </div>
+            <figure class="imagen"> 
+               <a href=""><i class="fa fa-users fa-5x" aria-hidden="true"></i></a>
+            </figure>
+        </article>
+        <article class="elementos col-xs-12 col-sm-6 col-md-3 col-lg-3 el-list-home">
+            <div class="titulo">
+                <h3>
+                    CONFIGURACIÓN
+                </h3>
+            </div>
+            <figure class="imagen"> 
+                <i class="fa fa-wrench fa-5x" aria-hidden="true"></i>
+            </figure>
+        </article>
+        <article class="elementos col-xs-12 col-sm-6 col-md-3 col-lg-3 el-list-home">
+            <div class="titulo">
+                <h3>
+                    ESTADISTICAS Y REPORTES
+                </h3>
+            </div>
+            <figure class="imagen"> 
+               <a href=""><i class="fa fa-pie-chart fa-5x" aria-hidden="true"></i></a>
+            </figure>
+        </article>
+     
+    </section>
+</div>

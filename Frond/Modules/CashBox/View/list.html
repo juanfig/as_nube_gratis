@@ -1,0 +1,100 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+
+<!--SECCION CONTENEDORA HEADER-->
+<br>
+
+<div  >
+    <div class="row bar-module-top" data-ng-init="initbalance(); searchCashBox(); getfilterList();" >
+        <div class="col-sm-2">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Top</label>
+            <select class="form-control" ng-model="topFilter" ng-change="searchSupport()">
+                <option  value="-1" >Todos</option>
+                <option value="10" >10</option>
+                <option value="20" >20</option>
+                <option value="30" >30</option>
+                <option value="40" >40</option>
+                <option value="50" >50</option>
+
+            </select>
+        </div>
+
+
+        <!--div class="col-sm-2">
+
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Agencia</label>
+            <select class="form-control" ng-model="idAgencyFilter" name='idAgencyFilter'  ng-change="searchCashBox('agency')" ng-options="item.idAgency as item.nameAgency for item in agencyList">
+                    <option  value="" >Todos</option>
+            </select>
+        </div-->
+
+        <div class="col-sm-8">
+            <label class="caption-subject font-blue-madison bold uppercase control-label">Filtro</label>
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchFilter" placeholder="Buscar...">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="searchCashBox('search')" type="button">Buscar</button>
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!--SECCION CONTENEDORA SEPARADOR-->
+    <div class="row" style="background: #d5d5d5;padding: 10px;">
+        <div class="col-sm-12" style="background: #e1e1e1;">&nbsp;</div>
+    </div>
+
+    <!--SECCION CONTENEDORA BODY-->
+    <div class="row" style="background: #f2f2f2;">
+        <div class="col-sm-12">
+            <div class="table-scrollable">
+
+                <table class="table table-hover table-striped table-hover table-as-nube-tp-1">
+                    <thead style=" background: #4d5d6f; color: white;">
+                       <tr>
+                        <th>Caja</th>
+                        <th>Agencia</th>
+                        <th>Total Ingresos</th>
+                        <th>Total Egresos</th>
+                        <th>Balance</th>
+                        <th style="width:171px; text-align:center">Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="item in cashBoxList | filter : paginate track by $index">
+                     		<td>{{item.cashBoxName}}</td>
+                     		<td>{{item.nameAgency}}</td>
+                        <td>{{item.income}}</td>
+                        <td>{{item.expense}}</td>
+                        <td>{{balance(item)}}</td>
+                        <td>
+                            <div class="btn-group" style="    margin-top: -8px;    position: relative;" >
+                                <a class="btn dark " href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="icon-settings "></i> Acciones
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <a href="#/Details{{item.idCashBox}}">VER DETALLES</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <CENTER>
+                <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="numPerPage"></ul>
+            </CENTER>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,43 @@
+<script type="text/javascript">
+    $(window).load(function (e) {
+        // RUTA
+        changueNav('Usuarios'.bold(), 'Gestion de Usuarios');
+    });
+</script>
+
+<div data-ng-init="findTypeCheck($routeParams);" class="row" style="background: #f2f2f2;padding: 10px; margin-top:5%;">
+    <form role="form" name="myform" >
+
+        <div class="col-sm-6">
+
+            <div class="panel  ">
+                <div class="panel-heading"  style="background: #5E738B" style="background: #5E738B">
+                    <h3 class="panel-title" style="color: #fff">Caja</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase">Nombre de la Caja</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <input ng-model="currentTypeCheck.nameTypeCheck" autocomplete="off" type="text" class="form-control" name="motivo" ng-required="true">
+                    </div>
+                    <!--div class="form-group">
+                        <label class="control-label caption-subject font-blue-ebonyclay bold uppercase" >Agencia</label>
+                        <samp class="font-red-sunglo font-lg">*</samp>
+                        <select class="form-control" ng-required="true" ng-options="item.idAgency as item.nameAgency for item in agencyList" ng-model="currentTypeCheck.idAgencyKf">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div-->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12" style="    background-color: #d3d3d3; padding: 10px;">
+            <a href="#/Config/TypeCheck" class="btn btn-circle red-intense btnCancel"> Cancelar </a>
+
+            <button ng-if="!currentTypeCheck.idTypeCheck" ng-click="myform.$valid && addTypeCheck()" class="btn btn-circle green-jungle btnLoad" >Guardar</button>
+            <button ng-if="!!currentTypeCheck.idTypeCheck" ng-click="myform.$valid && updateTypeCheck()" class="btn btn-circle green-jungle btnLoad" >Actualizar</button>
+        </div>
+
+    </form>
+</div>
